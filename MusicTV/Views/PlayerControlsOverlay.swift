@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct PlayerControlsOverlay: View {
@@ -133,6 +134,7 @@ struct PlayerControlsOverlay: View {
 
     private func showControls() {
         isVisible = true
+        NSCursor.setHiddenUntilMouseMoves(false)
         if appState.isFullScreen {
             scheduleHide()
         }
@@ -140,8 +142,11 @@ struct PlayerControlsOverlay: View {
 
     private func toggleVisibility() {
         isVisible.toggle()
-        if isVisible && appState.isFullScreen {
-            scheduleHide()
+        if isVisible {
+            NSCursor.setHiddenUntilMouseMoves(false)
+            if appState.isFullScreen {
+                scheduleHide()
+            }
         }
     }
 
@@ -152,6 +157,7 @@ struct PlayerControlsOverlay: View {
             try? await Task.sleep(for: .seconds(1.5))
             if !Task.isCancelled && !hoveringControls {
                 isVisible = false
+                NSCursor.setHiddenUntilMouseMoves(true)
             }
         }
     }
