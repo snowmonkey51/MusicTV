@@ -1,4 +1,5 @@
 import AVFoundation
+import CoreImage
 import Observation
 
 @Observable
@@ -14,6 +15,7 @@ final class PlaybackEngine {
     private var timeObserver: Any?
     private var endObserver: NSObjectProtocol?
     private weak var appState: AppState?
+    private let ciContext = CIContext()
 
     func attach(to appState: AppState) {
         self.appState = appState
@@ -29,6 +31,7 @@ final class PlaybackEngine {
         duration = 0
 
         let playerItem = AVPlayerItem(url: item.url)
+        applyFilter(to: playerItem, filter: appState?.currentFilter ?? .none)
         player.replaceCurrentItem(with: playerItem)
 
         endObserver = NotificationCenter.default.addObserver(
@@ -104,6 +107,111 @@ final class PlaybackEngine {
         guard duration > 0 else { return }
         let target = CMTime(seconds: fraction * duration, preferredTimescale: 600)
         player.seek(to: target, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
+
+    // MARK: - Video Filters
+
+    /// Applies a VideoFilter to a given AVPlayerItem via AVVideoComposition.
+    private func applyFilter(to playerItem: AVPlayerItem, filter: VideoFilter) {
+        guard filter != .none else {
+            playerItem.videoComposition = nil
+            return
+        }
+
+        playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
+    }
+
+    /// Changes the filter on the currently playing item without restarting playback.
+    func changeFilter(_ filter: VideoFilter) {
+        guard let playerItem = player.currentItem else { return }
+
+        guard filter != .none else {
+            playerItem.videoComposition = nil
+            return
+        }
+
+        playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
+    }
+
+    /// Builds the appropriate AVVideoComposition for a filter.
+    private func buildComposition(for playerItem: AVPlayerItem, filter: VideoFilter) -> AVVideoComposition? {
+        if filter.usesCustomKernel {
+            return buildCustomKernelComposition(for: playerItem, filter: filter)
+        } else {
+            return buildCIFilterChainComposition(for: playerItem, filter: filter)
+        }
+    }
+
+    /// Standard CIFilter chain composition (static filters, no time dependence).
+    private func buildCIFilterChainComposition(for playerItem: AVPlayerItem, filter: VideoFilter) -> AVVideoComposition? {
+        let filterChain = filter.buildFilterChain()
+        guard !filterChain.isEmpty else { return nil }
+
+        return AVMutableVideoComposition(
+            asset: playerItem.asset,
+            applyingCIFiltersWithHandler: { request in
+                var output = request.sourceImage.clampedToExtent()
+                for ciFilter in filterChain {
+                    ciFilter.setValue(output, forKey: kCIInputImageKey)
+                    if let result = ciFilter.outputImage {
+                        output = result
+                    }
+                }
+                output = Self.applyGrain(to: output, extent: request.sourceImage.extent)
+                let cropped = output.cropped(to: request.sourceImage.extent)
+                request.finish(with: cropped, context: nil)
+            }
+        )
+    }
+
+    /// Custom composition (time-animated effects).
+    private func buildCustomKernelComposition(for playerItem: AVPlayerItem, filter: VideoFilter) -> AVVideoComposition? {
+        switch filter {
+        case .scanlines:
+            return AVMutableVideoComposition(
+                asset: playerItem.asset,
+                applyingCIFiltersWithHandler: { request in
+                    let seconds = CMTimeGetSeconds(request.compositionTime)
+                    let source = request.sourceImage.clampedToExtent()
+                    var filtered = ScanlinesKernel.apply(to: source, time: seconds)
+                    filtered = Self.applyGrain(to: filtered, extent: request.sourceImage.extent)
+                    let cropped = filtered.cropped(to: request.sourceImage.extent)
+                    request.finish(with: cropped, context: nil)
+                }
+            )
+        default:
+            return nil
+        }
+    }
+
+    // MARK: - Film Grain
+
+    /// Adds subtle film grain noise over the image using CIRandomGenerator.
+    private static func applyGrain(to image: CIImage, extent: CGRect) -> CIImage {
+        guard let noise = CIFilter(name: "CIRandomGenerator")?.outputImage else {
+            return image
+        }
+
+        // Desaturate the noise to greyscale and reduce intensity
+        guard let greyNoise = CIFilter(name: "CIColorMatrix") else { return image }
+        // Map RGBA → luminance-ish grey, then scale down for subtlety
+        let grainIntensity: CGFloat = 0.12
+        greyNoise.setValue(noise, forKey: kCIInputImageKey)
+        greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputRVector")
+        greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputGVector")
+        greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputBVector")
+        greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: grainIntensity), forKey: "inputAVector")
+        greyNoise.setValue(CIVector(x: grainIntensity, y: grainIntensity, z: grainIntensity, w: 0), forKey: "inputBiasVector")
+
+        guard var grainImage = greyNoise.outputImage else { return image }
+        grainImage = grainImage.cropped(to: extent)
+
+        // Composite grain over the filtered image using screen blend
+        guard let blend = CIFilter(name: "CIScreenBlendMode") else { return image }
+        blend.setValue(grainImage, forKey: kCIInputImageKey)
+        blend.setValue(image, forKey: kCIInputBackgroundImageKey)
+
+        return blend.outputImage?.cropped(to: extent) ?? image
     }
 
     func teardown() {

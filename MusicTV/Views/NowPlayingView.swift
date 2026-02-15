@@ -45,9 +45,26 @@ struct NowPlayingView: View {
             } else {
                 VideoPlayerView(player: engine.player)
                     .aspectRatio(16/9, contentMode: .fit)
+                    .overlay(alignment: .bottomTrailing) {
+                        // MTV-style logo bug — pinned to video bounds
+                        if let logo = appState.logoImage {
+                            Image(nsImage: logo)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: appState.isFullScreen ? 90 : 60)
+                                .opacity(0.7)
+                                .padding(16)
+                                .allowsHitTesting(false)
+                        }
+                    }
+                    .overlay(alignment: .bottomLeading) {
+                        // MTV-style title card in lower-left
+                        TitleCardContainer(item: appState.currentItem)
+                    }
                     .onTapGesture(count: 2) {
                         appState.toggleFullScreen()
                     }
+
                 PlayerControlsOverlay()
             }
         }

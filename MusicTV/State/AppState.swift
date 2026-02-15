@@ -8,9 +8,14 @@ final class AppState {
     var musicFolderURL: URL?
     var bumperFolderURL: URL?
 
+    // MARK: - Logo Overlay
+    var logoURL: URL?
+    var logoImage: NSImage?
+
     // Keep security-scoped access alive for the session
     private var activeMusicAccess: URL?
     private var activeBumperAccess: URL?
+    private var activeLogoAccess: URL?
 
     // MARK: - Scanned Video Lists
     var musicVideos: [VideoItem] = []
@@ -33,6 +38,7 @@ final class AppState {
     var isFullScreen: Bool = false
     var hasStarted: Bool = false
     var showPlaylist: Bool = false
+    var currentFilter: VideoFilter = .none
 
     var currentItem: VideoItem? {
         guard hasStarted, playlist.indices.contains(currentIndex) else { return nil }
@@ -47,12 +53,16 @@ final class AppState {
         static let shuffleMusic = "shuffleMusic"
         static let shuffleBumpers = "shuffleBumpers"
         static let repeatPlaylist = "repeatPlaylist"
+        static let logoBookmark = "logoImageBookmark"
+        static let videoFilter = "videoFilter"
     }
 
     // MARK: - Init
     init() {
         loadSettings()
+        loadFilter()
         restoreFolders()
+        restoreLogo()
     }
 
     func toggleFullScreen() {
@@ -184,7 +194,78 @@ final class AppState {
         }
     }
 
+    // MARK: - Logo Management
+
+    func setLogo(url: URL) {
+        activeLogoAccess?.stopAccessingSecurityScopedResource()
+        activeLogoAccess = nil
+
+        let accessing = url.startAccessingSecurityScopedResource()
+        logoURL = url
+        logoImage = NSImage(contentsOf: url)
+        if accessing {
+            activeLogoAccess = url
+        }
+        saveBookmark(for: url, key: Keys.logoBookmark)
+
+        // Cache the image data to app support for reliable restore
+        if let image = logoImage {
+            cacheLogoImage(image)
+        }
+    }
+
+    func removeLogo() {
+        activeLogoAccess?.stopAccessingSecurityScopedResource()
+        activeLogoAccess = nil
+        logoURL = nil
+        logoImage = nil
+        UserDefaults.standard.removeObject(forKey: Keys.logoBookmark)
+        // Remove cached file
+        try? FileManager.default.removeItem(at: logoCacheURL)
+    }
+
+    private func restoreLogo() {
+        // First try the bookmark (original file)
+        if let url = resolveBookmark(key: Keys.logoBookmark) {
+            let accessing = url.startAccessingSecurityScopedResource()
+            let image = NSImage(contentsOf: url)
+            if let image {
+                logoURL = url
+                logoImage = image
+                if accessing {
+                    activeLogoAccess = url
+                }
+                return
+            }
+            if accessing {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
+        // Fallback: load from cached copy
+        if let image = NSImage(contentsOf: logoCacheURL) {
+            logoImage = image
+        }
+    }
+
+    private var logoCacheURL: URL {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let appDir = appSupport.appendingPathComponent(Bundle.main.bundleIdentifier ?? "MusicTV")
+        try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
+        return appDir.appendingPathComponent("cachedLogo.png")
+    }
+
+    private func cacheLogoImage(_ image: NSImage) {
+        guard let tiffData = image.tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData),
+              let pngData = bitmap.representation(using: .png, properties: [:]) else { return }
+        try? pngData.write(to: logoCacheURL, options: .atomic)
+    }
+
     // MARK: - Settings Persistence
+
+    func saveFilter() {
+        UserDefaults.standard.set(currentFilter.rawValue, forKey: Keys.videoFilter)
+    }
 
     private func saveSettings() {
         let defaults = UserDefaults.standard
@@ -206,5 +287,12 @@ final class AppState {
             loaded.repeatPlaylist = defaults.bool(forKey: Keys.repeatPlaylist)
         }
         settings = loaded
+    }
+
+    private func loadFilter() {
+        if let raw = UserDefaults.standard.string(forKey: Keys.videoFilter),
+           let filter = VideoFilter(rawValue: raw) {
+            currentFilter = filter
+        }
     }
 }

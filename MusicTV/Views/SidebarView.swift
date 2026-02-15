@@ -1,8 +1,10 @@
-import SwiftUI
 import AppKit
+import SwiftUI
+import UniformTypeIdentifiers
 
 struct SidebarView: View {
     @Environment(AppState.self) private var appState
+    @Environment(PlaybackEngine.self) private var engine
 
     var body: some View {
         @Bindable var state = appState
@@ -53,9 +55,71 @@ struct SidebarView: View {
                     PlaylistPopover()
                 }
             }
+
+            Section("Logo Overlay") {
+                if let image = appState.logoImage {
+                    HStack {
+                        Image(nsImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 32)
+                        Spacer()
+                        Button(role: .destructive, action: { appState.removeLogo() }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                Button(action: { pickLogo() }) {
+                    Label(appState.logoImage != nil ? "Change Logo..." : "Choose Logo...",
+                          systemImage: "photo")
+                }
+                .buttonStyle(.glass)
+                .controlSize(.small)
+            }
+
+            Section("Video Filter") {
+                ForEach(VideoFilter.allCases) { filter in
+                    Button(action: {
+                        appState.currentFilter = filter
+                        appState.saveFilter()
+                        engine.changeFilter(filter)
+                    }) {
+                        HStack(spacing: 8) {
+                            let isSelected = appState.currentFilter == filter
+                            Image(systemName: filter.systemImage)
+                                .frame(width: 20)
+                                .foregroundStyle(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
+                            Text(filter.displayName)
+                                .foregroundStyle(isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
+                            Spacer()
+                            if isSelected {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.tint)
+                                    .font(.caption)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
         }
         .listStyle(.sidebar)
         .frame(minWidth: 250)
+    }
+
+    private func pickLogo() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.png, .jpeg, .heic, .tiff]
+        panel.message = "Select a logo image (PNG recommended)"
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.setLogo(url: url)
+        }
     }
 }
 
