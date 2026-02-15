@@ -47,6 +47,11 @@ struct ContentView: View {
         }
         .task {
             if let window = NSApp.keyWindow ?? NSApp.windows.first {
+                // Make the titlebar transparent so the background effect shows through
+                window.titlebarAppearsTransparent = true
+                window.styleMask.insert(.fullSizeContentView)
+                window.isMovableByWindowBackground = true
+
                 let frame = window.frame
                 if frame.height > frame.width * 0.6 {
                     let newHeight = frame.width * (9.0 / 16.0)
@@ -113,8 +118,8 @@ class SidebarToggleView: NSView {
                 NSApp.sendAction(#selector(NSSplitViewController.toggleSidebar(_:)), to: nil, from: nil)
                 sidebarIsCollapsed = false
             }
-            // Restore titlebar
-            window.titlebarAppearsTransparent = false
+            // Restore titlebar (keep transparent for translucent look)
+            window.titlebarAppearsTransparent = true
             window.titleVisibility = .visible
             window.toolbar?.isVisible = true
         }

@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct NowPlayingView: View {
@@ -36,12 +37,10 @@ struct NowPlayingView: View {
                         Label("Play", systemImage: "play.fill")
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .foregroundStyle(.white)
                             .padding(.horizontal, 32)
                             .padding(.vertical, 12)
-                            .background(.blue, in: RoundedRectangle(cornerRadius: 12))
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.glass)
                 }
             } else {
                 VideoPlayerView(player: engine.player)
@@ -53,6 +52,27 @@ struct NowPlayingView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(appState.isFullScreen ? .black : .white)
+        .background {
+            if appState.isFullScreen {
+                Color.black.ignoresSafeArea()
+            } else {
+                VisualEffectBackground()
+                    .ignoresSafeArea()
+            }
+        }
     }
+}
+
+// MARK: - Translucent Window Background
+
+struct VisualEffectBackground: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .hudWindow
+        view.blendingMode = .behindWindow
+        view.state = .active
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
 }

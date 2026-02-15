@@ -117,7 +117,7 @@ struct FolderPickerRow: View {
                 Label(label, systemImage: icon)
                 Spacer()
                 Button("Choose...") { pickFolder() }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(.glass)
                     .controlSize(.small)
             }
             if let url = selectedURL {

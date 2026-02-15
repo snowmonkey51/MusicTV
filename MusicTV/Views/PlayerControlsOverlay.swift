@@ -6,6 +6,7 @@ struct PlayerControlsOverlay: View {
 
     @State private var isVisible: Bool = true
     @State private var hideTask: Task<Void, Never>?
+    @State private var hoveringControls: Bool = false
 
     var body: some View {
         @Bindable var engine = engine
@@ -31,7 +32,6 @@ struct PlayerControlsOverlay: View {
                                     .foregroundStyle(.primary)
                                     .lineLimit(1)
                             }
-                            .shadow(radius: 2)
                         }
 
                         // Progress bar
@@ -104,10 +104,15 @@ struct PlayerControlsOverlay: View {
                         .foregroundStyle(.primary)
                     }
                     .padding(20)
-                    .background(
-                        .regularMaterial,
-                        in: RoundedRectangle(cornerRadius: 14)
-                    )
+                    .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
+                    .onHover { hovering in
+                        hoveringControls = hovering
+                        if hovering {
+                            hideTask?.cancel()
+                        } else if appState.isFullScreen {
+                            scheduleHide()
+                        }
+                    }
                     .frame(width: 500)
                     Spacer()
                 }
@@ -128,19 +133,24 @@ struct PlayerControlsOverlay: View {
 
     private func showControls() {
         isVisible = true
-        scheduleHide()
+        if appState.isFullScreen {
+            scheduleHide()
+        }
     }
 
     private func toggleVisibility() {
         isVisible.toggle()
-        if isVisible { scheduleHide() }
+        if isVisible && appState.isFullScreen {
+            scheduleHide()
+        }
     }
 
     private func scheduleHide() {
         hideTask?.cancel()
+        guard appState.isFullScreen else { return }
         hideTask = Task {
             try? await Task.sleep(for: .seconds(1.5))
-            if !Task.isCancelled {
+            if !Task.isCancelled && !hoveringControls {
                 isVisible = false
             }
         }
