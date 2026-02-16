@@ -171,12 +171,24 @@ final class PlaybackEngine {
     func changeFilter(_ filter: VideoFilter) {
         guard let playerItem = player.currentItem else { return }
 
-        guard filter != .none else {
+        let wasPlaying = appState?.isPlaying ?? false
+
+        // Pause to avoid rendering pipeline conflicts during composition swap
+        player.pause()
+
+        if filter == .none {
             playerItem.videoComposition = nil
-            return
+        } else {
+            playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
         }
 
-        playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
+        // Seek to current position to flush the pipeline, then resume
+        let current = player.currentTime()
+        player.seek(to: current, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+            if wasPlaying {
+                self?.player.play()
+            }
+        }
     }
 
     /// Builds the appropriate AVVideoComposition for a filter.
