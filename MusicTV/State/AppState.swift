@@ -8,6 +8,10 @@ final class AppState {
     var musicFolderURL: URL?
     var bumperFolderURL: URL?
 
+    // MARK: - Opening Bumper
+    var openingBumperURL: URL?
+    private var activeOpeningBumperAccess: URL?
+
     // MARK: - Logo Overlay
     var logoURL: URL?
     var logoImage: NSImage?
@@ -54,7 +58,9 @@ final class AppState {
         static let shuffleBumpers = "shuffleBumpers"
         static let repeatPlaylist = "repeatPlaylist"
         static let logoBookmark = "logoImageBookmark"
+        static let openingBumperBookmark = "openingBumperBookmark"
         static let videoFilter = "videoFilter"
+        static let normalizeAudio = "normalizeAudio"
     }
 
     // MARK: - Init
@@ -63,6 +69,7 @@ final class AppState {
         loadFilter()
         restoreFolders()
         restoreLogo()
+        restoreOpeningBumper()
     }
 
     func toggleFullScreen() {
@@ -261,6 +268,59 @@ final class AppState {
         try? pngData.write(to: logoCacheURL, options: .atomic)
     }
 
+    // MARK: - Opening Bumper Management
+
+    /// Cache URL inside App Support — always readable without security scope.
+    private var bumperCacheURL: URL {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let appDir = appSupport.appendingPathComponent(Bundle.main.bundleIdentifier ?? "MusicTV")
+        try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
+        return appDir.appendingPathComponent("cachedOpeningBumper.mov")
+    }
+
+    func setOpeningBumper(url: URL) {
+        activeOpeningBumperAccess?.stopAccessingSecurityScopedResource()
+        activeOpeningBumperAccess = nil
+
+        let accessing = url.startAccessingSecurityScopedResource()
+        if accessing {
+            activeOpeningBumperAccess = url
+        }
+
+        // Copy the video into App Support so it's always accessible on relaunch
+        let dest = bumperCacheURL
+        try? FileManager.default.removeItem(at: dest)
+        do {
+            try FileManager.default.copyItem(at: url, to: dest)
+            openingBumperURL = dest
+        } catch {
+            // If copy fails, use the original URL for this session
+            openingBumperURL = url
+        }
+
+        // Store a flag so we know a bumper was set
+        UserDefaults.standard.set(true, forKey: Keys.openingBumperBookmark)
+    }
+
+    func removeOpeningBumper() {
+        activeOpeningBumperAccess?.stopAccessingSecurityScopedResource()
+        activeOpeningBumperAccess = nil
+        openingBumperURL = nil
+        UserDefaults.standard.removeObject(forKey: Keys.openingBumperBookmark)
+        try? FileManager.default.removeItem(at: bumperCacheURL)
+    }
+
+    private func restoreOpeningBumper() {
+        // Check if a bumper was previously set
+        guard UserDefaults.standard.bool(forKey: Keys.openingBumperBookmark) else { return }
+
+        // Load from the cached copy in App Support
+        let cached = bumperCacheURL
+        if FileManager.default.fileExists(atPath: cached.path) {
+            openingBumperURL = cached
+        }
+    }
+
     // MARK: - Settings Persistence
 
     func saveFilter() {
@@ -273,6 +333,7 @@ final class AppState {
         defaults.set(settings.shuffleMusic, forKey: Keys.shuffleMusic)
         defaults.set(settings.shuffleBumpers, forKey: Keys.shuffleBumpers)
         defaults.set(settings.repeatPlaylist, forKey: Keys.repeatPlaylist)
+        defaults.set(settings.normalizeAudio, forKey: Keys.normalizeAudio)
     }
 
     private func loadSettings() {
@@ -286,6 +347,7 @@ final class AppState {
         if defaults.object(forKey: Keys.repeatPlaylist) != nil {
             loaded.repeatPlaylist = defaults.bool(forKey: Keys.repeatPlaylist)
         }
+        loaded.normalizeAudio = defaults.bool(forKey: Keys.normalizeAudio)
         settings = loaded
     }
 

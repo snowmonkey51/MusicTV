@@ -15,9 +15,16 @@ struct NowPlayingView: View {
                 )
             } else if !appState.hasStarted {
                 VStack(spacing: 20) {
-                    Image(systemName: "tv")
-                        .font(.system(size: 48))
-                        .foregroundStyle(.secondary)
+                    if let logo = appState.logoImage {
+                        Image(nsImage: logo)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 120)
+                    } else {
+                        Image(systemName: "tv")
+                            .font(.system(size: 48))
+                            .foregroundStyle(.secondary)
+                    }
 
                     Text("Ready to Play")
                         .font(.title)
@@ -30,9 +37,7 @@ struct NowPlayingView: View {
                     Button(action: {
                         appState.hasStarted = true
                         appState.currentIndex = 0
-                        if let item = appState.currentItem {
-                            engine.playItem(item)
-                        }
+                        engine.startPlayback()
                     }) {
                         Label("Play", systemImage: "play.fill")
                             .font(.title3)
@@ -43,29 +48,47 @@ struct NowPlayingView: View {
                     .buttonStyle(.glass)
                 }
             } else {
-                VideoPlayerView(player: engine.player)
-                    .aspectRatio(16/9, contentMode: .fit)
-                    .overlay(alignment: .bottomTrailing) {
-                        // MTV-style logo bug — pinned to video bounds
-                        if let logo = appState.logoImage {
-                            Image(nsImage: logo)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: appState.isFullScreen ? 90 : 60)
-                                .opacity(0.7)
-                                .padding(16)
-                                .allowsHitTesting(false)
-                        }
-                    }
-                    .overlay(alignment: .bottomLeading) {
-                        // MTV-style title card in lower-left
-                        TitleCardContainer(item: appState.currentItem)
-                    }
-                    .onTapGesture(count: 2) {
-                        appState.toggleFullScreen()
-                    }
+                VStack(spacing: 0) {
+                    VideoPlayerView(player: engine.player)
+                        .aspectRatio(16/9, contentMode: .fit)
+                        .overlay(alignment: .bottom) {
+                            let isBumper = engine.playingOpeningBumper || (appState.currentItem?.isBumper == true)
+                            HStack(alignment: .bottom) {
+                                // MTV-style title card in lower-left
+                                TitleCardContainer(item: engine.playingOpeningBumper ? nil : appState.currentItem)
 
-                PlayerControlsOverlay()
+                                Spacer()
+
+                                // MTV-style logo bug in lower-right
+                                if !isBumper, let logo = appState.logoImage {
+                                    Image(nsImage: logo)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: appState.isFullScreen ? 110 : 80)
+                                        .opacity(0.7)
+                                        .padding(.trailing, 24)
+                                        .padding(.bottom, 40)
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                        }
+                        .overlay {
+                            // Floating controls only in fullscreen
+                            if appState.isFullScreen {
+                                PlayerControlsOverlay()
+                            }
+                        }
+                        .onTapGesture(count: 2) {
+                            appState.toggleFullScreen()
+                        }
+                        .layoutPriority(1)
+
+                    // Inline controls bar below video in windowed mode
+                    if !appState.isFullScreen {
+                        PlayerControlsBar()
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

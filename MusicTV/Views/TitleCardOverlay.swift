@@ -15,10 +15,7 @@ struct TitleCardContainer: View {
 
             if isVisible, let item = displayedItem, !item.isBumper {
                 TitleCardContent(fileName: item.fileName)
-                    .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .leading)),
-                        removal: .opacity
-                    ))
+                    .transition(.opacity)
             }
         }
         .animation(.easeInOut(duration: 0.5), value: isVisible)
@@ -54,29 +51,47 @@ struct TitleCardContainer: View {
 private struct TitleCardContent: View {
     let fileName: String
 
-    private var artist: String? {
+    private var parsed: (artist: String?, title: String) {
         let cleaned = TitleCleaner.clean(fileName)
-        let separators = [" - ", " – ", " — "]
-        for sep in separators {
-            if let range = cleaned.range(of: sep) {
-                let result = String(cleaned[cleaned.startIndex..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
-                return result.isEmpty ? nil : result
+
+        // Check for quoted song title: Artist "Song Title"
+        let quotePatterns: [(open: Character, close: Character)] = [
+            ("\"", "\""),
+            ("\u{201C}", "\u{201D}"),  // "" curly doubles
+        ]
+        for (open, close) in quotePatterns {
+            if let openIdx = cleaned.firstIndex(of: open),
+               let closeIdx = cleaned.lastIndex(of: close),
+               openIdx < closeIdx {
+                let song = String(cleaned[cleaned.index(after: openIdx)..<closeIdx])
+                    .trimmingCharacters(in: .whitespaces)
+                let artistPart = String(cleaned[cleaned.startIndex..<openIdx])
+                    .trimmingCharacters(in: .whitespaces)
+                if !song.isEmpty {
+                    return (artistPart.isEmpty ? nil : artistPart, song)
+                }
             }
         }
-        return nil
+
+        // Fall back to dash separators: Artist - Song Title
+        let separators = [" - ", " – ", " — ", " | ", "- "]
+        for sep in separators {
+            if let range = cleaned.range(of: sep) {
+                let artistPart = String(cleaned[cleaned.startIndex..<range.lowerBound])
+                    .trimmingCharacters(in: .whitespaces)
+                let titlePart = String(cleaned[range.upperBound...])
+                    .trimmingCharacters(in: .whitespaces)
+                let artist = artistPart.isEmpty ? nil : artistPart
+                let title = titlePart.isEmpty ? cleaned : TitleCleaner.stripQuotes(titlePart)
+                return (artist, title)
+            }
+        }
+
+        return (nil, TitleCleaner.stripQuotes(cleaned))
     }
 
-    private var title: String {
-        let cleaned = TitleCleaner.clean(fileName)
-        let separators = [" - ", " – ", " — "]
-        for sep in separators {
-            if let range = cleaned.range(of: sep) {
-                let result = String(cleaned[range.upperBound...]).trimmingCharacters(in: .whitespaces)
-                return result.isEmpty ? cleaned : TitleCleaner.stripQuotes(result)
-            }
-        }
-        return TitleCleaner.stripQuotes(cleaned)
-    }
+    private var artist: String? { parsed.artist }
+    private var title: String { parsed.title }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -174,6 +189,13 @@ enum TitleCleaner {
         // Remove trailing year in parens/brackets like (2024) or [2019]
         result = result.replacingOccurrences(
             of: #"\s*[\(\[]\d{4}[\)\]]\s*$"#,
+            with: "",
+            options: .regularExpression
+        )
+
+        // Remove trailing _1, _2, etc. (duplicate file suffixes)
+        result = result.replacingOccurrences(
+            of: #"\s*_\d+\s*$"#,
             with: "",
             options: .regularExpression
         )

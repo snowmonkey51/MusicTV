@@ -14,8 +14,10 @@ final class PlaybackEngine {
 
     private var timeObserver: Any?
     private var endObserver: NSObjectProtocol?
+    private var statusObservation: NSKeyValueObservation?
     private weak var appState: AppState?
     private let ciContext = CIContext()
+    private(set) var playingOpeningBumper: Bool = false
 
     func attach(to appState: AppState) {
         self.appState = appState
@@ -26,12 +28,15 @@ final class PlaybackEngine {
         if let endObserver {
             NotificationCenter.default.removeObserver(endObserver)
         }
+        statusObservation?.invalidate()
+        statusObservation = nil
 
         currentTime = 0
         duration = 0
 
         let playerItem = AVPlayerItem(url: item.url)
         applyFilter(to: playerItem, filter: appState?.currentFilter ?? .none)
+        applyAudioNormalization(to: playerItem, enabled: appState?.settings.normalizeAudio ?? false)
         player.replaceCurrentItem(with: playerItem)
 
         endObserver = NotificationCenter.default.addObserver(
@@ -40,6 +45,15 @@ final class PlaybackEngine {
             queue: .main
         ) { [weak self] _ in
             self?.advanceToNext()
+        }
+
+        // Watch for load failures (e.g. sandbox can't read the file) and skip ahead
+        statusObservation = playerItem.observe(\.status, options: [.new]) { [weak self] item, _ in
+            if item.status == .failed {
+                DispatchQueue.main.async {
+                    self?.advanceToNext()
+                }
+            }
         }
 
         if let timeObserver {
@@ -59,8 +73,33 @@ final class PlaybackEngine {
         appState?.isPlaying = true
     }
 
+    /// Starts playback, playing the opening bumper first if one is set.
+    func startPlayback() {
+        guard let appState else { return }
+        if let bumperURL = appState.openingBumperURL {
+            playingOpeningBumper = true
+            let bumperItem = VideoItem(url: bumperURL, isBumper: true)
+            playItem(bumperItem)
+        } else {
+            playingOpeningBumper = false
+            if let item = appState.currentItem {
+                playItem(item)
+            }
+        }
+    }
+
     func advanceToNext() {
         guard let appState else { return }
+
+        // If the opening bumper just finished, start the real playlist
+        if playingOpeningBumper {
+            playingOpeningBumper = false
+            if let item = appState.currentItem {
+                playItem(item)
+            }
+            return
+        }
+
         let nextIndex = appState.currentIndex + 1
         if nextIndex < appState.playlist.count {
             appState.currentIndex = nextIndex
@@ -89,6 +128,13 @@ final class PlaybackEngine {
     }
 
     func skip() {
+        // If skipping during opening bumper, go straight to playlist
+        if playingOpeningBumper {
+            playingOpeningBumper = false
+            guard let appState, let item = appState.currentItem else { return }
+            playItem(item)
+            return
+        }
         advanceToNext()
     }
 
@@ -157,7 +203,8 @@ final class PlaybackEngine {
                         output = result
                     }
                 }
-                output = Self.applyGrain(to: output, extent: request.sourceImage.extent)
+                let time = CMTimeGetSeconds(request.compositionTime)
+                output = Self.applyGrain(to: output, extent: request.sourceImage.extent, time: time)
                 let cropped = output.cropped(to: request.sourceImage.extent)
                 request.finish(with: cropped, context: nil)
             }
@@ -174,7 +221,7 @@ final class PlaybackEngine {
                     let seconds = CMTimeGetSeconds(request.compositionTime)
                     let source = request.sourceImage.clampedToExtent()
                     var filtered = ScanlinesKernel.apply(to: source, time: seconds)
-                    filtered = Self.applyGrain(to: filtered, extent: request.sourceImage.extent)
+                    filtered = Self.applyGrain(to: filtered, extent: request.sourceImage.extent, time: seconds)
                     let cropped = filtered.cropped(to: request.sourceImage.extent)
                     request.finish(with: cropped, context: nil)
                 }
@@ -184,19 +231,51 @@ final class PlaybackEngine {
         }
     }
 
+    // MARK: - Audio Normalization
+
+    /// Applies audio normalization to a player item via AVAudioMix.
+    private func applyAudioNormalization(to playerItem: AVPlayerItem, enabled: Bool) {
+        guard enabled else {
+            playerItem.audioMix = nil
+            return
+        }
+
+        let asset = playerItem.asset
+        guard let audioTrack = asset.tracks(withMediaType: .audio).first else { return }
+
+        let params = AVMutableAudioMixInputParameters(track: audioTrack)
+        params.audioTimePitchAlgorithm = .timeDomain
+        params.setVolume(1.0, at: .zero)
+
+        let audioMix = AVMutableAudioMix()
+        audioMix.inputParameters = [params]
+        playerItem.audioMix = audioMix
+    }
+
+    /// Toggles audio normalization on the currently playing item without restarting.
+    func changeAudioNormalization(_ enabled: Bool) {
+        guard let playerItem = player.currentItem else { return }
+        applyAudioNormalization(to: playerItem, enabled: enabled)
+    }
+
     // MARK: - Film Grain
 
-    /// Adds subtle film grain noise over the image using CIRandomGenerator.
-    private static func applyGrain(to image: CIImage, extent: CGRect) -> CIImage {
+    /// Adds animated film grain noise over the image using CIRandomGenerator.
+    /// The noise pattern is shifted each frame based on `time` so the grain moves.
+    private static func applyGrain(to image: CIImage, extent: CGRect, time: Double) -> CIImage {
         guard let noise = CIFilter(name: "CIRandomGenerator")?.outputImage else {
             return image
         }
 
+        // Shift the noise pattern each frame so the grain animates
+        let offsetX = CGFloat(time * 1000).truncatingRemainder(dividingBy: 500)
+        let offsetY = CGFloat(time * 743).truncatingRemainder(dividingBy: 500)
+        let shiftedNoise = noise.transformed(by: CGAffineTransform(translationX: offsetX, y: offsetY))
+
         // Desaturate the noise to greyscale and reduce intensity
         guard let greyNoise = CIFilter(name: "CIColorMatrix") else { return image }
-        // Map RGBA → luminance-ish grey, then scale down for subtlety
-        let grainIntensity: CGFloat = 0.12
-        greyNoise.setValue(noise, forKey: kCIInputImageKey)
+        let grainIntensity: CGFloat = 0.08
+        greyNoise.setValue(shiftedNoise, forKey: kCIInputImageKey)
         greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputRVector")
         greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputGVector")
         greyNoise.setValue(CIVector(x: 0, y: 0, z: 0, w: 0), forKey: "inputBVector")
@@ -225,6 +304,8 @@ final class PlaybackEngine {
             NotificationCenter.default.removeObserver(endObserver)
             self.endObserver = nil
         }
+        statusObservation?.invalidate()
+        statusObservation = nil
         appState?.isPlaying = false
     }
 }

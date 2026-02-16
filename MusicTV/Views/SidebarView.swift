@@ -30,17 +30,6 @@ struct SidebarView: View {
                 }
             }
 
-            Section("Settings") {
-                Stepper(
-                    "Bumper every \(appState.settings.bumperInterval) videos",
-                    value: $state.settings.bumperInterval,
-                    in: 1...50
-                )
-                Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
-                Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
-                Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
-            }
-
             Section {
                 Button(action: { appState.showPlaylist = true }) {
                     HStack {
@@ -56,58 +45,83 @@ struct SidebarView: View {
                 }
             }
 
-            Section("Logo Overlay") {
-                if let image = appState.logoImage {
-                    HStack {
-                        Image(nsImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 32)
-                        Spacer()
+            Section("Playback") {
+                Stepper(
+                    "Bumper every \(appState.settings.bumperInterval) videos",
+                    value: $state.settings.bumperInterval,
+                    in: 1...50
+                )
+                Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
+                Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
+                Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
+                Toggle("Normalize Audio", isOn: $state.settings.normalizeAudio)
+                    .onChange(of: appState.settings.normalizeAudio) {
+                        engine.changeAudioNormalization(appState.settings.normalizeAudio)
+                    }
+            }
+
+            Section("Appearance") {
+                Picker("Video Filter", selection: Binding(
+                    get: { appState.currentFilter },
+                    set: { newFilter in
+                        appState.currentFilter = newFilter
+                        appState.saveFilter()
+                        engine.changeFilter(newFilter)
+                    }
+                )) {
+                    ForEach(VideoFilter.allCases) { filter in
+                        Label(filter.displayName, systemImage: filter.systemImage)
+                            .tag(filter)
+                    }
+                }
+
+                // Logo overlay
+                HStack {
+                    Label("Logo", systemImage: "photo")
+                    Spacer()
+                    if appState.logoImage != nil {
                         Button(role: .destructive, action: { appState.removeLogo() }) {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
                     }
+                    Button(appState.logoImage != nil ? "Change..." : "Choose...") { pickLogo() }
+                        .buttonStyle(.glass)
+                        .controlSize(.small)
                 }
-                Button(action: { pickLogo() }) {
-                    Label(appState.logoImage != nil ? "Change Logo..." : "Choose Logo...",
-                          systemImage: "photo")
-                }
-                .buttonStyle(.glass)
-                .controlSize(.small)
-            }
 
-            Section("Video Filter") {
-                ForEach(VideoFilter.allCases) { filter in
-                    Button(action: {
-                        appState.currentFilter = filter
-                        appState.saveFilter()
-                        engine.changeFilter(filter)
-                    }) {
-                        HStack(spacing: 8) {
-                            let isSelected = appState.currentFilter == filter
-                            Image(systemName: filter.systemImage)
-                                .frame(width: 20)
-                                .foregroundStyle(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
-                            Text(filter.displayName)
-                                .foregroundStyle(isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
-                            Spacer()
-                            if isSelected {
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(.tint)
-                                    .font(.caption)
-                            }
+                // Opening bumper
+                HStack {
+                    Label("Intro", systemImage: "film")
+                    Spacer()
+                    if appState.openingBumperURL != nil {
+                        Button(role: .destructive, action: { appState.removeOpeningBumper() }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
+                    Button(appState.openingBumperURL != nil ? "Change..." : "Choose...") { pickOpeningBumper() }
+                        .buttonStyle(.glass)
+                        .controlSize(.small)
                 }
             }
-
         }
         .listStyle(.sidebar)
         .frame(minWidth: 250)
+    }
+
+    private func pickOpeningBumper() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.movie, .mpeg4Movie, .quickTimeMovie, .avi]
+        panel.message = "Select an opening bumper video"
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.setOpeningBumper(url: url)
+        }
     }
 
     private func pickLogo() {
