@@ -18,14 +18,10 @@ struct PlayerControlsContent: View {
 
         VStack(spacing: 10) {
             if let item = appState.currentItem, !item.isBumper, !engine.playingOpeningBumper {
-                HStack {
-                    Image(systemName: "music.note")
-                        .foregroundStyle(.primary)
-                    Text(item.fileName)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                        .lineLimit(1)
-                }
+                Text(item.fileName)
+                    .font(.headline)
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
             }
 
             // Progress bar

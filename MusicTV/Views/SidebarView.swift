@@ -6,10 +6,68 @@ struct SidebarView: View {
     @Environment(AppState.self) private var appState
     @Environment(PlaybackEngine.self) private var engine
 
+    @State private var searchText: String = ""
+    @State private var showSearchResults: Bool = false
+    @State private var committedSearch: String = ""
+
     var body: some View {
         @Bindable var state = appState
 
         List {
+            Section {
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(.secondary)
+                    TextField("Search videos...", text: $searchText)
+                        .textFieldStyle(.plain)
+                        .onSubmit {
+                            guard !searchText.isEmpty else { return }
+                            committedSearch = searchText
+                            showSearchResults = true
+                        }
+                    if !searchText.isEmpty {
+                        Button(action: {
+                            searchText = ""
+                            committedSearch = ""
+                            showSearchResults = false
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .popover(isPresented: $showSearchResults, arrowEdge: .trailing) {
+                SearchResultsPopover(
+                    searchText: committedSearch,
+                    onDismiss: {
+                        searchText = ""
+                        committedSearch = ""
+                        showSearchResults = false
+                    }
+                )
+            }
+
+            // Show active filter banner when playing a subset
+            if appState.filteredMusicVideos != nil {
+                Section {
+                    HStack {
+                        Image(systemName: "line.3.horizontal.decrease.circle.fill")
+                            .foregroundStyle(.tint)
+                        Text("Filtered Playlist")
+                            .font(.caption)
+                        Spacer()
+                        Button("Show All") {
+                            appState.clearFilter()
+                        }
+                        .font(.caption)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(.tint)
+                    }
+                }
+            }
+
             Section("Folders") {
                 FolderPickerRow(
                     label: "Music Videos",
@@ -30,12 +88,28 @@ struct SidebarView: View {
                 }
             }
 
+            // Genre filter (only show if genres exist)
+            if appState.availableGenres.count > 1 {
+                Section {
+                    Picker("Genre", selection: Binding(
+                        get: { appState.selectedGenre },
+                        set: { newGenre in
+                            appState.setGenre(newGenre)
+                        }
+                    )) {
+                        ForEach(appState.availableGenres, id: \.self) { genre in
+                            Text(genre).tag(genre)
+                        }
+                    }
+                }
+            }
+
             Section {
                 Button(action: { appState.showPlaylist = true }) {
                     HStack {
                         Label("Playlist", systemImage: "list.bullet")
                         Spacer()
-                        Text("\(appState.playlist.count)")
+                        Text("\(appState.playlist.filter { !$0.isBumper }.count)")
                             .foregroundStyle(.secondary)
                             .font(.callout)
                     }
@@ -110,6 +184,13 @@ struct SidebarView: View {
         }
         .listStyle(.sidebar)
         .frame(minWidth: 250)
+        .safeAreaInset(edge: .bottom) {
+            Text("I want my MusicTV")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.bottom, 12)
+        }
     }
 
     private func pickOpeningBumper() {
@@ -148,7 +229,7 @@ struct PlaylistPopover: View {
                 Text("Playlist")
                     .font(.headline)
                 Spacer()
-                Text("\(appState.playlist.count) items")
+                Text("\(appState.playlist.filter { !$0.isBumper }.count) videos")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -247,5 +328,147 @@ struct PlaylistRow: View {
         .padding(.vertical, 2)
         .background(isCurrentlyPlaying ? Color.accentColor.opacity(0.1) : Color.clear)
         .cornerRadius(4)
+    }
+}
+
+// MARK: - Search Results Popover
+
+/// Pre-parsed search entry to avoid re-parsing on every render.
+private struct SearchEntry: Identifiable {
+    let id: UUID
+    let item: VideoItem
+    let artist: String
+    let title: String
+}
+
+struct SearchResultsPopover: View {
+    @Environment(AppState.self) private var appState
+    @Environment(PlaybackEngine.self) private var engine
+
+    let searchText: String
+    let onDismiss: () -> Void
+
+    @State private var results: [(artist: String, entries: [SearchEntry])] = []
+    @State private var totalCount: Int = 0
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Results")
+                    .font(.headline)
+                Spacer()
+                Text("\(totalCount) found")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(12)
+
+            Divider()
+
+            if results.isEmpty {
+                Text("No matching videos")
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 100)
+            } else {
+                List {
+                    ForEach(results, id: \.artist) { group in
+                        Section {
+                            ForEach(group.entries) { entry in
+                                Button(action: { playVideo(entry.item) }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "music.note")
+                                            .foregroundStyle(.primary)
+                                            .frame(width: 16)
+                                        Text(entry.title)
+                                            .lineLimit(1)
+                                            .truncationMode(.tail)
+                                        Spacer()
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        } header: {
+                            HStack {
+                                Text(group.artist.uppercased())
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .tracking(1)
+                                Spacer()
+                                if group.entries.count > 1 {
+                                    Button(action: {
+                                        playAllByArtist(group.entries.map(\.item))
+                                    }) {
+                                        Label("Play All", systemImage: "play.fill")
+                                            .font(.caption)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(.tint)
+                                }
+                            }
+                        }
+                    }
+                }
+                .listStyle(.plain)
+            }
+        }
+        .frame(width: 350, height: 400)
+        .onAppear { performSearch() }
+    }
+
+    private func performSearch() {
+        guard !searchText.isEmpty else {
+            results = []
+            totalCount = 0
+            return
+        }
+
+        let query = searchText.lowercased()
+        var groups: [String: [SearchEntry]] = [:]
+        var count = 0
+
+        for item in appState.musicVideos {
+            let parsed = TitleCleaner.parse(item.fileName)
+            let artistStr = parsed.artist ?? ""
+            let titleStr = parsed.title
+
+            let artistMatch = artistStr.lowercased().contains(query)
+            let titleMatch = titleStr.lowercased().contains(query)
+            let fileMatch = item.fileName.lowercased().contains(query)
+
+            if artistMatch || titleMatch || fileMatch {
+                let entry = SearchEntry(
+                    id: item.id,
+                    item: item,
+                    artist: artistStr.isEmpty ? "Unknown" : artistStr,
+                    title: titleStr
+                )
+                groups[entry.artist, default: []].append(entry)
+                count += 1
+            }
+        }
+
+        results = groups.map { (artist: $0.key, entries: $0.value) }
+            .sorted { $0.artist.localizedStandardCompare($1.artist) == .orderedAscending }
+        totalCount = count
+    }
+
+    private func playVideo(_ item: VideoItem) {
+        if appState.filteredMusicVideos != nil {
+            appState.clearFilter()
+        }
+        if let index = appState.playlist.firstIndex(where: { $0.url == item.url }) {
+            appState.currentIndex = index
+            appState.hasStarted = true
+            engine.playItem(item)
+        }
+        onDismiss()
+    }
+
+    private func playAllByArtist(_ items: [VideoItem]) {
+        appState.playFilteredVideos(items)
+        if let first = appState.playlist.first(where: { !$0.isBumper }) {
+            engine.playItem(first)
+        }
+        onDismiss()
     }
 }

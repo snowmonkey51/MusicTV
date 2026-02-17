@@ -21,6 +21,14 @@ struct MusicTVApp: App {
                 .onAppear { appDelegate.engine = engine }
         }
         .defaultSize(width: 1280, height: 720)
+        .commands {
+            CommandGroup(after: .newItem) {
+                Button("Refresh Library") {
+                    appState.refreshLibrary()
+                }
+                .keyboardShortcut("r", modifiers: .command)
+            }
+        }
     }
 }
 

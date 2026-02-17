@@ -22,6 +22,29 @@ final class PlaybackEngine {
     func attach(to appState: AppState) {
         self.appState = appState
         player.volume = volume
+        // Local files don't need stall-prevention buffering — disabling this
+        // prevents AVPlayer from pausing playback due to false buffer warnings.
+        player.automaticallyWaitsToMinimizeStalling = false
+        setupTimeObserver()
+    }
+
+    /// Set up the periodic time observer once — it reads from player.currentItem
+    /// so it automatically tracks whichever item is loaded.
+    private func setupTimeObserver() {
+        if let timeObserver {
+            player.removeTimeObserver(timeObserver)
+        }
+        timeObserver = player.addPeriodicTimeObserver(
+            forInterval: CMTime(seconds: 0.5, preferredTimescale: 600),
+            queue: .main
+        ) { [weak self] time in
+            guard let self else { return }
+            self.currentTime = time.seconds
+            if let currentItem = self.player.currentItem {
+                let dur = currentItem.duration.seconds
+                self.duration = dur.isFinite ? dur : 0
+            }
+        }
     }
 
     func playItem(_ item: VideoItem) {
@@ -54,19 +77,6 @@ final class PlaybackEngine {
                     self?.advanceToNext()
                 }
             }
-        }
-
-        if let timeObserver {
-            player.removeTimeObserver(timeObserver)
-        }
-        timeObserver = player.addPeriodicTimeObserver(
-            forInterval: CMTime(seconds: 0.5, preferredTimescale: 600),
-            queue: .main
-        ) { [weak self] time in
-            guard let self else { return }
-            self.currentTime = time.seconds
-            let dur = playerItem.duration.seconds
-            self.duration = dur.isFinite ? dur : 0
         }
 
         player.play()
@@ -167,24 +177,47 @@ final class PlaybackEngine {
         playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
     }
 
-    /// Changes the filter on the currently playing item without restarting playback.
+    /// Changes the filter on the currently playing item by replacing it entirely
+    /// to avoid AVFoundation rendering pipeline freezes from hot-swapping compositions.
     func changeFilter(_ filter: VideoFilter) {
-        guard let playerItem = player.currentItem else { return }
+        guard let oldItem = player.currentItem,
+              let asset = oldItem.asset as? AVURLAsset else { return }
 
         let wasPlaying = appState?.isPlaying ?? false
+        let position = player.currentTime()
 
-        // Pause to avoid rendering pipeline conflicts during composition swap
-        player.pause()
+        // Tear down old observers
+        if let endObserver {
+            NotificationCenter.default.removeObserver(endObserver)
+        }
+        statusObservation?.invalidate()
+        statusObservation = nil
 
-        if filter == .none {
-            playerItem.videoComposition = nil
-        } else {
-            playerItem.videoComposition = buildComposition(for: playerItem, filter: filter)
+        // Build a fresh player item at the same URL
+        let newItem = AVPlayerItem(url: asset.url)
+        applyFilter(to: newItem, filter: filter)
+        applyAudioNormalization(to: newItem, enabled: appState?.settings.normalizeAudio ?? false)
+        player.replaceCurrentItem(with: newItem)
+
+        // Re-attach end-of-track and failure observers
+        endObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: newItem,
+            queue: .main
+        ) { [weak self] _ in
+            self?.advanceToNext()
         }
 
-        // Seek to current position to flush the pipeline, then resume
-        let current = player.currentTime()
-        player.seek(to: current, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+        statusObservation = newItem.observe(\.status, options: [.new]) { [weak self] item, _ in
+            if item.status == .failed {
+                DispatchQueue.main.async {
+                    self?.advanceToNext()
+                }
+            }
+        }
+
+        // Seek back to where we were and resume
+        player.seek(to: position, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
             if wasPlaying {
                 self?.player.play()
             }
@@ -202,12 +235,19 @@ final class PlaybackEngine {
 
     /// Standard CIFilter chain composition (static filters, no time dependence).
     private func buildCIFilterChainComposition(for playerItem: AVPlayerItem, filter: VideoFilter) -> AVVideoComposition? {
-        let filterChain = filter.buildFilterChain()
-        guard !filterChain.isEmpty else { return nil }
+        let filterSpec = filter  // capture the filter enum, not CIFilter instances
+        let context = ciContext
 
         return AVMutableVideoComposition(
             asset: playerItem.asset,
             applyingCIFiltersWithHandler: { request in
+                // Build fresh CIFilter instances per frame to avoid thread-safety issues
+                let filterChain = filterSpec.buildFilterChain()
+                guard !filterChain.isEmpty else {
+                    request.finish(with: request.sourceImage, context: context)
+                    return
+                }
+
                 var output = request.sourceImage.clampedToExtent()
                 for ciFilter in filterChain {
                     ciFilter.setValue(output, forKey: kCIInputImageKey)
@@ -218,13 +258,15 @@ final class PlaybackEngine {
                 let time = CMTimeGetSeconds(request.compositionTime)
                 output = Self.applyGrain(to: output, extent: request.sourceImage.extent, time: time)
                 let cropped = output.cropped(to: request.sourceImage.extent)
-                request.finish(with: cropped, context: nil)
+                request.finish(with: cropped, context: context)
             }
         )
     }
 
     /// Custom composition (time-animated effects).
     private func buildCustomKernelComposition(for playerItem: AVPlayerItem, filter: VideoFilter) -> AVVideoComposition? {
+        let context = ciContext
+
         switch filter {
         case .scanlines:
             return AVMutableVideoComposition(
@@ -235,7 +277,7 @@ final class PlaybackEngine {
                     var filtered = ScanlinesKernel.apply(to: source, time: seconds)
                     filtered = Self.applyGrain(to: filtered, extent: request.sourceImage.extent, time: seconds)
                     let cropped = filtered.cropped(to: request.sourceImage.extent)
-                    request.finish(with: cropped, context: nil)
+                    request.finish(with: cropped, context: context)
                 }
             )
         default:

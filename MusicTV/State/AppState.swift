@@ -35,6 +35,18 @@ final class AppState {
 
     // MARK: - Playlist (music + interleaved bumpers)
     var playlist: [VideoItem] = []
+    var filteredMusicVideos: [VideoItem]?
+    var selectedGenre: String = "All"
+
+    var availableGenres: [String] {
+        var genreSet = Set<String>()
+        for item in musicVideos {
+            for genre in item.genres {
+                genreSet.insert(genre)
+            }
+        }
+        return ["All"] + genreSet.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
 
     // MARK: - Playback Tracking
     var currentIndex: Int = 0
@@ -82,6 +94,17 @@ final class AppState {
     ]
 
     // MARK: - Folder Scanning
+
+    /// Re-scans both music and bumper folders to pick up new/removed files.
+    func refreshLibrary() {
+        if let url = musicFolderURL {
+            scanFolder(url: url, isBumper: false)
+        }
+        if let url = bumperFolderURL {
+            scanFolder(url: url, isBumper: true)
+        }
+    }
+
     func scanFolder(url: URL, isBumper: Bool) {
         // Release previous security-scoped access
         if isBumper {
@@ -111,7 +134,7 @@ final class AppState {
         var items: [VideoItem] = []
         for case let fileURL as URL in enumerator {
             if Self.supportedExtensions.contains(fileURL.pathExtension.lowercased()) {
-                items.append(VideoItem(url: fileURL, isBumper: isBumper))
+                items.append(VideoItem(url: fileURL, isBumper: isBumper, rootURL: url))
             }
         }
         items.sort { $0.fileName.localizedStandardCompare($1.fileName) == .orderedAscending }
@@ -131,7 +154,14 @@ final class AppState {
     // MARK: - Playlist Building
     func buildPlaylist() {
         var result: [VideoItem] = []
-        let musicList = settings.shuffleMusic ? musicVideos.shuffled() : musicVideos
+
+        // Apply genre filter, then any additional search/artist filter on top
+        var baseVideos = musicVideos
+        if selectedGenre != "All" {
+            baseVideos = baseVideos.filter { $0.genres.contains(selectedGenre) }
+        }
+        let sourceVideos = filteredMusicVideos ?? baseVideos
+        let musicList = settings.shuffleMusic ? sourceVideos.shuffled() : sourceVideos
         let bumperList = settings.shuffleBumpers ? bumperVideos.shuffled() : bumperVideos
         var bumperIndex = 0
         var lastBumperID: UUID?
@@ -155,6 +185,32 @@ final class AppState {
         if currentIndex >= playlist.count {
             currentIndex = 0
         }
+    }
+
+    // MARK: - Genre Filtering
+
+    /// Sets the active genre and rebuilds the playlist.
+    func setGenre(_ genre: String) {
+        selectedGenre = genre
+        filteredMusicVideos = nil
+        buildPlaylist()
+    }
+
+    // MARK: - Filtered Playback
+
+    /// Sets a filtered subset of music videos and rebuilds the playlist.
+    func playFilteredVideos(_ videos: [VideoItem]) {
+        filteredMusicVideos = videos
+        buildPlaylist()
+        currentIndex = 0
+        hasStarted = true
+    }
+
+    /// Clears any active filter and restores the full playlist.
+    func clearFilter() {
+        guard filteredMusicVideos != nil else { return }
+        filteredMusicVideos = nil
+        buildPlaylist()
     }
 
     // MARK: - Bookmark Persistence

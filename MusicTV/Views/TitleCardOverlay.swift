@@ -51,47 +51,8 @@ struct TitleCardContainer: View {
 private struct TitleCardContent: View {
     let fileName: String
 
-    private var parsed: (artist: String?, title: String) {
-        let cleaned = TitleCleaner.clean(fileName)
-
-        // Check for quoted song title: Artist "Song Title"
-        let quotePatterns: [(open: Character, close: Character)] = [
-            ("\"", "\""),
-            ("\u{201C}", "\u{201D}"),  // "" curly doubles
-        ]
-        for (open, close) in quotePatterns {
-            if let openIdx = cleaned.firstIndex(of: open),
-               let closeIdx = cleaned.lastIndex(of: close),
-               openIdx < closeIdx {
-                let song = String(cleaned[cleaned.index(after: openIdx)..<closeIdx])
-                    .trimmingCharacters(in: .whitespaces)
-                let artistPart = String(cleaned[cleaned.startIndex..<openIdx])
-                    .trimmingCharacters(in: .whitespaces)
-                if !song.isEmpty {
-                    return (artistPart.isEmpty ? nil : artistPart, song)
-                }
-            }
-        }
-
-        // Fall back to dash separators: Artist - Song Title
-        let separators = [" - ", " – ", " — ", " | ", "- "]
-        for sep in separators {
-            if let range = cleaned.range(of: sep) {
-                let artistPart = String(cleaned[cleaned.startIndex..<range.lowerBound])
-                    .trimmingCharacters(in: .whitespaces)
-                let titlePart = String(cleaned[range.upperBound...])
-                    .trimmingCharacters(in: .whitespaces)
-                let artist = artistPart.isEmpty ? nil : artistPart
-                let title = titlePart.isEmpty ? cleaned : TitleCleaner.stripQuotes(titlePart)
-                return (artist, title)
-            }
-        }
-
-        return (nil, TitleCleaner.stripQuotes(cleaned))
-    }
-
-    private var artist: String? { parsed.artist }
-    private var title: String { parsed.title }
+    private var artist: String? { TitleCleaner.parse(fileName).artist }
+    private var title: String { TitleCleaner.parse(fileName).title }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -215,6 +176,47 @@ enum TitleCleaner {
         )
 
         return result.trimmingCharacters(in: .whitespaces)
+    }
+
+    /// Parses a filename into an optional artist and a title.
+    /// Checks for quoted song titles first, then falls back to dash/pipe separators.
+    static func parse(_ fileName: String) -> (artist: String?, title: String) {
+        let cleaned = clean(fileName)
+
+        // Check for quoted song title: Artist "Song Title"
+        let quotePatterns: [(open: Character, close: Character)] = [
+            ("\"", "\""),
+            ("\u{201C}", "\u{201D}"),  // "" curly doubles
+        ]
+        for (open, close) in quotePatterns {
+            if let openIdx = cleaned.firstIndex(of: open),
+               let closeIdx = cleaned.lastIndex(of: close),
+               openIdx < closeIdx {
+                let song = String(cleaned[cleaned.index(after: openIdx)..<closeIdx])
+                    .trimmingCharacters(in: .whitespaces)
+                let artistPart = String(cleaned[cleaned.startIndex..<openIdx])
+                    .trimmingCharacters(in: .whitespaces)
+                if !song.isEmpty {
+                    return (artistPart.isEmpty ? nil : artistPart, song)
+                }
+            }
+        }
+
+        // Fall back to dash separators: Artist - Song Title
+        let separators = [" - ", " – ", " — ", " | ", "- "]
+        for sep in separators {
+            if let range = cleaned.range(of: sep) {
+                let artistPart = String(cleaned[cleaned.startIndex..<range.lowerBound])
+                    .trimmingCharacters(in: .whitespaces)
+                let titlePart = String(cleaned[range.upperBound...])
+                    .trimmingCharacters(in: .whitespaces)
+                let artist = artistPart.isEmpty ? nil : artistPart
+                let title = titlePart.isEmpty ? cleaned : stripQuotes(titlePart)
+                return (artist, title)
+            }
+        }
+
+        return (nil, stripQuotes(cleaned))
     }
 
     /// Strips wrapping quotes: "Song Title" → Song Title, 'Song Title' → Song Title

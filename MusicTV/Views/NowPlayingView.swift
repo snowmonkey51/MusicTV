@@ -30,7 +30,7 @@ struct NowPlayingView: View {
                         .font(.title)
                         .fontWeight(.medium)
 
-                    Text("\(appState.playlist.count) videos queued")
+                    Text("\(appState.playlist.filter { !$0.isBumper }.count) videos queued")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
