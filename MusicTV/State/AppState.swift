@@ -28,6 +28,7 @@ final class AppState {
     // MARK: - Settings
     var settings: PlaybackSettings = PlaybackSettings() {
         didSet {
+            playlistRebuildToken += 1
             buildPlaylist()
             saveSettings()
         }
@@ -45,7 +46,51 @@ final class AppState {
                 genreSet.insert(genre)
             }
         }
-        return ["All"] + genreSet.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        var list = ["All"]
+        if !favoritePaths.isEmpty {
+            list.append("Favorites")
+        }
+        list += genreSet.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        return list
+    }
+
+    // MARK: - Favorites
+    /// Stores relative paths (from music root) of favorited videos for persistence.
+    var favoritePaths: Set<String> = []
+
+    func isFavorite(_ item: VideoItem) -> Bool {
+        guard let root = musicFolderURL else { return false }
+        return favoritePaths.contains(relativePath(for: item, root: root))
+    }
+
+    func toggleFavorite(_ item: VideoItem) {
+        guard let root = musicFolderURL else { return }
+        let path = relativePath(for: item, root: root)
+        if favoritePaths.contains(path) {
+            favoritePaths.remove(path)
+        } else {
+            favoritePaths.insert(path)
+        }
+        saveFavorites()
+        // If currently viewing favorites, rebuild
+        if selectedGenre == "Favorites" {
+            playlistRebuildToken += 1
+            buildPlaylist()
+        }
+    }
+
+    var favoriteVideos: [VideoItem] {
+        guard let root = musicFolderURL else { return [] }
+        return musicVideos.filter { favoritePaths.contains(relativePath(for: $0, root: root)) }
+    }
+
+    private func relativePath(for item: VideoItem, root: URL) -> String {
+        let rootPath = root.standardizedFileURL.path
+        let filePath = item.url.standardizedFileURL.path
+        if filePath.hasPrefix(rootPath) {
+            return String(filePath.dropFirst(rootPath.count + 1))
+        }
+        return filePath
     }
 
     // MARK: - Playback Tracking
@@ -55,6 +100,10 @@ final class AppState {
     var hasStarted: Bool = false
     var showPlaylist: Bool = false
     var currentFilter: VideoFilter = .none
+
+    /// Incremented by genre/settings changes that rebuild the playlist mid-playback.
+    /// Views compare against their own local copy to detect suppressed changes.
+    var playlistRebuildToken: Int = 0
 
     var currentItem: VideoItem? {
         guard hasStarted, playlist.indices.contains(currentIndex) else { return nil }
@@ -79,6 +128,7 @@ final class AppState {
     init() {
         loadSettings()
         loadFilter()
+        loadFavorites()
         restoreFolders()
         restoreLogo()
         restoreOpeningBumper()
@@ -157,7 +207,9 @@ final class AppState {
 
         // Apply genre filter, then any additional search/artist filter on top
         var baseVideos = musicVideos
-        if selectedGenre != "All" {
+        if selectedGenre == "Favorites" {
+            baseVideos = favoriteVideos
+        } else if selectedGenre != "All" {
             baseVideos = baseVideos.filter { $0.genres.contains(selectedGenre) }
         }
         let sourceVideos = filteredMusicVideos ?? baseVideos
@@ -180,11 +232,17 @@ final class AppState {
                 bumperIndex += 1
             }
         }
-        playlist = result
-
-        if currentIndex >= playlist.count {
+        // Preserve the currently playing video across rebuilds.
+        // Compute the new index BEFORE assigning the playlist so SwiftUI
+        // never sees an intermediate state with the wrong video.
+        let currentURL = currentItem?.url
+        if let url = currentURL,
+           let newIndex = result.firstIndex(where: { $0.url == url }) {
+            currentIndex = newIndex
+        } else if currentIndex >= result.count {
             currentIndex = 0
         }
+        playlist = result
     }
 
     // MARK: - Genre Filtering
@@ -193,6 +251,7 @@ final class AppState {
     func setGenre(_ genre: String) {
         selectedGenre = genre
         filteredMusicVideos = nil
+        playlistRebuildToken += 1
         buildPlaylist()
     }
 
@@ -412,5 +471,26 @@ final class AppState {
            let filter = VideoFilter(rawValue: raw) {
             currentFilter = filter
         }
+    }
+
+    // MARK: - Favorites Persistence
+
+    private var favoritesCacheURL: URL {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let appDir = appSupport.appendingPathComponent(Bundle.main.bundleIdentifier ?? "MusicTV")
+        try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
+        return appDir.appendingPathComponent("favorites.json")
+    }
+
+    private func saveFavorites() {
+        let sorted = favoritePaths.sorted()
+        guard let data = try? JSONEncoder().encode(sorted) else { return }
+        try? data.write(to: favoritesCacheURL, options: .atomic)
+    }
+
+    private func loadFavorites() {
+        guard let data = try? Data(contentsOf: favoritesCacheURL),
+              let paths = try? JSONDecoder().decode([String].self, from: data) else { return }
+        favoritePaths = Set(paths)
     }
 }

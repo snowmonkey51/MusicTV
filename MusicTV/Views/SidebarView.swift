@@ -9,6 +9,7 @@ struct SidebarView: View {
     @State private var searchText: String = ""
     @State private var showSearchResults: Bool = false
     @State private var committedSearch: String = ""
+    @State private var showFavorites: Bool = false
 
     var body: some View {
         @Bindable var state = appState
@@ -116,6 +117,21 @@ struct SidebarView: View {
                 }
                 .popover(isPresented: $state.showPlaylist, arrowEdge: .trailing) {
                     PlaylistPopover()
+                }
+
+                if !appState.favoritePaths.isEmpty {
+                    Button(action: { showFavorites = true }) {
+                        HStack {
+                            Label("Favorites", systemImage: "star")
+                            Spacer()
+                            Text("\(appState.favoriteVideos.count)")
+                                .foregroundStyle(.secondary)
+                                .font(.callout)
+                        }
+                    }
+                    .popover(isPresented: $showFavorites, arrowEdge: .trailing) {
+                        FavoritesPopover()
+                    }
                 }
             }
 
@@ -259,6 +275,134 @@ struct PlaylistPopover: View {
             }
         }
         .frame(width: 350, height: 400)
+    }
+}
+
+// MARK: - Favorites Popover
+
+private struct FavoriteEntry: Identifiable {
+    let id: UUID
+    let item: VideoItem
+    let artist: String
+    let title: String
+}
+
+struct FavoritesPopover: View {
+    @Environment(AppState.self) private var appState
+    @Environment(PlaybackEngine.self) private var engine
+
+    @State private var groups: [(artist: String, entries: [FavoriteEntry])] = []
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Favorites")
+                    .font(.headline)
+                Spacer()
+                Text("\(appState.favoriteVideos.count) videos")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(12)
+
+            Divider()
+
+            if groups.isEmpty {
+                Text("No favorites yet")
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 100)
+            } else {
+                List {
+                    ForEach(groups, id: \.artist) { group in
+                        Section {
+                            ForEach(group.entries) { entry in
+                                HStack(spacing: 8) {
+                                    Button(action: { playVideo(entry.item) }) {
+                                        HStack(spacing: 8) {
+                                            Image(systemName: "music.note")
+                                                .foregroundStyle(.primary)
+                                                .frame(width: 16)
+                                            Text(entry.title)
+                                                .lineLimit(1)
+                                                .truncationMode(.tail)
+                                        }
+                                    }
+                                    .buttonStyle(.plain)
+
+                                    Spacer()
+
+                                    Button(action: {
+                                        appState.toggleFavorite(entry.item)
+                                        rebuildGroups()
+                                    }) {
+                                        Image(systemName: "star.slash")
+                                            .foregroundStyle(.secondary)
+                                            .font(.caption)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                        } header: {
+                            HStack {
+                                Text(group.artist.uppercased())
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .tracking(1)
+                                Spacer()
+                                if group.entries.count > 1 {
+                                    Button(action: {
+                                        playAllByArtist(group.entries.map(\.item))
+                                    }) {
+                                        Label("Play All", systemImage: "play.fill")
+                                            .font(.caption)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(.tint)
+                                }
+                            }
+                        }
+                    }
+                }
+                .listStyle(.plain)
+            }
+        }
+        .frame(width: 350, height: 400)
+        .onAppear { rebuildGroups() }
+    }
+
+    private func rebuildGroups() {
+        var groupMap: [String: [FavoriteEntry]] = [:]
+        for item in appState.favoriteVideos {
+            let parsed = TitleCleaner.parse(item.fileName)
+            let artistStr = parsed.artist ?? ""
+            let entry = FavoriteEntry(
+                id: item.id,
+                item: item,
+                artist: artistStr.isEmpty ? "Unknown" : artistStr,
+                title: parsed.title
+            )
+            groupMap[entry.artist, default: []].append(entry)
+        }
+        groups = groupMap.map { (artist: $0.key, entries: $0.value) }
+            .sorted { $0.artist.localizedStandardCompare($1.artist) == .orderedAscending }
+    }
+
+    private func playVideo(_ item: VideoItem) {
+        if appState.filteredMusicVideos != nil {
+            appState.clearFilter()
+        }
+        if let index = appState.playlist.firstIndex(where: { $0.url == item.url }) {
+            appState.currentIndex = index
+            appState.hasStarted = true
+            engine.playItem(item)
+        }
+    }
+
+    private func playAllByArtist(_ items: [VideoItem]) {
+        appState.playFilteredVideos(items)
+        if let first = appState.playlist.first(where: { !$0.isBumper }) {
+            engine.playItem(first)
+        }
     }
 }
 

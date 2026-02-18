@@ -13,15 +13,25 @@ struct PlayerControlsContent: View {
     /// When false, renders flat and full-width (inline bar below video).
     var floating: Bool = false
 
+    @State private var displayedArtist: String?
+    @State private var displayedTitle: String?
+    @State private var lastSeenToken: Int = 0
+
     var body: some View {
         @Bindable var engine = engine
 
         VStack(spacing: 10) {
-            if let item = appState.currentItem, !item.isBumper, !engine.playingOpeningBumper {
-                Text(item.fileName)
-                    .font(.headline)
-                    .foregroundStyle(.primary)
-                    .lineLimit(1)
+            if let title = displayedTitle, !engine.playingOpeningBumper {
+                Group {
+                    if let artist = displayedArtist {
+                        Text(artist) + Text(" — ") + Text(title)
+                    } else {
+                        Text(title)
+                    }
+                }
+                .font(.headline)
+                .foregroundStyle(.primary)
+                .lineLimit(1)
             }
 
             // Progress bar
@@ -81,7 +91,7 @@ struct PlayerControlsContent: View {
                     .buttonStyle(.plain)
                 }
 
-                // Left-aligned fullscreen, right-aligned volume
+                // Left-aligned fullscreen, right-aligned favorite + volume
                 HStack {
                     Button(action: { appState.toggleFullScreen() }) {
                         Image(systemName: appState.isFullScreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
@@ -91,6 +101,15 @@ struct PlayerControlsContent: View {
                     .buttonStyle(.plain)
 
                     Spacer()
+
+                    if let item = appState.currentItem, !item.isBumper {
+                        Button(action: { appState.toggleFavorite(item) }) {
+                            Image(systemName: appState.isFavorite(item) ? "star.fill" : "star")
+                                .font(.title2)
+                                .contentTransition(.symbolEffect(.replace))
+                        }
+                        .buttonStyle(.plain)
+                    }
 
                     HStack(spacing: 6) {
                         Image(systemName: volumeIcon)
@@ -107,7 +126,29 @@ struct PlayerControlsContent: View {
         .if(floating) { view in
             view
                 .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
-                .frame(width: 500)
+                .frame(width: 600)
+        }
+        .onChange(of: appState.currentItem?.url) {
+            if appState.playlistRebuildToken != lastSeenToken {
+                lastSeenToken = appState.playlistRebuildToken
+                return
+            }
+            updateDisplayedName()
+        }
+        .onAppear {
+            lastSeenToken = appState.playlistRebuildToken
+            updateDisplayedName()
+        }
+    }
+
+    private func updateDisplayedName() {
+        if let item = appState.currentItem, !item.isBumper {
+            let parsed = TitleCleaner.parse(item.fileName)
+            displayedArtist = parsed.artist
+            displayedTitle = parsed.title
+        } else {
+            displayedArtist = nil
+            displayedTitle = nil
         }
     }
 
