@@ -7,6 +7,8 @@ final class AppState {
     // MARK: - Folder Selections
     var musicFolderURL: URL?
     var bumperFolderURL: URL?
+    var musicFolderUnavailable: Bool = false
+    var bumperFolderUnavailable: Bool = false
 
     // MARK: - Opening Bumper
     var openingBumperURL: URL?
@@ -25,11 +27,25 @@ final class AppState {
     var musicVideos: [VideoItem] = []
     var bumperVideos: [VideoItem] = []
 
+    // MARK: - Library Sharing
+    var isShareEnabled: Bool = false
+    var connectedNetworkLibrary: DiscoveredLibrary? = nil
+    var isLoadingNetworkLibrary: Bool = false
+    let libraryServer = LibraryServer()
+    let libraryBrowser = LibraryBrowser()
+
     // MARK: - Settings
     var settings: PlaybackSettings = PlaybackSettings() {
         didSet {
-            playlistRebuildToken += 1
-            buildPlaylist()
+            let playlistChanged =
+                oldValue.shuffleMusic != settings.shuffleMusic ||
+                oldValue.shuffleBumpers != settings.shuffleBumpers ||
+                oldValue.bumperInterval != settings.bumperInterval ||
+                oldValue.repeatPlaylist != settings.repeatPlaylist
+            if playlistChanged {
+                playlistRebuildToken += 1
+                buildPlaylist()
+            }
             saveSettings()
         }
     }
@@ -39,19 +55,26 @@ final class AppState {
     var filteredMusicVideos: [VideoItem]?
     var selectedGenre: String = "All"
 
-    var availableGenres: [String] {
+    var smartPlaylists: [String] {
+        var list = ["All", "New"]
+        if !favoritePaths.isEmpty {
+            list.append("Favorites")
+        }
+        return list
+    }
+
+    var genreList: [String] {
         var genreSet = Set<String>()
         for item in musicVideos {
             for genre in item.genres {
                 genreSet.insert(genre)
             }
         }
-        var list = ["All"]
-        if !favoritePaths.isEmpty {
-            list.append("Favorites")
-        }
-        list += genreSet.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
-        return list
+        return genreSet.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
+    var availableGenres: [String] {
+        smartPlaylists + genreList
     }
 
     // MARK: - Favorites
@@ -122,6 +145,9 @@ final class AppState {
         static let openingBumperBookmark = "openingBumperBookmark"
         static let videoFilter = "videoFilter"
         static let normalizeAudio = "normalizeAudio"
+        static let showTitleCards = "showTitleCards"
+        static let selectedGenre = "selectedGenre"
+        static let shareLibrary = "shareLibrary"
     }
 
     // MARK: - Init
@@ -132,6 +158,9 @@ final class AppState {
         restoreFolders()
         restoreLogo()
         restoreOpeningBumper()
+        restoreSelectedGenre()
+        restoreShareSetting()
+        libraryBrowser.startBrowsing()
     }
 
     func toggleFullScreen() {
@@ -175,7 +204,17 @@ final class AppState {
             }
         }
 
-        guard let enumerator = FileManager.default.enumerator(
+        // Check if the folder is reachable (handles network shares that aren't mounted)
+        let reachable = FileManager.default.isReadableFile(atPath: url.path)
+        if isBumper {
+            bumperFolderUnavailable = !reachable
+            bumperFolderURL = url
+        } else {
+            musicFolderUnavailable = !reachable
+            musicFolderURL = url
+        }
+
+        guard reachable, let enumerator = FileManager.default.enumerator(
             at: url,
             includingPropertiesForKeys: [.isRegularFileKey],
             options: [.skipsHiddenFiles, .skipsPackageDescendants]
@@ -191,11 +230,9 @@ final class AppState {
 
         if isBumper {
             bumperVideos = items
-            bumperFolderURL = url
             saveBookmark(for: url, key: Keys.bumperBookmark)
         } else {
             musicVideos = items
-            musicFolderURL = url
             saveBookmark(for: url, key: Keys.musicBookmark)
         }
         buildPlaylist()
@@ -207,7 +244,9 @@ final class AppState {
 
         // Apply genre filter, then any additional search/artist filter on top
         var baseVideos = musicVideos
-        if selectedGenre == "Favorites" {
+        if selectedGenre == "New" {
+            baseVideos = Array(musicVideos.sorted { $0.dateAdded > $1.dateAdded }.prefix(50))
+        } else if selectedGenre == "Favorites" {
             baseVideos = favoriteVideos
         } else if selectedGenre != "All" {
             baseVideos = baseVideos.filter { $0.genres.contains(selectedGenre) }
@@ -253,6 +292,7 @@ final class AppState {
         filteredMusicVideos = nil
         playlistRebuildToken += 1
         buildPlaylist()
+        UserDefaults.standard.set(genre, forKey: Keys.selectedGenre)
     }
 
     // MARK: - Filtered Playback
@@ -313,6 +353,15 @@ final class AppState {
         }
         if let bumperURL = resolveBookmark(key: Keys.bumperBookmark) {
             scanFolder(url: bumperURL, isBumper: true)
+        }
+    }
+
+    func rescanFolders() {
+        if let url = musicFolderURL {
+            scanFolder(url: url, isBumper: false)
+        }
+        if let url = bumperFolderURL {
+            scanFolder(url: url, isBumper: true)
         }
     }
 
@@ -436,6 +485,55 @@ final class AppState {
         }
     }
 
+    // MARK: - Library Sharing
+
+    func setShareEnabled(_ enabled: Bool) {
+        isShareEnabled = enabled
+        if enabled {
+            libraryServer.start(appState: self)
+            libraryBrowser.localServiceName = Host.current().localizedName ?? "MusicTV"
+        } else {
+            libraryServer.stop()
+            libraryBrowser.localServiceName = nil
+        }
+        UserDefaults.standard.set(enabled, forKey: Keys.shareLibrary)
+    }
+
+    private func restoreShareSetting() {
+        if UserDefaults.standard.bool(forKey: Keys.shareLibrary) {
+            setShareEnabled(true)
+        }
+    }
+
+    func connectToNetworkLibrary(_ library: DiscoveredLibrary) {
+        guard connectedNetworkLibrary?.id != library.id else { return }
+        isLoadingNetworkLibrary = true
+        connectedNetworkLibrary = library
+        print("[AppState] Connecting to network library: \(library.name)")
+
+        Task {
+            do {
+                let result = try await libraryBrowser.fetchLibrary(from: library)
+                print("[AppState] Received \(result.musicVideos.count) music, \(result.bumperVideos.count) bumpers")
+                musicVideos = result.musicVideos
+                bumperVideos = result.bumperVideos
+                playlistRebuildToken += 1
+                buildPlaylist()
+                print("[AppState] Playlist rebuilt with \(playlist.count) items")
+            } catch {
+                print("[AppState] Failed to connect to network library: \(error)")
+                connectedNetworkLibrary = nil
+            }
+            isLoadingNetworkLibrary = false
+            print("[AppState] Loading complete, isLoading=\(isLoadingNetworkLibrary)")
+        }
+    }
+
+    func disconnectFromNetworkLibrary() {
+        connectedNetworkLibrary = nil
+        rescanFolders()
+    }
+
     // MARK: - Settings Persistence
 
     func saveFilter() {
@@ -449,6 +547,7 @@ final class AppState {
         defaults.set(settings.shuffleBumpers, forKey: Keys.shuffleBumpers)
         defaults.set(settings.repeatPlaylist, forKey: Keys.repeatPlaylist)
         defaults.set(settings.normalizeAudio, forKey: Keys.normalizeAudio)
+        defaults.set(settings.showTitleCards, forKey: Keys.showTitleCards)
     }
 
     private func loadSettings() {
@@ -463,6 +562,9 @@ final class AppState {
             loaded.repeatPlaylist = defaults.bool(forKey: Keys.repeatPlaylist)
         }
         loaded.normalizeAudio = defaults.bool(forKey: Keys.normalizeAudio)
+        if defaults.object(forKey: Keys.showTitleCards) != nil {
+            loaded.showTitleCards = defaults.bool(forKey: Keys.showTitleCards)
+        }
         settings = loaded
     }
 
@@ -471,6 +573,13 @@ final class AppState {
            let filter = VideoFilter(rawValue: raw) {
             currentFilter = filter
         }
+    }
+
+    private func restoreSelectedGenre() {
+        guard let saved = UserDefaults.standard.string(forKey: Keys.selectedGenre),
+              availableGenres.contains(saved) else { return }
+        selectedGenre = saved
+        buildPlaylist()
     }
 
     // MARK: - Favorites Persistence

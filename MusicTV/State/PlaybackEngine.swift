@@ -58,6 +58,10 @@ final class PlaybackEngine {
         duration = 0
 
         let playerItem = AVPlayerItem(url: item.url)
+
+        // Enable stall-prevention buffering for network streams
+        let isNetwork = item.url.scheme == "http" || item.url.scheme == "https"
+        player.automaticallyWaitsToMinimizeStalling = isNetwork
         applyFilter(to: playerItem, filter: appState?.currentFilter ?? .none)
         applyAudioNormalization(to: playerItem, enabled: appState?.settings.normalizeAudio ?? false)
         player.replaceCurrentItem(with: playerItem)
@@ -73,6 +77,10 @@ final class PlaybackEngine {
         // Watch for load failures (e.g. sandbox can't read the file) and skip ahead
         statusObservation = playerItem.observe(\.status, options: [.new]) { [weak self] item, _ in
             if item.status == .failed {
+                print("[PlaybackEngine] Item failed to load: \(item.error?.localizedDescription ?? "unknown error")")
+                if let urlAsset = item.asset as? AVURLAsset {
+                    print("[PlaybackEngine] Failed URL: \(urlAsset.url)")
+                }
                 DispatchQueue.main.async {
                     self?.advanceToNext()
                 }
@@ -268,13 +276,13 @@ final class PlaybackEngine {
         let context = ciContext
 
         switch filter {
-        case .scanlines:
+        case .crt:
             return AVMutableVideoComposition(
                 asset: playerItem.asset,
                 applyingCIFiltersWithHandler: { request in
                     let seconds = CMTimeGetSeconds(request.compositionTime)
                     let source = request.sourceImage.clampedToExtent()
-                    var filtered = ScanlinesKernel.apply(to: source, time: seconds)
+                    var filtered = CRTKernel.apply(to: source, time: seconds)
                     filtered = Self.applyGrain(to: filtered, extent: request.sourceImage.extent, time: seconds)
                     let cropped = filtered.cropped(to: request.sourceImage.extent)
                     request.finish(with: cropped, context: context)

@@ -45,6 +45,12 @@ struct TitleCardContainer: View {
     }
 
     private func showCard() {
+        guard appState.settings.showTitleCards else {
+            hideTask?.cancel()
+            isVisible = false
+            lastShownURL = item?.url
+            return
+        }
         hideTask?.cancel()
         displayedItem = item
         lastShownURL = item?.url

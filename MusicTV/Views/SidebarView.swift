@@ -10,6 +10,7 @@ struct SidebarView: View {
     @State private var showSearchResults: Bool = false
     @State private var committedSearch: String = ""
     @State private var showFavorites: Bool = false
+    @State private var showSettings: Bool = false
 
     var body: some View {
         @Bindable var state = appState
@@ -73,33 +74,87 @@ struct SidebarView: View {
                 FolderPickerRow(
                     label: "Music Videos",
                     icon: "music.note.tv",
-                    selectedURL: appState.musicFolderURL
+                    selectedURL: appState.musicFolderURL,
+                    unavailable: appState.musicFolderUnavailable
                 ) { url in
-                    appState.musicFolderURL = url
                     appState.scanFolder(url: url, isBumper: false)
                 }
 
                 FolderPickerRow(
                     label: "Bumpers",
                     icon: "film.stack",
-                    selectedURL: appState.bumperFolderURL
+                    selectedURL: appState.bumperFolderURL,
+                    unavailable: appState.bumperFolderUnavailable
                 ) { url in
-                    appState.bumperFolderURL = url
                     appState.scanFolder(url: url, isBumper: true)
+                }
+
+                if appState.musicFolderUnavailable || appState.bumperFolderUnavailable {
+                    Button(action: { appState.rescanFolders() }) {
+                        HStack {
+                            Label("Reconnect", systemImage: "arrow.clockwise")
+                            Spacer()
+                        }
+                    }
                 }
             }
 
-            // Genre filter (only show if genres exist)
+            // Network Libraries
+            if !appState.libraryBrowser.discoveredLibraries.isEmpty || appState.connectedNetworkLibrary != nil {
+                Section("Network Libraries") {
+                    ForEach(appState.libraryBrowser.discoveredLibraries) { library in
+                        HStack {
+                            Image(systemName: "tv.and.hifispeaker.fill")
+                            Text(library.name)
+                                .lineLimit(1)
+                            Spacer()
+                            if appState.connectedNetworkLibrary?.id == library.id {
+                                if appState.isLoadingNetworkLibrary {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                } else {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                }
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            print("[SidebarView] Tapped network library: \(library.name)")
+                            if appState.connectedNetworkLibrary?.id == library.id {
+                                appState.disconnectFromNetworkLibrary()
+                            } else {
+                                appState.connectToNetworkLibrary(library)
+                            }
+                        }
+                    }
+
+                    if appState.connectedNetworkLibrary != nil {
+                        Button(action: { appState.disconnectFromNetworkLibrary() }) {
+                            Label("Disconnect", systemImage: "xmark.circle")
+                        }
+                    }
+                }
+            }
+
+            // Playlist picker
             if appState.availableGenres.count > 1 {
                 Section {
-                    Picker("Genre", selection: Binding(
+                    Picker("Playlist", selection: Binding(
                         get: { appState.selectedGenre },
                         set: { newGenre in
                             appState.setGenre(newGenre)
                         }
                     )) {
-                        ForEach(appState.availableGenres, id: \.self) { genre in
-                            Text(genre).tag(genre)
+                        ForEach(appState.smartPlaylists, id: \.self) { name in
+                            Text(name).tag(name)
+                        }
+                        if !appState.genreList.isEmpty {
+                            Section("Genres") {
+                                ForEach(appState.genreList, id: \.self) { genre in
+                                    Text(genre).tag(genre)
+                                }
+                            }
                         }
                     }
                 }
@@ -133,24 +188,7 @@ struct SidebarView: View {
                         FavoritesPopover()
                     }
                 }
-            }
 
-            Section("Playback") {
-                Stepper(
-                    "Bumper every \(appState.settings.bumperInterval) videos",
-                    value: $state.settings.bumperInterval,
-                    in: 1...50
-                )
-                Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
-                Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
-                Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
-                Toggle("Normalize Audio", isOn: $state.settings.normalizeAudio)
-                    .onChange(of: appState.settings.normalizeAudio) {
-                        engine.changeAudioNormalization(appState.settings.normalizeAudio)
-                    }
-            }
-
-            Section("Appearance") {
                 Picker("Video Filter", selection: Binding(
                     get: { appState.currentFilter },
                     set: { newFilter in
@@ -165,36 +203,14 @@ struct SidebarView: View {
                     }
                 }
 
-                // Logo overlay
-                HStack {
-                    Label("Logo", systemImage: "photo")
-                    Spacer()
-                    if appState.logoImage != nil {
-                        Button(role: .destructive, action: { appState.removeLogo() }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.secondary)
-                        }
-                        .buttonStyle(.plain)
+                Button(action: { showSettings = true }) {
+                    HStack {
+                        Label("Settings", systemImage: "gearshape")
+                        Spacer()
                     }
-                    Button(appState.logoImage != nil ? "Change..." : "Choose...") { pickLogo() }
-                        .buttonStyle(.glass)
-                        .controlSize(.small)
                 }
-
-                // Opening bumper
-                HStack {
-                    Label("Intro", systemImage: "film")
-                    Spacer()
-                    if appState.openingBumperURL != nil {
-                        Button(role: .destructive, action: { appState.removeOpeningBumper() }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.secondary)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    Button(appState.openingBumperURL != nil ? "Change..." : "Choose...") { pickOpeningBumper() }
-                        .buttonStyle(.glass)
-                        .controlSize(.small)
+                .popover(isPresented: $showSettings, arrowEdge: .trailing) {
+                    SettingsPopover()
                 }
             }
         }
@@ -206,30 +222,6 @@ struct SidebarView: View {
                 .foregroundStyle(.tertiary)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.bottom, 12)
-        }
-    }
-
-    private func pickOpeningBumper() {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
-        panel.allowedContentTypes = [.movie, .mpeg4Movie, .quickTimeMovie, .avi]
-        panel.message = "Select an opening bumper video"
-        if panel.runModal() == .OK, let url = panel.url {
-            appState.setOpeningBumper(url: url)
-        }
-    }
-
-    private func pickLogo() {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
-        panel.allowedContentTypes = [.png, .jpeg, .heic, .tiff]
-        panel.message = "Select a logo image (PNG recommended)"
-        if panel.runModal() == .OK, let url = panel.url {
-            appState.setLogo(url: url)
         }
     }
 }
@@ -406,12 +398,125 @@ struct FavoritesPopover: View {
     }
 }
 
+// MARK: - Settings Popover
+
+struct SettingsPopover: View {
+    @Environment(AppState.self) private var appState
+    @Environment(PlaybackEngine.self) private var engine
+
+    var body: some View {
+        @Bindable var state = appState
+
+        VStack(spacing: 0) {
+            HStack {
+                Text("Settings")
+                    .font(.headline)
+                Spacer()
+            }
+            .padding(12)
+
+            Divider()
+
+            Form {
+                Section("Playback") {
+                    Stepper(
+                        "Bumper every \(appState.settings.bumperInterval) videos",
+                        value: $state.settings.bumperInterval,
+                        in: 1...50
+                    )
+                    Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
+                    Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
+                    Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
+                    Toggle("Normalize Audio", isOn: $state.settings.normalizeAudio)
+                        .onChange(of: appState.settings.normalizeAudio) {
+                            engine.changeAudioNormalization(appState.settings.normalizeAudio)
+                        }
+                    Toggle("Title Cards", isOn: $state.settings.showTitleCards)
+                }
+
+                Section("Appearance") {
+                    // Logo overlay
+                    HStack {
+                        Label("Logo", systemImage: "photo")
+                        Spacer()
+                        if appState.logoImage != nil {
+                            Button(role: .destructive, action: { appState.removeLogo() }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        Button(appState.logoImage != nil ? "Change..." : "Choose...") { pickLogo() }
+                            .buttonStyle(.glass)
+                            .controlSize(.small)
+                    }
+
+                    // Opening bumper
+                    HStack {
+                        Label("Intro", systemImage: "film")
+                        Spacer()
+                        if appState.openingBumperURL != nil {
+                            Button(role: .destructive, action: { appState.removeOpeningBumper() }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        Button(appState.openingBumperURL != nil ? "Change..." : "Choose...") { pickOpeningBumper() }
+                            .buttonStyle(.glass)
+                            .controlSize(.small)
+                    }
+                }
+
+                Section("Network") {
+                    Toggle("Share Library", isOn: Binding(
+                        get: { appState.isShareEnabled },
+                        set: { appState.setShareEnabled($0) }
+                    ))
+                    if appState.isShareEnabled, appState.libraryServer.isRunning {
+                        Text("Sharing on port \(appState.libraryServer.port)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .formStyle(.grouped)
+        }
+        .frame(width: 350, height: 500)
+    }
+
+    private func pickOpeningBumper() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.movie, .mpeg4Movie, .quickTimeMovie, .avi]
+        panel.message = "Select an opening bumper video"
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.setOpeningBumper(url: url)
+        }
+    }
+
+    private func pickLogo() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.png, .jpeg, .heic, .tiff]
+        panel.message = "Select a logo image (PNG recommended)"
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.setLogo(url: url)
+        }
+    }
+}
+
 // MARK: - Folder Picker Row
 
 struct FolderPickerRow: View {
     let label: String
     let icon: String
     let selectedURL: URL?
+    var unavailable: Bool = false
     let onSelect: (URL) -> Void
 
     var body: some View {
@@ -424,9 +529,16 @@ struct FolderPickerRow: View {
                     .controlSize(.small)
             }
             if let url = selectedURL {
-                Text(url.lastPathComponent)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 4) {
+                    Text(url.lastPathComponent)
+                        .font(.caption)
+                        .foregroundStyle(unavailable ? .red : .secondary)
+                    if unavailable {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.red)
+                    }
+                }
             }
         }
         .padding(.vertical, 2)

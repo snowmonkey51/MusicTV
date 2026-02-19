@@ -4,7 +4,7 @@ import CoreImage
 /// Each case builds one or more CIFilters to apply via AVVideoComposition.
 enum VideoFilter: String, CaseIterable, Identifiable {
     case none
-    case scanlines
+    case crt
     case blackAndWhite
     case vintage
 
@@ -13,7 +13,7 @@ enum VideoFilter: String, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .none:          return "None"
-        case .scanlines:     return "Scanlines"
+        case .crt:           return "CRT"
         case .blackAndWhite: return "Black & White"
         case .vintage:       return "Vintage"
         }
@@ -22,7 +22,7 @@ enum VideoFilter: String, CaseIterable, Identifiable {
     var systemImage: String {
         switch self {
         case .none:          return "tv"
-        case .scanlines:     return "line.3.horizontal"
+        case .crt:           return "tv.and.mediabox"
         case .blackAndWhite: return "circle.lefthalf.filled"
         case .vintage:       return "camera.filters"
         }
@@ -31,7 +31,7 @@ enum VideoFilter: String, CaseIterable, Identifiable {
     /// Whether this filter requires a custom time-based kernel (not a simple CIFilter chain).
     var usesCustomKernel: Bool {
         switch self {
-        case .scanlines: return true
+        case .crt: return true
         default: return false
         }
     }
@@ -43,7 +43,7 @@ enum VideoFilter: String, CaseIterable, Identifiable {
         case .none:
             return []
 
-        case .scanlines:
+        case .crt:
             // Handled by custom composition in PlaybackEngine
             return []
 

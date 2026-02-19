@@ -6,4 +6,5 @@ struct PlaybackSettings {
     var shuffleBumpers: Bool = false
     var repeatPlaylist: Bool = true
     var normalizeAudio: Bool = false
+    var showTitleCards: Bool = true
 }

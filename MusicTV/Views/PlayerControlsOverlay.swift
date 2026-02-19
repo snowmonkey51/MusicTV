@@ -1,4 +1,5 @@
 import AppKit
+import AVKit
 import SwiftUI
 
 // MARK: - Shared Controls Content
@@ -24,7 +25,7 @@ struct PlayerControlsContent: View {
             if let title = displayedTitle, !engine.playingOpeningBumper {
                 Group {
                     if let artist = displayedArtist {
-                        Text(artist) + Text(" — ") + Text(title)
+                        Text(artist) + Text(" - ") + Text(title)
                     } else {
                         Text(title)
                     }
@@ -110,6 +111,9 @@ struct PlayerControlsContent: View {
                         }
                         .buttonStyle(.plain)
                     }
+
+                    AirPlayRoutePickerButton()
+                        .frame(width: 24, height: 24)
 
                     HStack(spacing: 6) {
                         Image(systemName: volumeIcon)
@@ -264,4 +268,17 @@ struct PlayerControlsOverlay: View {
             }
         }
     }
+}
+
+// MARK: - AirPlay Route Picker
+
+/// Wraps AVRoutePickerView for use in SwiftUI.
+struct AirPlayRoutePickerButton: NSViewRepresentable {
+    func makeNSView(context: Context) -> AVRoutePickerView {
+        let picker = AVRoutePickerView()
+        picker.isRoutePickerButtonBordered = false
+        return picker
+    }
+
+    func updateNSView(_ nsView: AVRoutePickerView, context: Context) {}
 }
