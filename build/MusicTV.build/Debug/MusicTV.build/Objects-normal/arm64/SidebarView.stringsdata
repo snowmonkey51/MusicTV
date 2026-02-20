@@ -1,0 +1,376 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/SidebarView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Folders",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 73
+        }
+      },
+      {
+        "comment": "",
+        "key": "Network Libraries",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search videos...",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 23
+        }
+      },
+      {
+        "comment": "",
+        "key": "Filtered Playlist",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Show All",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reconnect",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "Disconnect",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 134
+        }
+      },
+      {
+        "comment": "",
+        "key": "Playlist",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "Genres",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "Video Filter",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "Playlist",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 182
+        }
+      },
+      {
+        "comment": "",
+        "key": "Favorites",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 180
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 208
+        }
+      },
+      {
+        "comment": "",
+        "key": "I want my MusicTV",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 220
+        }
+      },
+      {
+        "comment": "",
+        "key": "No videos loaded",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 249
+        }
+      },
+      {
+        "comment": "",
+        "key": "Playlist",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 237
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld videos",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 240
+        }
+      },
+      {
+        "comment": "",
+        "key": "No favorites yet",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 303
+        }
+      },
+      {
+        "comment": "",
+        "key": "Favorites",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 291
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld videos",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 294
+        }
+      },
+      {
+        "comment": "",
+        "key": "Play All",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 348
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 412
+        }
+      },
+      {
+        "comment": "",
+        "key": "Playback",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 421
+        }
+      },
+      {
+        "comment": "",
+        "key": "Appearance",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 437
+        }
+      },
+      {
+        "comment": "",
+        "key": "Network",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 471
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bumper every %lld videos",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 423
+        }
+      },
+      {
+        "comment": "",
+        "key": "Shuffle Music",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 427
+        }
+      },
+      {
+        "comment": "",
+        "key": "Shuffle Bumpers",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 428
+        }
+      },
+      {
+        "comment": "",
+        "key": "Repeat",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 429
+        }
+      },
+      {
+        "comment": "",
+        "key": "Normalize Audio",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 430
+        }
+      },
+      {
+        "comment": "",
+        "key": "Title Cards",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 434
+        }
+      },
+      {
+        "comment": "",
+        "key": "Logo",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 440
+        }
+      },
+      {
+        "comment": "",
+        "key": "Change...",
+        "location": {
+          "startingColumn": 60,
+          "startingLine": 449
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose...",
+        "location": {
+          "startingColumn": 74,
+          "startingLine": 449
+        }
+      },
+      {
+        "comment": "",
+        "key": "Intro",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 456
+        }
+      },
+      {
+        "comment": "",
+        "key": "Change...",
+        "location": {
+          "startingColumn": 67,
+          "startingLine": 465
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose...",
+        "location": {
+          "startingColumn": 81,
+          "startingLine": 465
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sharing on port %u",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 477
+        }
+      },
+      {
+        "comment": "",
+        "key": "Share Library",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 472
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose...",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 527
+        }
+      },
+      {
+        "comment": "",
+        "key": "No matching videos",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 625
+        }
+      },
+      {
+        "comment": "",
+        "key": "Results",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 613
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld found",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 616
+        }
+      },
+      {
+        "comment": "",
+        "key": "Play All",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 657
+        }
+      }
+    ]
+  },
+  "version": 1
+}

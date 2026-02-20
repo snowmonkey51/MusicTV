@@ -1,0 +1,32 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVBrowseView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Browse",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 53
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connect to a MusicTV library from the Libraries tab to browse videos.",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "No Library Connected",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 12
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,40 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Now Playing",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 9
+        }
+      },
+      {
+        "comment": "",
+        "key": "Libraries",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 13
+        }
+      },
+      {
+        "comment": "",
+        "key": "Browse",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 17
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 21
+        }
+      }
+    ]
+  },
+  "version": 1
+}

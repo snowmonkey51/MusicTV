@@ -15,6 +15,7 @@ final class PlaybackEngine {
     private var timeObserver: Any?
     private var endObserver: NSObjectProtocol?
     private var statusObservation: NSKeyValueObservation?
+    private var rateObservation: NSKeyValueObservation?
     private weak var appState: AppState?
     private let ciContext = CIContext()
     private(set) var playingOpeningBumper: Bool = false
@@ -26,6 +27,16 @@ final class PlaybackEngine {
         // prevents AVPlayer from pausing playback due to false buffer warnings.
         player.automaticallyWaitsToMinimizeStalling = false
         setupTimeObserver()
+
+        #if os(tvOS)
+        // On tvOS, AVPlayerViewController owns play/pause via the Siri Remote.
+        // Observe the player's rate so appState.isPlaying stays in sync.
+        rateObservation = player.observe(\.rate, options: [.new]) { [weak self] player, _ in
+            DispatchQueue.main.async {
+                self?.appState?.isPlaying = player.rate > 0
+            }
+        }
+        #endif
     }
 
     /// Set up the periodic time observer once — it reads from player.currentItem
@@ -94,6 +105,7 @@ final class PlaybackEngine {
     /// Starts playback, playing the opening bumper first if one is set.
     func startPlayback() {
         guard let appState else { return }
+        #if os(macOS)
         if let bumperURL = appState.openingBumperURL {
             playingOpeningBumper = true
             let bumperItem = VideoItem(url: bumperURL, isBumper: true)
@@ -104,6 +116,12 @@ final class PlaybackEngine {
                 playItem(item)
             }
         }
+        #else
+        playingOpeningBumper = false
+        if let item = appState.currentItem {
+            playItem(item)
+        }
+        #endif
     }
 
     func advanceToNext() {
@@ -368,6 +386,8 @@ final class PlaybackEngine {
         }
         statusObservation?.invalidate()
         statusObservation = nil
+        rateObservation?.invalidate()
+        rateObservation = nil
         appState?.isPlaying = false
     }
 }

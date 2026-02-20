@@ -1,0 +1,48 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/NowPlayingView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Choose a music videos folder from the sidebar to get started.",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "No Videos Loaded",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 12
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready to Play",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld videos queued",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "Play",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 42
+        }
+      }
+    ]
+  },
+  "version": 1
+}

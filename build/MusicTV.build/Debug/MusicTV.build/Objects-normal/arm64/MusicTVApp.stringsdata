@@ -1,0 +1,16 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/MusicTVApp.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Refresh Library",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 29
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,32 @@
+{
+  "source": "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVLibraryPickerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Network Libraries",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "Looking for MusicTV libraries on your network.\nMake sure a Mac with MusicTV is sharing its library.",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 13
+        }
+      },
+      {
+        "comment": "",
+        "key": "Searching for Libraries",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 11
+        }
+      }
+    ]
+  },
+  "version": 1
+}

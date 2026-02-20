@@ -8,11 +8,46 @@
 
 /* Begin PBXFileReference section */
 		7D10FE532F42472800F2DAC9 /* MusicTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA10FE532F42472800F2DAC9 /* MusicTV-TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MusicTV-TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA20FE012F42472800F2DAC9 /* Exceptions for "MusicTV" folder in "MusicTV" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Info-tvOS.plist",
+				"MusicTVApp-tvOS.swift",
+				Views/tvOS/TVContentView.swift,
+				Views/tvOS/TVOverlayView.swift,
+				Views/tvOS/TVTitleCardView.swift,
+				Views/tvOS/TVTrackInfoView.swift,
+				Views/tvOS/TVVideoPlayerView.swift,
+			);
+			target = 7D10FE522F42472800F2DAC9 /* MusicTV */;
+		};
+		AA20FE022F42472800F2DAC9 /* Exceptions for "MusicTV" folder in "MusicTV-TV" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				Info.plist,
+				MusicTVApp.swift,
+				Networking/LibraryServer.swift,
+				Views/NowPlayingView.swift,
+				Views/PlayerControlsOverlay.swift,
+				Views/SidebarView.swift,
+				Views/VideoPlayerView.swift,
+			);
+			target = AA10FE522F42472800F2DAC9 /* MusicTV-TV */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7D10FE552F42472800F2DAC9 /* MusicTV */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA20FE012F42472800F2DAC9 /* Exceptions for "MusicTV" folder in "MusicTV" target */,
+				AA20FE022F42472800F2DAC9 /* Exceptions for "MusicTV" folder in "MusicTV-TV" target */,
+			);
 			path = MusicTV;
 			sourceTree = "<group>";
 		};
@@ -20,6 +55,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		7D10FE502F42472800F2DAC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA10FE502F42472800F2DAC9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				7D10FE532F42472800F2DAC9 /* MusicTV.app */,
+				AA10FE532F42472800F2DAC9 /* MusicTV-TV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +113,28 @@
 			productReference = 7D10FE532F42472800F2DAC9 /* MusicTV.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AA10FE522F42472800F2DAC9 /* MusicTV-TV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA10FE5E2F42472900F2DAC9 /* Build configuration list for PBXNativeTarget "MusicTV-TV" */;
+			buildPhases = (
+				AA10FE4F2F42472800F2DAC9 /* Sources */,
+				AA10FE502F42472800F2DAC9 /* Frameworks */,
+				AA10FE512F42472800F2DAC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7D10FE552F42472800F2DAC9 /* MusicTV */,
+			);
+			name = "MusicTV-TV";
+			packageProductDependencies = (
+			);
+			productName = "MusicTV-TV";
+			productReference = AA10FE532F42472800F2DAC9 /* MusicTV-TV.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -81,6 +146,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					7D10FE522F42472800F2DAC9 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					AA10FE522F42472800F2DAC9 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -100,6 +168,7 @@
 			projectRoot = "";
 			targets = (
 				7D10FE522F42472800F2DAC9 /* MusicTV */,
+				AA10FE522F42472800F2DAC9 /* MusicTV-TV */,
 			);
 		};
 /* End PBXProject section */
@@ -112,10 +181,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA10FE512F42472800F2DAC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7D10FE4F2F42472800F2DAC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA10FE4F2F42472800F2DAC9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,6 +402,82 @@
 			};
 			name = Release;
 		};
+		AA10FE5F2F42472900F2DAC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = IconAndShelf;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "MusicTV/MusicTV-tvOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H499C6AJQQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MusicTV/Info-tvOS.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MusicTV;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "MusicTV uses the local network to discover and stream video libraries shared by other MusicTV instances.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Bevsoft.MusicTV.TV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		AA10FE602F42472900F2DAC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = IconAndShelf;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "MusicTV/MusicTV-tvOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H499C6AJQQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MusicTV/Info-tvOS.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MusicTV;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "MusicTV uses the local network to discover and stream video libraries shared by other MusicTV instances.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Bevsoft.MusicTV.TV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -336,6 +495,15 @@
 			buildConfigurations = (
 				7D10FE5F2F42472900F2DAC9 /* Debug */,
 				7D10FE602F42472900F2DAC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA10FE5E2F42472900F2DAC9 /* Build configuration list for PBXNativeTarget "MusicTV-TV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA10FE5F2F42472900F2DAC9 /* Debug */,
+				AA10FE602F42472900F2DAC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -106,11 +106,20 @@ final class LibraryBrowser {
     func fetchLibrary(from library: DiscoveredLibrary) async throws -> (musicVideos: [VideoItem], bumperVideos: [VideoItem]) {
         print("[LibraryBrowser] Starting fetchLibrary for '\(library.name)'")
 
-        // Perform the HTTP request over a direct NWConnection to the Bonjour endpoint
-        let (data, resolvedHost, resolvedPort) = try await httpGetViaNWConnection(
-            endpoint: library.endpoint,
-            path: "/library.json"
-        )
+        // Try once, and if it times out, retry once (handles first-launch permission delays)
+        let (data, resolvedHost, resolvedPort): (Data, String, UInt16)
+        do {
+            (data, resolvedHost, resolvedPort) = try await httpGetViaNWConnection(
+                endpoint: library.endpoint,
+                path: "/library.json"
+            )
+        } catch LibraryBrowserError.timeout {
+            print("[LibraryBrowser] First attempt timed out, retrying once...")
+            (data, resolvedHost, resolvedPort) = try await httpGetViaNWConnection(
+                endpoint: library.endpoint,
+                path: "/library.json"
+            )
+        }
 
         print("[LibraryBrowser] Received \(data.count) bytes from \(resolvedHost):\(resolvedPort)")
 
@@ -228,10 +237,10 @@ final class LibraryBrowser {
                     })
 
                 case .waiting(let error):
-                    print("[LibraryBrowser] Connection waiting: \(error) — local network may be denied")
-                    guard guard_.claim() else { return }
-                    connection.cancel()
-                    continuation.resume(throwing: LibraryBrowserError.localNetworkDenied)
+                    // Don't immediately cancel — the system may be prompting
+                    // the user for local network permission. The 20-second
+                    // timeout will catch genuinely stuck connections.
+                    print("[LibraryBrowser] Connection waiting: \(error) — awaiting network permission")
 
                 case .failed(let error):
                     print("[LibraryBrowser] Connection failed: \(error)")

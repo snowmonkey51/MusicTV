@@ -1,0 +1,699 @@
+[
+  {
+    "isFramework" : true,
+    "moduleName" : "AVFAudio",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/AVFAudio.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "AVFoundation",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/AVFoundation.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "AVKit",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/AVKit.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Accessibility",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Accessibility.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "AudioToolbox",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/AudioToolbox.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Combine",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Combine.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "CoreAudio",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreAudio.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CoreData",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreData.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "CoreFoundation",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreFoundation.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CoreGraphics",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreGraphics.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "CoreImage",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreImage.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "CoreMedia",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreMedia.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CoreText",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreText.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CoreTransferable",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreTransferable.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CoreVideo",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/CoreVideo.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Darwin",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Darwin.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "DataDetection",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/DataDetection.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "DeveloperToolsSupport",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/DeveloperToolsSupport.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Dispatch",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Dispatch.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Distributed",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Distributed.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Foundation",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Foundation.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Metal",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Metal.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Network",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Network.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "OSLog",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/OSLog.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "ObjectiveC",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/ObjectiveC.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Observation",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Observation.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "QuartzCore",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/QuartzCore.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Spatial",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Spatial.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Swift",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Swift.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "SwiftOnoneSupport",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/SwiftOnoneSupport.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "SwiftUI",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/SwiftUI.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "SwiftUICore",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/SwiftUICore.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Symbols",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Symbols.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Synchronization",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/Synchronization.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "System",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/System.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "TipKit",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/TipKit.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "UIKit",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/UIKit.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "UniformTypeIdentifiers",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/UniformTypeIdentifiers.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "_AVKit_SwiftUI",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_AVKit_SwiftUI.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_Builtin_float",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_Builtin_float.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_Concurrency",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_Concurrency.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation1",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_DarwinFoundation1.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation2",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_DarwinFoundation2.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation3",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_DarwinFoundation3.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_StringProcessing",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/_StringProcessing.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "os",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/os.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "simd",
+    "modulePath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/swift\/appletvsimulator\/prebuilt-modules\/26.2\/simd.swiftmodule\/x86_64-apple-tvos-simulator.swiftmodule"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/AVFAudio.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/AVFAudio-2SHH2QMRPX3YCP3FQU2MNFOVS.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "AVFAudio"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/AVFoundation.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/AVFoundation-PY8392WGKN2G65Q9GWKGQYV4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "AVFoundation"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/AVKit.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/AVKit-63YGVIDZRP3PRENSB681BVPJP.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "AVKit"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/AVRouting.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/AVRouting-55AMTYYU824JE0OPI8UQYC8T4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "AVRouting"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Accessibility.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Accessibility-69IU6T5GIGTQ44QPZTJ0T2C5A.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Accessibility"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/AudioToolbox.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/AudioToolbox-2SR0KER7JI68ND92SG6VIJ854.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "AudioToolbox"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CFNetwork.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CFNetwork-DGFMMQ26ZLKFRGIBFZEK4SONI.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CFNetwork"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreAudio.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreAudio-8RA4OYA3GX2H36L9T2X9IPOG4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreAudio"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreAudioTypes.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreAudioTypes-1U1VOX9S1KXF02H1MAW27JZM2.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreAudioTypes"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreData.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreData-C4SMSV8IEIZJCR5P2OHFCQ8RH.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreData"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreFoundation.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreFoundation-DQSQSGGZPC12I2V9W022Z9WML.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreFoundation"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreGraphics.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreGraphics-64NAV9O1QZF3J5P94TAHVDCFR.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreGraphics"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreImage.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreImage-3FJ418GND5LFH45HB2U3RQW0D.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreImage"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreMIDI.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreMIDI-3BN6S2ARCJYWL9IWIAMPUQN0B.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreMIDI"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreMedia.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreMedia-3A96D4TQ3JRST8GM31EG5AFS0.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreMedia"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreText.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreText-6PLIQ0W82SLNJGL63LH8M9R8D.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreText"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreTransferable.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreTransferable-BWKD4D7DD8PRSKGUYHI9I7YAS.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreTransferable"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/CoreVideo.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/CoreVideo-68L45BRR5XLVJWNTZ3G8P777Z.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreVideo"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/Darwin.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Darwin-BO4WJ1OU22JPNJ7Z62SPB26M9.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Darwin"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/DataDetection.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/DataDetection-29FHSLYN9AFQV6C7ZDOX8GE4W.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "DataDetection"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/DeveloperToolsSupport.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/DeveloperToolsSupport-A41XXMJ76QLTG42QHDI7MRFFB.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "DeveloperToolsSupport"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/dispatch.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Dispatch-DHCI8FN0X3OR6BH6TMSFN905E.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Dispatch"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Foundation.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Foundation-RXZW6V2AYY9QN4A5Z3NSQJBD.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Foundation"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/IOSurface.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/IOSurface-3R286EWD1U3QAFIN1ZTNPG35H.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "IOSurface"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/ImageIO.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/ImageIO-EZG488O22UI5PD5R4Q1I14765.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ImageIO"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinBasic.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/MachO-6G0PCG2IUCPADV13X9160YZ8C.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "MachO"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/MediaToolbox.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/MediaToolbox-3VDXCSWNT5X29HNZXFB3UJ2D1.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "MediaToolbox"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Metal.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Metal-7JGLL9WRWEZEJODP1JM8JERG5.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Metal"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Network.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Network-610E8B3ZBQ74JXZESK05R5787.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Network"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/OSLog.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/OSLog-323NS2942ECZ0Y1ELITGTY0YR.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "OSLog"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/ObjectiveC.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/ObjectiveC-EC1TXUX4VND2JSMTV9PVI6CX2.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ObjectiveC"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/OpenGLES.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/OpenGLES-7BFV4LT0FBPMQOVN0ODQF1QOI.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "OpenGLES"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/QuartzCore.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/QuartzCore-9J279NKY3EH2U53IQMJ2A5JCA.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "QuartzCore"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Security.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Security-BZG5D64CQO3MFQZV4LCLWU36L.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Security"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/Spatial\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Spatial-3HEEELOJW258IOY8TXQF6WL5C.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Spatial"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/SwiftShims-CWUJIACB4M7PUUN76D27SEIET.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "SwiftShims"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/SwiftUI.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/SwiftUI-8FINKJFZY1EU1CMSM1IDN2IBW.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "SwiftUI"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/SwiftUICore.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/SwiftUICore-DAPGSSREOUQ5KDLLD01D19BOD.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "SwiftUICore"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/Symbols.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/Symbols-CSGM6F46FXL1HJ3EFOY3RRYYG.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Symbols"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/UIKit.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/UIKit-9RSP20U5EUZZRC9L6QEYMN4O4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "UIKit"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/SubFrameworks\/UIUtilities.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/UIUtilities-99FU4VDXUIJEOHJZMKACMQTZ4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "UIUtilities"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/UniformTypeIdentifiers.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/UniformTypeIdentifiers-690HU2INGQ968I57JWSYYOIG4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "UniformTypeIdentifiers"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/System\/Library\/Frameworks\/UserNotifications.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/UserNotifications-9AJGASMJ804HITP2RM7113PCY.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "UserNotifications"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinFoundation1.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_AvailabilityInternal-1HLC8OIS7UX7XFRBCCCUUSYL8.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_AvailabilityInternal"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_float-8Z0QXUM41NEH8FWWHO7QYQA7R.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_float"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_intrinsics-2SDE8RFUXBY9WUUCWSI3986TO.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_intrinsics"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_inttypes-DG80MIZIMMMNQKFSNFZYIYUEF.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_inttypes"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_limits-633DH47K9ZXLVL97AIURUEA3U.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_limits"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdarg-92W30RQ11FDFJ2L316HEIOAE4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdarg"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdatomic-1F3NMOCX60FH85J84QP8AYR3Y.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdatomic"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdbool-CW8AELBWBV3DUCGEI3PY9HXZ6.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdbool"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stddef-EDMRVBTKSC4K7GVR66ZEO0DUR.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stddef"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdint-3KVQMONODDD20VP7YMAQJ9HFU.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdint"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_Builtin_tgmath-CGYCDX5VSQ30OU24GCPX6FIPH.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_tgmath"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinFoundation1.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation1-849Q3GID41Z9UCKJPHGMD9PNO.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation1"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinFoundation2.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation2-963YHLIY5ABPFBQLFA5PV175T.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation2"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinFoundation3.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation3-99G0JCT6UY0LLI8J7YYS18CFY.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation3"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/_SwiftConcurrencyShims-ADPWZ9I66FVWDLMQLWE4FGNV9.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_SwiftConcurrencyShims"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/dnssd.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/dnssd-67LSVKIWUVBAV4KM8C2XF8H5U.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "dnssd"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/os-7CJ1ADKFPZBV0RIOFJIH4XL6L.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/os_object-EMUIZESDCMKKJBZUGFHDNYGP1.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os_object"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/os_workgroup-BVAGFY93UKR2928W741LPZ88D.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os_workgroup"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/ptrauth-E6APO6CF91YZY0VRAUNJBDAKP.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ptrauth"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/17\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/ptrcheck-6JE0VD25QPGEU4SDJTT7H5HGA.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ptrcheck"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/simd\/module.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/simd-5722X6N86UJ11LB59P7FENELJ.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "simd"
+  },
+  {
+    "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/AppleTVSimulator.platform\/Developer\/SDKs\/AppleTVSimulator.sdk\/usr\/include\/DarwinFoundation2.modulemap",
+    "clangModulePath" : "\/Users\/aaronbevill\/Documents\/Swift\/MusicTV\/MusicTV\/build\/SwiftExplicitPrecompiledModules\/sys_types-2Z7EBRL3EO5FJHF9ZRO9YOC9O.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "sys_types"
+  }
+]

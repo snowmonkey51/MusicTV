@@ -1,10 +1,13 @@
+#if canImport(AppKit)
 import AppKit
+#endif
 import Foundation
 import Observation
 
 @Observable
 final class AppState {
-    // MARK: - Folder Selections
+    // MARK: - Folder Selections (macOS only)
+    #if os(macOS)
     var musicFolderURL: URL?
     var bumperFolderURL: URL?
     var musicFolderUnavailable: Bool = false
@@ -22,6 +25,7 @@ final class AppState {
     private var activeMusicAccess: URL?
     private var activeBumperAccess: URL?
     private var activeLogoAccess: URL?
+    #endif
 
     // MARK: - Scanned Video Lists
     var musicVideos: [VideoItem] = []
@@ -31,7 +35,9 @@ final class AppState {
     var isShareEnabled: Bool = false
     var connectedNetworkLibrary: DiscoveredLibrary? = nil
     var isLoadingNetworkLibrary: Bool = false
+    #if os(macOS)
     let libraryServer = LibraryServer()
+    #endif
     let libraryBrowser = LibraryBrowser()
 
     // MARK: - Settings
@@ -82,13 +88,22 @@ final class AppState {
     var favoritePaths: Set<String> = []
 
     func isFavorite(_ item: VideoItem) -> Bool {
+        #if os(macOS)
         guard let root = musicFolderURL else { return false }
         return favoritePaths.contains(relativePath(for: item, root: root))
+        #else
+        // On tvOS, use the URL string as the key since there's no local root folder
+        return favoritePaths.contains(item.url.absoluteString)
+        #endif
     }
 
     func toggleFavorite(_ item: VideoItem) {
+        #if os(macOS)
         guard let root = musicFolderURL else { return }
         let path = relativePath(for: item, root: root)
+        #else
+        let path = item.url.absoluteString
+        #endif
         if favoritePaths.contains(path) {
             favoritePaths.remove(path)
         } else {
@@ -103,10 +118,15 @@ final class AppState {
     }
 
     var favoriteVideos: [VideoItem] {
+        #if os(macOS)
         guard let root = musicFolderURL else { return [] }
         return musicVideos.filter { favoritePaths.contains(relativePath(for: $0, root: root)) }
+        #else
+        return musicVideos.filter { favoritePaths.contains($0.url.absoluteString) }
+        #endif
     }
 
+    #if os(macOS)
     private func relativePath(for item: VideoItem, root: URL) -> String {
         let rootPath = root.standardizedFileURL.path
         let filePath = item.url.standardizedFileURL.path
@@ -115,6 +135,7 @@ final class AppState {
         }
         return filePath
     }
+    #endif
 
     // MARK: - Playback Tracking
     var currentIndex: Int = 0
@@ -135,19 +156,21 @@ final class AppState {
 
     // MARK: - UserDefaults Keys
     private enum Keys {
+        #if os(macOS)
         static let musicBookmark = "musicFolderBookmark"
         static let bumperBookmark = "bumperFolderBookmark"
+        static let logoBookmark = "logoImageBookmark"
+        static let openingBumperBookmark = "openingBumperBookmark"
+        static let shareLibrary = "shareLibrary"
+        #endif
         static let bumperInterval = "bumperInterval"
         static let shuffleMusic = "shuffleMusic"
         static let shuffleBumpers = "shuffleBumpers"
         static let repeatPlaylist = "repeatPlaylist"
-        static let logoBookmark = "logoImageBookmark"
-        static let openingBumperBookmark = "openingBumperBookmark"
         static let videoFilter = "videoFilter"
         static let normalizeAudio = "normalizeAudio"
         static let showTitleCards = "showTitleCards"
         static let selectedGenre = "selectedGenre"
-        static let shareLibrary = "shareLibrary"
     }
 
     // MARK: - Init
@@ -155,25 +178,31 @@ final class AppState {
         loadSettings()
         loadFilter()
         loadFavorites()
+        #if os(macOS)
         restoreFolders()
         restoreLogo()
         restoreOpeningBumper()
+        #endif
         restoreSelectedGenre()
+        #if os(macOS)
         restoreShareSetting()
+        #endif
         libraryBrowser.startBrowsing()
     }
 
+    #if os(macOS)
     func toggleFullScreen() {
         NSApp.keyWindow?.toggleFullScreen(nil)
     }
+    #endif
 
     // MARK: - Supported Formats
     private static let supportedExtensions: Set<String> = [
         "mp4", "mov", "m4v", "avi", "mkv", "ts", "webm"
     ]
 
-    // MARK: - Folder Scanning
-
+    // MARK: - Folder Scanning (macOS only)
+    #if os(macOS)
     /// Re-scans both music and bumper folders to pick up new/removed files.
     func refreshLibrary() {
         if let url = musicFolderURL {
@@ -237,6 +266,7 @@ final class AppState {
         }
         buildPlaylist()
     }
+    #endif
 
     // MARK: - Playlist Building
     func buildPlaylist() {
@@ -272,8 +302,6 @@ final class AppState {
             }
         }
         // Preserve the currently playing video across rebuilds.
-        // Compute the new index BEFORE assigning the playlist so SwiftUI
-        // never sees an intermediate state with the wrong video.
         let currentURL = currentItem?.url
         if let url = currentURL,
            let newIndex = result.firstIndex(where: { $0.url == url }) {
@@ -312,8 +340,8 @@ final class AppState {
         buildPlaylist()
     }
 
-    // MARK: - Bookmark Persistence
-
+    // MARK: - Bookmark Persistence (macOS only)
+    #if os(macOS)
     private func saveBookmark(for url: URL, key: String) {
         do {
             let bookmark = try url.bookmarkData(
@@ -364,9 +392,10 @@ final class AppState {
             scanFolder(url: url, isBumper: true)
         }
     }
+    #endif
 
-    // MARK: - Logo Management
-
+    // MARK: - Logo Management (macOS only)
+    #if os(macOS)
     func setLogo(url: URL) {
         activeLogoAccess?.stopAccessingSecurityScopedResource()
         activeLogoAccess = nil
@@ -431,9 +460,10 @@ final class AppState {
               let pngData = bitmap.representation(using: .png, properties: [:]) else { return }
         try? pngData.write(to: logoCacheURL, options: .atomic)
     }
+    #endif
 
-    // MARK: - Opening Bumper Management
-
+    // MARK: - Opening Bumper Management (macOS only)
+    #if os(macOS)
     /// Cache URL inside App Support — always readable without security scope.
     private var bumperCacheURL: URL {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
@@ -484,9 +514,11 @@ final class AppState {
             openingBumperURL = cached
         }
     }
+    #endif
 
     // MARK: - Library Sharing
 
+    #if os(macOS)
     func setShareEnabled(_ enabled: Bool) {
         isShareEnabled = enabled
         if enabled {
@@ -504,6 +536,7 @@ final class AppState {
             setShareEnabled(true)
         }
     }
+    #endif
 
     func connectToNetworkLibrary(_ library: DiscoveredLibrary) {
         guard connectedNetworkLibrary?.id != library.id else { return }
@@ -531,7 +564,15 @@ final class AppState {
 
     func disconnectFromNetworkLibrary() {
         connectedNetworkLibrary = nil
+        #if os(macOS)
         rescanFolders()
+        #else
+        musicVideos = []
+        bumperVideos = []
+        hasStarted = false
+        isPlaying = false
+        buildPlaylist()
+        #endif
     }
 
     // MARK: - Settings Persistence

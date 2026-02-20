@@ -1,0 +1,179 @@
+{
+  "" : {
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTV-TV-primary.dia",
+    "emit-module-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTV-TV-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTV-TV-primary-emit-module.dia",
+    "pch" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTV-TV-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTV-TV-primary.swiftdeps"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Models/PlaybackSettings.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackSettings~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Models/VideoFilter.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoFilter~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Models/VideoItem.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/VideoItem~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/MusicTVApp-tvOS.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/MusicTVApp-tvOS~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Networking/LibraryBrowser.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/LibraryBrowser~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Shaders/CRTKernel.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/CRTKernel~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/State/AppState.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/AppState~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/State/PlaybackEngine.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/PlaybackEngine~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/TitleCardOverlay.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TitleCardOverlay~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVBrowseView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVBrowseView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVContentView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVContentView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVFullScreenPlayerView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVFullScreenPlayerView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVLibraryPickerView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVLibraryPickerView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVNowPlayingView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVNowPlayingView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVSettingsView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVSettingsView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/MusicTV/Views/tvOS/TVVideoPlayerView.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/TVVideoPlayerView~partial.swiftmodule"
+  },
+  "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/aaronbevill/Documents/Swift/MusicTV/MusicTV/build/MusicTV.build/Debug-appletvsimulator/MusicTV-TV.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}
