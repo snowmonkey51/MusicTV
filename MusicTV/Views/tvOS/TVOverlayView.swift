@@ -255,10 +255,6 @@ private struct OverlaySettingsTab: View {
                         engine.changeAudioNormalization(newValue)
                     }
                 ))
-                Toggle("Title Cards", isOn: Binding(
-                    get: { appState.settings.showTitleCards },
-                    set: { appState.settings.showTitleCards = $0 }
-                ))
             }
 
             Section("Bumper Interval") {

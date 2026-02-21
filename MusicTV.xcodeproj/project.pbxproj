@@ -36,6 +36,7 @@
 				Views/PlayerControlsOverlay.swift,
 				Views/SidebarView.swift,
 				Views/VideoPlayerView.swift,
+				Views/tvOS/TVTitleCardView.swift,
 			);
 			target = AA10FE522F42472800F2DAC9 /* MusicTV-TV */;
 		};

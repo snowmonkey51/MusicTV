@@ -39,7 +39,6 @@ class FocusResettingHostingController<Content: View>: UIHostingController<Conten
 ///
 ///   - `customOverlayViewController` → tabbed overlay (swipe up)
 ///   - `transportBarCustomMenuItems` → Skip/Previous/Favorite buttons
-///   - `contentOverlayView` → title cards (non-interactive)
 ///   - `customInfoViewControllers` → track info (swipe down)
 ///
 /// All Siri Remote gestures are handled natively by AVPlayerViewController.
@@ -73,14 +72,14 @@ struct TVVideoPlayerView: UIViewControllerRepresentable {
         vc.customOverlayViewController = overlayHosting
         context.coordinator.overlayHosting = overlayHosting
 
-        // --- Title Card (contentOverlayView) ---
-        installTitleCard(on: vc, context: context)
-
         // --- Transport Bar Custom Items ---
         installTransportBarItems(on: vc, context: context)
 
         // --- Track Info (swipe down) ---
         installTrackInfo(on: vc, context: context)
+
+        // --- Start observing track changes to update metadata ---
+        context.coordinator.startObservingTitle()
 
         return vc
     }
@@ -100,33 +99,8 @@ struct TVVideoPlayerView: UIViewControllerRepresentable {
         //
         // All SwiftUI views inside hosting controllers observe AppState and
         // PlaybackEngine directly via @Observable. Transport bar actions read
-        // current state at tap time through the coordinator. Nothing here needs
-        // manual updates.
-    }
-
-    // MARK: - Title Card (contentOverlayView)
-
-    private func installTitleCard(on vc: AVPlayerViewController, context: Context) {
-        guard let overlayView = vc.contentOverlayView else { return }
-
-        let titleCardView = TVTitleCardView(appState: appState, engine: engine)
-        let hosting = UIHostingController(rootView: titleCardView)
-        hosting.view.backgroundColor = .clear
-        hosting.view.isUserInteractionEnabled = false
-        hosting.view.translatesAutoresizingMaskIntoConstraints = false
-
-        overlayView.addSubview(hosting.view)
-        NSLayoutConstraint.activate([
-            hosting.view.leadingAnchor.constraint(equalTo: overlayView.leadingAnchor),
-            hosting.view.trailingAnchor.constraint(equalTo: overlayView.trailingAnchor),
-            hosting.view.topAnchor.constraint(equalTo: overlayView.topAnchor),
-            hosting.view.bottomAnchor.constraint(equalTo: overlayView.bottomAnchor),
-        ])
-
-        vc.addChild(hosting)
-        hosting.didMove(toParent: vc)
-
-        context.coordinator.titleCardHosting = hosting
+        // current state at tap time through the coordinator. Track title metadata
+        // is updated via withObservationTracking in the coordinator.
     }
 
     // MARK: - Transport Bar Custom Menu Items
@@ -177,13 +151,79 @@ struct TVVideoPlayerView: UIViewControllerRepresentable {
     class Coordinator {
         var playerVC: AVPlayerViewController?
         var overlayHosting: FocusResettingHostingController<TVOverlayView>?
-        var titleCardHosting: UIHostingController<TVTitleCardView>?
         let appState: AppState
         let engine: PlaybackEngine
 
         init(appState: AppState, engine: PlaybackEngine) {
             self.appState = appState
             self.engine = engine
+        }
+
+        /// Observes appState.currentItem and sets externalMetadata on the
+        /// current AVPlayerItem so AVKit shows the title natively in the
+        /// transport bar (appears/disappears with the progress bar).
+        func startObservingTitle() {
+            updateMetadata()
+        }
+
+        private func updateMetadata() {
+            withObservationTracking {
+                let item = self.appState.currentItem
+                let bumper = self.engine.playingOpeningBumper
+
+                guard let playerItem = self.playerVC?.player?.currentItem else { return }
+
+                if let item, !item.isBumper, !bumper {
+                    let parsed = TitleCleaner.parse(item.fileName)
+
+                    // Strip any remaining year in parens/brackets from both parts
+                    let yearPattern = #"\s*[\(\[]\d{4}[\)\]]\s*"#
+                    let cleanedTitle = parsed.title.replacingOccurrences(
+                        of: yearPattern, with: " ", options: .regularExpression
+                    ).trimmingCharacters(in: .whitespaces)
+                    let cleanedArtist = parsed.artist?.replacingOccurrences(
+                        of: yearPattern, with: " ", options: .regularExpression
+                    ).trimmingCharacters(in: .whitespaces)
+
+                    // Combine artist and title into one string for the title view.
+                    // AVKit only displays .commonIdentifierTitle in the transport
+                    // bar area; the artist identifier is used elsewhere (e.g. Info tab).
+                    let displayTitle: String
+                    if let artist = cleanedArtist, !artist.isEmpty {
+                        displayTitle = "\(artist) - \(cleanedTitle)"
+                    } else {
+                        displayTitle = cleanedTitle
+                    }
+
+                    // extendedLanguageTag = "und" is required per WWDC16 Session 506
+                    // or AVKit will not display the metadata.
+                    let titleMeta = AVMutableMetadataItem()
+                    titleMeta.identifier = .commonIdentifierTitle
+                    titleMeta.value = displayTitle as NSString
+                    titleMeta.extendedLanguageTag = "und"
+
+                    // Override any embedded creation date so AVKit doesn't
+                    // show the year above the title in the transport bar.
+                    let dateMeta = AVMutableMetadataItem()
+                    dateMeta.identifier = .commonIdentifierCreationDate
+                    dateMeta.value = "" as NSString
+                    dateMeta.extendedLanguageTag = "und"
+
+                    playerItem.externalMetadata = [titleMeta, dateMeta]
+                } else {
+                    // Still override creation date on bumpers so the year
+                    // from the file's embedded metadata doesn't appear.
+                    let dateMeta = AVMutableMetadataItem()
+                    dateMeta.identifier = .commonIdentifierCreationDate
+                    dateMeta.value = "" as NSString
+                    dateMeta.extendedLanguageTag = "und"
+                    playerItem.externalMetadata = [dateMeta]
+                }
+            } onChange: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.updateMetadata()
+                }
+            }
         }
     }
 }
