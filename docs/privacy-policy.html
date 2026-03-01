@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MusicTV – Privacy Policy</title>
+  <style>
+    :root {
+      --bg:       #0f0f0f;
+      --surface:  #1a1a1a;
+      --border:   #2a2a2a;
+      --text:     #e8e8e8;
+      --muted:    #888;
+      --accent:   #d64f8e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 40px 20px 80px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .wordmark {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .wordmark span { color: var(--accent); }
+
+    header p {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin: 16px auto 0;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 36px 0 10px;
+      color: #fff;
+    }
+
+    p { margin-bottom: 12px; }
+
+    ul {
+      margin: 8px 0 12px 20px;
+    }
+
+    ul li { margin-bottom: 6px; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .card p { margin-bottom: 0; }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 56px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <div class="wordmark">Music<span>TV</span></div>
+      <p>Privacy Policy</p>
+      <div class="badge">No data collected</div>
+    </header>
+
+    <div class="card">
+      <div class="card-title">The short version</div>
+      <p>
+        MusicTV does not collect, store, or transmit any personal data.
+        Everything stays on your devices and your local network.
+        We have no servers, no accounts, and no analytics.
+      </p>
+    </div>
+
+    <h2>What MusicTV does</h2>
+    <p>
+      MusicTV is a local music video player. It reads video files from a folder
+      you choose, builds a playback queue, and plays them back on your Apple TV,
+      iPad, or Mac. It can also discover other MusicTV instances on your local
+      Wi-Fi network so you can stream your library to other devices in your home.
+    </p>
+
+    <h2>Data we collect</h2>
+    <p>
+      <strong>None.</strong> MusicTV collects no personal information of any kind.
+      There are no user accounts, no sign-ins, no analytics SDKs, and no
+      third-party tracking libraries included in the app.
+    </p>
+
+    <h2>Local network access</h2>
+    <p>
+      MusicTV uses your local Wi-Fi network to discover and connect to other
+      MusicTV instances running on the same network (for example, a Mac sharing
+      its library to an Apple TV). This communication happens entirely within
+      your home network using Bonjour — a standard Apple technology for local
+      device discovery. No data leaves your network.
+    </p>
+
+    <h2>Microphone access (Apple TV only)</h2>
+    <p>
+      On Apple TV, MusicTV asks for microphone access to enable voice search.
+      When you press the microphone button on the Siri Remote, your speech is
+      processed locally by the tvOS operating system and converted to text inside
+      the search field. MusicTV does not record, store, or transmit your voice
+      or any audio data.
+    </p>
+
+    <h2>Your video library</h2>
+    <p>
+      MusicTV reads video files only from the folder you explicitly select. It
+      does not scan your device for other files, access your Photos library,
+      camera, or any other location. On macOS, file access is managed through
+      Apple's security-scoped bookmarks — MusicTV can only read the folder
+      you grant it access to.
+    </p>
+
+    <h2>Favorites and settings</h2>
+    <p>
+      Favorites you mark and app settings (shuffle, repeat, bumper interval,
+      etc.) are stored locally on your device using standard Apple system
+      storage (UserDefaults and the app's Application Support folder). This
+      data never leaves your device except when syncing favorites to another
+      MusicTV instance on your local network — and even then, it travels only
+      over your private local network, not the internet.
+    </p>
+
+    <h2>Third-party services</h2>
+    <p>
+      MusicTV uses no third-party services, SDKs, analytics tools, advertising
+      networks, or crash-reporting services. The only frameworks used are
+      Apple's own system frameworks (AVFoundation, SwiftUI, Network, etc.).
+    </p>
+
+    <h2>Children's privacy</h2>
+    <p>
+      Because MusicTV collects no personal data from anyone, it is safe for
+      users of all ages. We do not knowingly collect information from children
+      or adults.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      If we ever change how MusicTV handles data, we will update this page and
+      revise the date below. Given that the app collects no data, we do not
+      anticipate meaningful changes.
+    </p>
+
+    <hr />
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this privacy policy? Reach out at
+      <a href="mailto:aaron@bevill.co">aaron@bevill.co</a>.
+    </p>
+
+    <footer>
+      <p>Last updated: February 2026</p>
+      <p style="margin-top:6px;">MusicTV &mdash; All rights reserved.</p>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MusicTV – Your Music Videos, Beautifully Played</title>
+  <meta name="description" content="MusicTV turns your music video collection into a personal TV channel. Play, shuffle, and stream beautifully across Mac and Apple TV." />
+  <style>
+    :root {
+      --bg:      #080808;
+      --bg2:     #111;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #f0f0f0;
+      --muted:   #666;
+      --muted2:  #888;
+      --accent:  #d64f8e;
+      --pink:    #e05a9d;
+      --radius:  20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8,8,8,0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wordmark img {
+      height: 42px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted2);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color .18s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: opacity .18s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 180px 24px 140px;
+      text-align: center;
+      position: relative;
+      background-image: url('Website/guitar.jpg');
+      background-size: cover;
+      background-position: center 30%;
+    }
+
+    /* Dark gradient overlay — keeps text legible over the photo */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(8,8,8,0.82) 0%,
+          rgba(8,8,8,0.65) 45%,
+          rgba(8,8,8,0.92) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Pink glow sits above the photo overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 900px 500px at 50% -80px, rgba(214,79,142,.22) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* All hero children sit above both overlays */
+    .hero > * { position: relative; z-index: 2; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(214,79,142,.1);
+      border: 1px solid rgba(214,79,142,.2);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: .95;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: var(--muted2);
+      max-width: 540px;
+      margin: 0 auto 52px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 14px 26px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: opacity .18s, transform .18s;
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 14px 26px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: background .18s, transform .18s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.1); transform: translateY(-1px); }
+
+    .btn-icon {
+      width: 18px; height: 18px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .hero-meta {
+      margin-top: 24px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .hero-meta span { margin: 0 10px; }
+
+    /* ─── APP SCREENSHOT ─── */
+    .app-preview {
+      padding: 0 24px 100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-screenshot {
+      max-width: 960px;
+      width: 100%;
+      border-radius: 14px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.07),
+        0 40px 120px rgba(0,0,0,.75),
+        0 8px 32px rgba(214,79,142,.08);
+      display: block;
+    }
+
+    /* ─── SHOWCASE (title cards — right bleed) ─── */
+    .showcase-wrap {
+      overflow: hidden; /* clips the right bleed */
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      align-items: center;
+      padding: 100px 0 100px 10vw; /* left padding only — image bleeds right */
+      gap: 60px;
+    }
+
+    .showcase-text {
+      max-width: 480px;
+    }
+
+    .showcase-img {
+      margin-right: -80px; /* bleed 80px past the right viewport edge */
+    }
+
+    .showcase-img img {
+      width: 100%;
+      border-radius: 14px 0 0 14px; /* round left corners only */
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.07),
+        0 32px 80px rgba(0,0,0,.65),
+        0 6px 24px rgba(214,79,142,.08);
+      display: block;
+    }
+
+    /* ─── SHOWCASE LEFT VARIANT (image bleeds left) ─── */
+    .showcase--left {
+      grid-template-columns: 1.3fr 1fr;
+      padding: 100px 10vw 100px 0; /* right padding only */
+    }
+
+    .showcase--left .showcase-img {
+      margin-left: -80px;
+      margin-right: 0;
+    }
+
+    .showcase--left .showcase-img img {
+      border-radius: 0 14px 14px 0; /* round right corners only */
+    }
+
+    .showcase--left .showcase-text {
+      padding-left: 40px;
+    }
+
+    /* ─── PLATFORM ROW ─── */
+    .platform-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 0 24px 100px;
+      flex-wrap: wrap;
+    }
+
+    .plat-chip {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      color: var(--muted2);
+      font-size: 0.8rem;
+      padding: 6px 16px;
+      border-radius: 99px;
+    }
+    .plat-sep { color: var(--muted); font-size: .7rem; }
+
+    /* ─── SECTION ─── */
+    .section {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-headline {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 750;
+      letter-spacing: -1.2px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--muted2);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 60px;
+    }
+
+    /* ─── FEATURE GRID ─── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .feat-card {
+      background: var(--bg2);
+      padding: 36px 32px;
+      transition: background .2s;
+    }
+    .feat-card:hover { background: #161616; }
+
+    .feat-glyph {
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .feat-card h3 {
+      font-size: 1rem;
+      font-weight: 650;
+      letter-spacing: -.2px;
+      margin-bottom: 10px;
+    }
+
+    .feat-card p {
+      font-size: 0.875rem;
+      color: var(--muted2);
+      line-height: 1.65;
+    }
+
+    /* ─── DIVIDER ─── */
+    .full-bleed-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* ─── BIG CALLOUT ─── */
+    .callout {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 100px 24px;
+      text-align: center;
+    }
+
+    .callout h2 {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .callout h2 em { color: var(--accent); font-style: normal; }
+
+    .callout p {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      max-width: 480px;
+      margin: 0 auto 16px;
+      line-height: 1.65;
+    }
+
+    .privacy-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .ptag {
+      background: rgba(214,79,142,.08);
+      border: 1px solid rgba(214,79,142,.18);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 99px;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .step-card {
+      background: var(--bg2);
+      padding: 36px 28px;
+    }
+
+    .step-n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 {
+      font-size: 0.95rem;
+      font-weight: 650;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      font-size: 0.85rem;
+      color: var(--muted2);
+      line-height: 1.65;
+    }
+
+    /* ─── DOWNLOAD CTA ─── */
+    .download-cta {
+      padding: 120px 24px;
+      text-align: center;
+    }
+
+    .download-cta h2 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .download-cta h2 em { color: var(--accent); font-style: normal; }
+
+    .download-cta .sub {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      margin-bottom: 48px;
+    }
+
+    .download-grid {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .dl-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 24px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color .2s, background .2s, transform .18s;
+      min-width: 200px;
+    }
+    .dl-card:hover {
+      border-color: rgba(214,79,142,.4);
+      background: rgba(214,79,142,.05);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .dl-card svg { width: 26px; height: 26px; fill: var(--text); flex-shrink: 0; }
+    .dl-label { text-align: left; line-height: 1.2; }
+    .dl-label small { display: block; font-size: 0.7rem; color: var(--muted2); }
+    .dl-label strong { display: block; font-size: 0.95rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer .wm img {
+      height: 24px;
+      width: auto;
+      display: block;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    footer small { color: var(--muted); font-size: 0.78rem; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .feat-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .showcase, .showcase--left {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+      }
+      .showcase-img { margin-right: 0; }
+      .showcase--left .showcase-img { margin-left: 0; }
+      .showcase-img img,
+      .showcase--left .showcase-img img { border-radius: 14px; }
+      .showcase--left .showcase-text { padding-left: 0; }
+      /* Stack image below text on mobile for left variant */
+      .showcase--left .showcase-img { order: 1; }
+      .showcase--left .showcase-text { order: 0; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .hero { padding: 130px 20px 100px; }
+      .hero h1 { letter-spacing: -2px; }
+      .feat-grid, .steps-grid { grid-template-columns: 1fr; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+      .section { padding: 70px 20px; }
+      .app-preview { padding: 0 16px 70px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="wordmark">
+    <img src="Website/MusicTVlogo.png" alt="MusicTV" />
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+  </ul>
+  <!-- Replace # with your Mac App Store link -->
+  <a class="nav-cta" href="#">Download Free</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-eyebrow">Now available on Mac &amp; Apple TV</div>
+  <h1>Your music<br>videos. <em>Your<br>channel.</em></h1>
+  <p class="hero-sub">MusicTV turns your personal music video collection into a beautiful, endlessly-shuffling TV channel — streamed to your Apple TV.</p>
+
+  <div class="hero-actions">
+    <!-- Replace # hrefs with real App Store links -->
+    <a class="btn-primary" href="#">
+      <svg class="btn-icon" viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-105.5c-38.7-54-74.7-142.7-74.7-226.9 0-225.4 146.4-344.3 290.4-344.3 73.5 0 134.8 45.3 181 45.3 44 0 113.1-48.2 192-48.2l-.1.3zm-162.6-63.5c30.5-35.4 52.4-84.5 52.4-133.5 0-6.8-.6-13.6-1.9-19.2-49.5 1.9-108.4 32.8-142.9 73.6-27.5 31.3-52.4 80.5-52.4 130.2 0 7.4 1.3 14.8 1.9 17.1 3.2.6 8.4 1.3 13.6 1.3 44.5 0 100.3-29.3 129.3-69.5z"/></svg>
+      Download for Mac
+    </a>
+    <a class="btn-secondary" href="#features">See all features</a>
+  </div>
+  <p class="hero-meta">
+    <span>Free</span>·<span>No subscription</span>·<span>No account required</span>
+  </p>
+</section>
+
+<!-- ─── PLATFORMS ─── -->
+<div class="platform-row">
+  <span class="plat-chip">macOS</span>
+  <span class="plat-sep">·</span>
+  <span class="plat-chip">Apple TV</span>
+</div>
+
+<!-- ─── APP SCREENSHOT ─── -->
+<div class="app-preview">
+  <img
+    class="app-screenshot"
+    src="Website/MusicTV Mac App.png"
+    alt="MusicTV for Mac — sidebar, playlist, and video player"
+  />
+</div>
+
+<!-- ─── FEATURES ─── -->
+<section class="section" id="features">
+  <p class="section-kicker">Features</p>
+  <h2 class="section-headline">Built for your<br>music video collection.</h2>
+  <p class="section-body">Every feature is designed around one goal — making your videos look and sound as good as possible with zero friction.</p>
+
+  <div class="feat-grid">
+    <div class="feat-card">
+      <span class="feat-glyph">📺</span>
+      <h3>Continuous Playback</h3>
+      <p>Shuffles your library and plays non-stop, like a real TV channel. Set it up once and forget about it.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">📡</span>
+      <h3>Local Network Streaming</h3>
+      <p>Share your Mac library over Wi-Fi. Apple TV connects instantly via Bonjour — no setup, no accounts.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">🎙️</span>
+      <h3>Voice Search</h3>
+      <p>On Apple TV, press the mic on your Siri Remote and speak a song or artist name. Results appear instantly.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">⭐</span>
+      <h3>Favorites &amp; Genres</h3>
+      <p>Star videos to save them. Organize by genre using your folder structure. Favorites sync across all devices.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">🎬</span>
+      <h3>Bumper Videos</h3>
+      <p>Insert short bumper clips between videos to give your channel a broadcast TV feel. Shuffle them too.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">🎨</span>
+      <h3>Real-time Video Filters</h3>
+      <p>Apply GPU-accelerated CoreImage effects — from subtle color grades to retro CRT and film looks.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">🔊</span>
+      <h3>Audio Normalization</h3>
+      <p>Consistent loudness across your entire library. No more reaching for the remote every other video.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">📋</span>
+      <h3>Smart Title Parsing</h3>
+      <p>Automatically cleans up filenames — strips "(Official Video)", "(HD)", and other tags for clean display everywhere.</p>
+    </div>
+    <div class="feat-card">
+      <span class="feat-glyph">🔒</span>
+      <h3>Completely Private</h3>
+      <p>No accounts, no analytics, no cloud. Your videos never leave your network. Zero data collected. Ever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TITLE CARDS SHOWCASE ─── -->
+<div class="showcase-wrap">
+  <div class="showcase">
+    <div class="showcase-text">
+      <p class="section-kicker">Now Playing</p>
+      <h2 class="section-headline">Beautiful title cards.<br>Automatically.</h2>
+      <p class="section-body">Filenames are cleaned up and displayed as elegant on-screen cards — showing artist and song title with every video. No metadata editing, no manual tagging.</p>
+    </div>
+    <div class="showcase-img">
+      <img
+        src="Website/MusicTV Title Cards.png"
+        alt="MusicTV title cards showing artist and song name over video"
+      />
+    </div>
+  </div>
+</div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── APPLE TV SHOWCASE ─── -->
+<div class="showcase-wrap">
+  <div class="showcase showcase--left">
+    <div class="showcase-img">
+      <img
+        src="Website/Apple TV2.png"
+        alt="MusicTV on Apple TV in a living room — playback with track info and controls"
+      />
+    </div>
+    <div class="showcase-text">
+      <p class="section-kicker">Apple TV</p>
+      <h2 class="section-headline">Your living room.<br>Your channel.</h2>
+      <p class="section-body">Connect to your Mac library in seconds. Navigate with your Siri Remote, search by voice, and control playback from the couch — no separate app setup required.</p>
+    </div>
+  </div>
+</div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="section" id="how-it-works">
+  <p class="section-kicker">How It Works</p>
+  <h2 class="section-headline">Ready in minutes.<br>Running forever.</h2>
+  <p class="section-body">MusicTV is designed to stay out of the way. Point it at your videos and it does the rest.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-n">1</div>
+      <h3>Choose your folder</h3>
+      <p>Open MusicTV on your Mac and select the folder where your music videos live. That's all the setup required.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">2</div>
+      <h3>Share your library</h3>
+      <p>Flip on "Share Library" and your Mac becomes a local streaming server. Discoverable instantly on your network.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">3</div>
+      <h3>Connect on Apple TV</h3>
+      <p>Open MusicTV on your Apple TV. Your Mac appears in the list. Tap to connect and your library loads in seconds.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">4</div>
+      <h3>Sit back and watch</h3>
+      <p>MusicTV shuffles and plays your collection in a continuous loop. Your own music video channel, on your TV.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRIVACY CALLOUT ─── -->
+<div class="callout">
+  <h2>No data.<br><em>No exceptions.</em></h2>
+  <p>MusicTV contains no analytics SDK, no tracking code, no third-party services. Your videos, your devices, your network — full stop.</p>
+  <div class="privacy-tags">
+    <span class="ptag">No account required</span>
+    <span class="ptag">No tracking</span>
+    <span class="ptag">No cloud uploads</span>
+    <span class="ptag">No subscription</span>
+    <span class="ptag">Local network only</span>
+  </div>
+  <br>
+  <a href="privacy-policy.html" style="color: var(--accent); font-size: .85rem;">Read the full privacy policy →</a>
+</div>
+
+<!-- ─── DOWNLOAD ─── -->
+<section class="download-cta">
+  <h2>Watch your<br><em>music.</em></h2>
+  <p class="sub">Download free from the App Store for Mac or Apple TV.</p>
+
+  <div class="download-grid">
+    <!-- Replace # with actual App Store links -->
+    <a class="dl-card" href="#">
+      <svg viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-105.5c-38.7-54-74.7-142.7-74.7-226.9 0-225.4 146.4-344.3 290.4-344.3 73.5 0 134.8 45.3 181 45.3 44 0 113.1-48.2 192-48.2l-.1.3zm-162.6-63.5c30.5-35.4 52.4-84.5 52.4-133.5 0-6.8-.6-13.6-1.9-19.2-49.5 1.9-108.4 32.8-142.9 73.6-27.5 31.3-52.4 80.5-52.4 130.2 0 7.4 1.3 14.8 1.9 17.1 3.2.6 8.4 1.3 13.6 1.3 44.5 0 100.3-29.3 129.3-69.5z"/></svg>
+      <div class="dl-label">
+        <small>Download on the</small>
+        <strong>Mac App Store</strong>
+      </div>
+    </a>
+    <a class="dl-card" href="#">
+      <svg viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-105.5c-38.7-54-74.7-142.7-74.7-226.9 0-225.4 146.4-344.3 290.4-344.3 73.5 0 134.8 45.3 181 45.3 44 0 113.1-48.2 192-48.2l-.1.3zm-162.6-63.5c30.5-35.4 52.4-84.5 52.4-133.5 0-6.8-.6-13.6-1.9-19.2-49.5 1.9-108.4 32.8-142.9 73.6-27.5 31.3-52.4 80.5-52.4 130.2 0 7.4 1.3 14.8 1.9 17.1 3.2.6 8.4 1.3 13.6 1.3 44.5 0 100.3-29.3 129.3-69.5z"/></svg>
+      <div class="dl-label">
+        <small>Download on the</small>
+        <strong>Apple TV App Store</strong>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wm">
+    <img src="Website/MusicTVlogo.png" alt="MusicTV" />
+  </div>
+  <ul class="footer-links">
+    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+    <li><a href="mailto:aaron@bevill.co">Support</a></li>
+  </ul>
+  <small>&copy; 2026 MusicTV</small>
+</footer>
+
+</body>
+</html>
