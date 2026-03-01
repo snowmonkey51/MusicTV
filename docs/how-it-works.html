@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works – MusicTV</title>
+  <meta name="description" content="Learn how to set up MusicTV, stream to Apple TV, and make the most of every feature." />
+  <style>
+    :root {
+      --bg:      #080808;
+      --bg2:     #111;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #f0f0f0;
+      --muted:   #666;
+      --muted2:  #888;
+      --accent:  #d64f8e;
+      --pink:    #e05a9d;
+      --radius:  20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8,8,8,0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wordmark img { height: 42px; width: auto; display: block; }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--accent);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color .18s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a.active { color: var(--pink); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: opacity .18s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 700px 400px at 50% 0%, rgba(214,79,142,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero > * { position: relative; }
+
+    .page-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .page-hero p {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ─── SECTION ─── */
+    .section {
+      padding: 80px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-headline {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 750;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--muted2);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ─── STEPS GRID ─── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .step-card { background: var(--bg2); padding: 36px 28px; }
+
+    .step-n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 { font-size: 0.95rem; font-weight: 650; margin-bottom: 10px; }
+    .step-card p { font-size: 0.85rem; color: var(--muted2); line-height: 1.65; }
+
+    /* ─── DIVIDER ─── */
+    .full-bleed-divider { height: 1px; background: var(--border); }
+
+    /* ─── TUTORIAL GRID ─── */
+    .tutorial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .tutorial-card {
+      background: var(--bg2);
+      padding: 36px 32px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: background .2s;
+      cursor: default;
+    }
+    .tutorial-card:hover { background: #161616; }
+
+    .tutorial-card.has-link { cursor: pointer; }
+
+    .tut-glyph {
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .tutorial-card h3 {
+      font-size: 1rem;
+      font-weight: 650;
+      letter-spacing: -.2px;
+      margin-bottom: 10px;
+    }
+
+    .tutorial-card p {
+      font-size: 0.875rem;
+      color: var(--muted2);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .tut-badge {
+      margin-top: 20px;
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: .3px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .tutorial-card.has-link .tut-badge {
+      color: var(--accent);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer .wm img { height: 24px; width: auto; display: block; }
+
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--muted); font-size: 0.82rem; text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+
+    footer small { color: var(--muted); font-size: 0.78rem; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .tutorial-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .steps-grid, .tutorial-grid { grid-template-columns: 1fr; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+      .section { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="wordmark">
+    <a href="index.html"><img src="Website/MusicTVlogo.png" alt="MusicTV" /></a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="how-it-works.html" class="active">How It Works</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+  </ul>
+  <a class="nav-cta" href="#">Download Free</a>
+</nav>
+
+<!-- ─── PAGE HERO ─── -->
+<div class="page-hero">
+  <p class="page-kicker">Guide</p>
+  <h1>How It Works</h1>
+  <p>Everything you need to get MusicTV running — from first launch to streaming on your TV.</p>
+</div>
+
+<!-- ─── QUICK START ─── -->
+<section class="section">
+  <p class="section-kicker">Quick Start</p>
+  <h2 class="section-headline">Up and running in minutes.</h2>
+  <p class="section-body">MusicTV is designed to stay out of the way. Point it at your videos and it does the rest.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-n">1</div>
+      <h3>Choose your folder</h3>
+      <p>Open MusicTV on your Mac and select the folder where your music videos live. That's all the setup required.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">2</div>
+      <h3>Share your library</h3>
+      <p>Flip on "Share Library" and your Mac becomes a local streaming server. Discoverable instantly on your network.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">3</div>
+      <h3>Connect on Apple TV</h3>
+      <p>Open MusicTV on your Apple TV. Your Mac appears in the list. Tap to connect and your library loads in seconds.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">4</div>
+      <h3>Sit back and watch</h3>
+      <p>MusicTV shuffles and plays your collection in a continuous loop. Your own music video channel, on your TV.</p>
+    </div>
+  </div>
+</section>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── TUTORIALS ─── -->
+<section class="section">
+  <p class="section-kicker">Tutorials</p>
+  <h2 class="section-headline">Dig deeper into every feature.</h2>
+  <p class="section-body">Step-by-step guides for getting the most out of MusicTV.</p>
+
+  <div class="tutorial-grid">
+    <div class="tutorial-card">
+      <span class="tut-glyph">📁</span>
+      <h3>Organizing Your Library</h3>
+      <p>How to use folders as genres, name your files for clean title cards, and add custom parser rules.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+    <div class="tutorial-card">
+      <span class="tut-glyph">📡</span>
+      <h3>Network Streaming Setup</h3>
+      <p>Share your Mac library over Wi-Fi and connect your Apple TV — including tips for large libraries.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+    <div class="tutorial-card">
+      <span class="tut-glyph">🎙️</span>
+      <h3>Voice Search on Apple TV</h3>
+      <p>Use your Siri Remote's mic button to search by artist or song name and jump to any video instantly.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+    <div class="tutorial-card">
+      <span class="tut-glyph">⭐</span>
+      <h3>Favorites &amp; Filtering</h3>
+      <p>Star your favorite videos, filter by genre, and build a focused playlist from your collection.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+    <div class="tutorial-card">
+      <span class="tut-glyph">🎬</span>
+      <h3>Bumper Videos</h3>
+      <p>Add short bumper clips between videos to give your channel an authentic broadcast TV feel.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+    <div class="tutorial-card">
+      <span class="tut-glyph">🎨</span>
+      <h3>Video Filters</h3>
+      <p>Apply real-time GPU-accelerated effects — from subtle color grades to retro CRT looks.</p>
+      <span class="tut-badge">Coming soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wm">
+    <img src="Website/MusicTVlogo.png" alt="MusicTV" />
+  </div>
+  <ul class="footer-links">
+    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+    <li><a href="mailto:aaron@bevill.co">Support</a></li>
+  </ul>
+  <small>&copy; 2026 MusicTV</small>
+</footer>
+
+</body>
+</html>

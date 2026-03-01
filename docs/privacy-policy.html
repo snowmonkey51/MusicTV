@@ -3,219 +3,327 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MusicTV – Privacy Policy</title>
+  <title>Privacy Policy – MusicTV</title>
+  <meta name="description" content="MusicTV collects no personal data. Everything stays on your devices and your local network." />
   <style>
     :root {
-      --bg:       #0f0f0f;
-      --surface:  #1a1a1a;
-      --border:   #2a2a2a;
-      --text:     #e8e8e8;
-      --muted:    #888;
-      --accent:   #d64f8e;
+      --bg:      #080808;
+      --bg2:     #111;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #f0f0f0;
+      --muted:   #666;
+      --muted2:  #888;
+      --accent:  #d64f8e;
+      --pink:    #e05a9d;
+      --radius:  20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      padding: 40px 20px 80px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(8,8,8,0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
     }
 
-    header {
+    .wordmark img { height: 42px; width: auto; display: block; }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--accent);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color .18s;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a.active { color: var(--pink); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: opacity .18s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding: 140px 24px 80px;
       text-align: center;
-      margin-bottom: 48px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
     }
 
-    .wordmark {
-      font-size: 2rem;
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 700px 400px at 50% 0%, rgba(214,79,142,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero > * { position: relative; }
+
+    .page-kicker {
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
     }
 
-    .wordmark span { color: var(--accent); }
-
-    header p {
-      color: var(--muted);
-      margin-top: 6px;
-      font-size: 0.9rem;
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
     }
 
-    .badge {
+    .page-hero p {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .no-data-badge {
       display: inline-block;
       background: var(--accent);
       color: #fff;
       font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin: 16px auto 0;
-    }
-
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 36px 0 10px;
-      color: #fff;
-    }
-
-    p { margin-bottom: 12px; }
-
-    ul {
-      margin: 8px 0 12px 20px;
-    }
-
-    ul li { margin-bottom: 6px; }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin: 32px 0;
-    }
-
-    .card-title {
-      font-size: 0.75rem;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-top: 24px;
+    }
+
+    /* ─── CONTENT ─── */
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+
+    /* Short version card */
+    .summary-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 56px;
+    }
+
+    .summary-card-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 12px;
     }
 
-    .card p { margin-bottom: 0; }
+    .summary-card p {
+      font-size: 1rem;
+      color: var(--muted2);
+      line-height: 1.7;
+    }
+
+    /* Policy sections */
+    .policy-section {
+      margin-bottom: 40px;
+    }
+
+    .policy-section h2 {
+      font-size: 1.1rem;
+      font-weight: 650;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .policy-section p {
+      font-size: 0.95rem;
+      color: var(--muted2);
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section strong { color: var(--text); font-weight: 600; }
 
     hr {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 36px 0;
+      margin: 48px 0;
     }
 
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    .contact-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .contact-link:hover { text-decoration: underline; }
 
-    footer {
-      text-align: center;
+    .last-updated {
+      font-size: 0.82rem;
       color: var(--muted);
-      font-size: 0.85rem;
-      margin-top: 56px;
+      margin-top: 48px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer .wm img { height: 24px; width: auto; display: block; }
+
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--muted); font-size: 0.82rem; text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+
+    footer small { color: var(--muted); font-size: 0.78rem; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+      .content { padding: 60px 20px 80px; }
+      .summary-card { padding: 22px 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <header>
-      <div class="wordmark">Music<span>TV</span></div>
-      <p>Privacy Policy</p>
-      <div class="badge">No data collected</div>
-    </header>
-
-    <div class="card">
-      <div class="card-title">The short version</div>
-      <p>
-        MusicTV does not collect, store, or transmit any personal data.
-        Everything stays on your devices and your local network.
-        We have no servers, no accounts, and no analytics.
-      </p>
-    </div>
-
-    <h2>What MusicTV does</h2>
-    <p>
-      MusicTV is a local music video player. It reads video files from a folder
-      you choose, builds a playback queue, and plays them back on your Apple TV,
-      iPad, or Mac. It can also discover other MusicTV instances on your local
-      Wi-Fi network so you can stream your library to other devices in your home.
-    </p>
-
-    <h2>Data we collect</h2>
-    <p>
-      <strong>None.</strong> MusicTV collects no personal information of any kind.
-      There are no user accounts, no sign-ins, no analytics SDKs, and no
-      third-party tracking libraries included in the app.
-    </p>
-
-    <h2>Local network access</h2>
-    <p>
-      MusicTV uses your local Wi-Fi network to discover and connect to other
-      MusicTV instances running on the same network (for example, a Mac sharing
-      its library to an Apple TV). This communication happens entirely within
-      your home network using Bonjour — a standard Apple technology for local
-      device discovery. No data leaves your network.
-    </p>
-
-    <h2>Microphone access (Apple TV only)</h2>
-    <p>
-      On Apple TV, MusicTV asks for microphone access to enable voice search.
-      When you press the microphone button on the Siri Remote, your speech is
-      processed locally by the tvOS operating system and converted to text inside
-      the search field. MusicTV does not record, store, or transmit your voice
-      or any audio data.
-    </p>
-
-    <h2>Your video library</h2>
-    <p>
-      MusicTV reads video files only from the folder you explicitly select. It
-      does not scan your device for other files, access your Photos library,
-      camera, or any other location. On macOS, file access is managed through
-      Apple's security-scoped bookmarks — MusicTV can only read the folder
-      you grant it access to.
-    </p>
-
-    <h2>Favorites and settings</h2>
-    <p>
-      Favorites you mark and app settings (shuffle, repeat, bumper interval,
-      etc.) are stored locally on your device using standard Apple system
-      storage (UserDefaults and the app's Application Support folder). This
-      data never leaves your device except when syncing favorites to another
-      MusicTV instance on your local network — and even then, it travels only
-      over your private local network, not the internet.
-    </p>
-
-    <h2>Third-party services</h2>
-    <p>
-      MusicTV uses no third-party services, SDKs, analytics tools, advertising
-      networks, or crash-reporting services. The only frameworks used are
-      Apple's own system frameworks (AVFoundation, SwiftUI, Network, etc.).
-    </p>
-
-    <h2>Children's privacy</h2>
-    <p>
-      Because MusicTV collects no personal data from anyone, it is safe for
-      users of all ages. We do not knowingly collect information from children
-      or adults.
-    </p>
-
-    <h2>Changes to this policy</h2>
-    <p>
-      If we ever change how MusicTV handles data, we will update this page and
-      revise the date below. Given that the app collects no data, we do not
-      anticipate meaningful changes.
-    </p>
-
-    <hr />
-
-    <h2>Contact</h2>
-    <p>
-      Questions about this privacy policy? Reach out at
-      <a href="mailto:aaron@bevill.co">aaron@bevill.co</a>.
-    </p>
-
-    <footer>
-      <p>Last updated: February 2026</p>
-      <p style="margin-top:6px;">MusicTV &mdash; All rights reserved.</p>
-    </footer>
-
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="wordmark">
+    <a href="index.html"><img src="Website/MusicTVlogo.png" alt="MusicTV" /></a>
   </div>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="how-it-works.html">How It Works</a></li>
+    <li><a href="privacy-policy.html" class="active">Privacy</a></li>
+  </ul>
+  <a class="nav-cta" href="#">Download Free</a>
+</nav>
+
+<!-- ─── PAGE HERO ─── -->
+<div class="page-hero">
+  <p class="page-kicker">Legal</p>
+  <h1>Privacy Policy</h1>
+  <p>MusicTV is built on a simple principle: your data is yours and stays on your devices.</p>
+  <span class="no-data-badge">No data collected</span>
+</div>
+
+<!-- ─── CONTENT ─── -->
+<div class="content">
+
+  <div class="summary-card">
+    <div class="summary-card-label">The short version</div>
+    <p>MusicTV does not collect, store, or transmit any personal data. Everything stays on your devices and your local network. We have no servers, no accounts, and no analytics.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>What MusicTV does</h2>
+    <p>MusicTV is a local music video player. It reads video files from a folder you choose, builds a playback queue, and plays them back on your Apple TV or Mac. It can also discover other MusicTV instances on your local Wi-Fi network so you can stream your library to other devices in your home.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Data we collect</h2>
+    <p><strong>None.</strong> MusicTV collects no personal information of any kind. There are no user accounts, no sign-ins, no analytics SDKs, and no third-party tracking libraries included in the app.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Local network access</h2>
+    <p>MusicTV uses your local Wi-Fi network to discover and connect to other MusicTV instances running on the same network — for example, a Mac sharing its library to an Apple TV. This communication happens entirely within your home network using Bonjour, a standard Apple technology for local device discovery. No data leaves your network.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Microphone access (Apple TV only)</h2>
+    <p>On Apple TV, MusicTV asks for microphone access to enable voice search. When you press the microphone button on the Siri Remote, your speech is processed locally by the tvOS operating system and converted to text inside the search field. MusicTV does not record, store, or transmit your voice or any audio data.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Your video library</h2>
+    <p>MusicTV reads video files only from the folder you explicitly select. It does not scan your device for other files, access your Photos library, camera, or any other location. On macOS, file access is managed through Apple's security-scoped bookmarks — MusicTV can only read the folder you grant it access to.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Favorites and settings</h2>
+    <p>Favorites you mark and app settings (shuffle, repeat, bumper interval, etc.) are stored locally on your device using standard Apple system storage. This data never leaves your device except when syncing favorites to another MusicTV instance on your local network — and even then, it travels only over your private local network, not the internet.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Third-party services</h2>
+    <p>MusicTV uses no third-party services, SDKs, analytics tools, advertising networks, or crash-reporting services. The only frameworks used are Apple's own system frameworks (AVFoundation, SwiftUI, Network, etc.).</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Children's privacy</h2>
+    <p>Because MusicTV collects no personal data from anyone, it is safe for users of all ages. We do not knowingly collect information from children or adults.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Changes to this policy</h2>
+    <p>If we ever change how MusicTV handles data, we will update this page and revise the date below. Given that the app collects no data, we do not anticipate meaningful changes.</p>
+  </div>
+
+  <hr />
+
+  <div class="policy-section">
+    <h2>Contact</h2>
+    <p>Questions about this privacy policy? Reach out at <a class="contact-link" href="mailto:aaron@bevill.co">aaron@bevill.co</a>.</p>
+  </div>
+
+  <p class="last-updated">Last updated: February 2026</p>
+
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wm">
+    <img src="Website/MusicTVlogo.png" alt="MusicTV" />
+  </div>
+  <ul class="footer-links">
+    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+    <li><a href="mailto:aaron@bevill.co">Support</a></li>
+  </ul>
+  <small>&copy; 2026 MusicTV</small>
+</footer>
+
 </body>
 </html>
