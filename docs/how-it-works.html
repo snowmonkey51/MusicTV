@@ -563,9 +563,9 @@
       <span class="tut-badge">Read guide →</span>
     </a>
     <a class="tutorial-card has-link" href="#voice-guide">
-      <span class="tut-glyph">🎙️</span>
-      <h3>Voice Search on Apple TV</h3>
-      <p>Use your Siri Remote's mic button to search by artist or song name and jump to any video instantly.</p>
+      <span class="tut-glyph">🏷️</span>
+      <h3>Filename Parsing</h3>
+      <p>MusicTV reads your filenames and automatically extracts clean artist and song titles — no manual tagging needed.</p>
       <span class="tut-badge">Read guide →</span>
     </a>
     <a class="tutorial-card has-link" href="#favorites-guide">
@@ -752,51 +752,63 @@
 
 <div class="full-bleed-divider"></div>
 
-<!-- ─── VOICE SEARCH GUIDE ─── -->
+<!-- ─── FILENAME PARSER GUIDE ─── -->
 <div id="voice-guide" class="tut-detail">
   <p class="section-kicker">Tutorial</p>
-  <h2 class="section-headline" style="margin-bottom: 16px;">Voice Search on Apple TV</h2>
-  <p class="section-body">The Siri Remote's microphone button doubles as a fast-search shortcut inside MusicTV. Jump to any artist or song without typing a single character.</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Filename Parsing</h2>
+  <p class="section-body">MusicTV doesn't rely on embedded metadata tags. Instead it reads your filenames directly and intelligently extracts the artist name and song title — so your library looks great the moment you open it, no tagging software required.</p>
 
-  <div class="tut-step-list">
+  <div class="tut-info-grid" style="margin-top: 32px;">
+    <div class="tut-info-block">
+      <div class="tut-info-label">How it reads filenames</div>
+      <p>MusicTV looks for a dash separator between artist and title. A file named <strong>Radiohead - Creep.mp4</strong> becomes artist <em>Radiohead</em>, title <em>Creep</em>. It also recognises pipe ( | ) and em-dash ( — ) separators, and quoted titles like <strong>Radiohead "Creep".mp4</strong>.</p>
+    </div>
+    <div class="tut-info-block">
+      <div class="tut-info-label">Junk tag removal</div>
+      <p>Before splitting, MusicTV strips dozens of common YouTube tags automatically — things like <strong>(Official Video)</strong>, <strong>[HD]</strong>, <strong>(1080p)</strong>, <strong>(Lyric Video)</strong>, and trailing year tags like <strong>(2019)</strong>. The result is a clean title every time.</p>
+    </div>
+    <div class="tut-info-block">
+      <div class="tut-info-label">Track number cleanup</div>
+      <p>Leading track numbers are removed automatically. Files named <strong>01. Artist - Song.mp4</strong> or <strong>03 - Artist - Song.mp4</strong> are handled correctly — the number never appears in the title card on screen.</p>
+    </div>
+    <div class="tut-info-block">
+      <div class="tut-info-label">Featured artist support</div>
+      <p>Collaborations are handled too. If a title contains <strong>(feat. ...)</strong> or <strong>(ft. ...)</strong>, MusicTV extracts the featured artist and rolls it into the artist credit so your now-playing display stays tidy.</p>
+    </div>
+  </div>
+
+  <div class="tut-step-list" style="margin-top: 40px;">
     <div class="tut-step-row">
       <div class="step-n">1</div>
       <div>
-        <h3>Swipe down during playback</h3>
-        <p>While a video is playing, swipe down on the Siri Remote trackpad to open the player info panel.</p>
+        <h3>Open Settings on your Mac</h3>
+        <p>Click the gear icon in the MusicTV sidebar or menu bar to open Settings, then choose <strong>Parser Rules</strong>.</p>
       </div>
     </div>
     <div class="tut-step-row">
       <div class="step-n">2</div>
       <div>
-        <h3>Go to the Search tab</h3>
-        <p>Navigate to the <strong>Search</strong> tab at the top of the panel using the Siri Remote trackpad.</p>
+        <h3>View the built-in rules</h3>
+        <p>Expand <strong>Show built-in rules</strong> to see the full list of tags MusicTV strips automatically. These cover the most common YouTube download patterns and cannot be removed.</p>
       </div>
     </div>
     <div class="tut-step-row">
       <div class="step-n">3</div>
       <div>
-        <h3>Focus the search field</h3>
-        <p>Move focus to the <strong>"Artist or song…"</strong> text field and press the trackpad center to select it.</p>
+        <h3>Add a custom rule</h3>
+        <p>If you have files with a recurring phrase that should be removed — like <strong>(Directors Cut)</strong> or <strong>(Remastered 2024)</strong> — type it into the field under <strong>Your Rules</strong> and click <strong>Add</strong>. Phrases are matched case-insensitively anywhere in the filename.</p>
       </div>
     </div>
     <div class="tut-step-row">
       <div class="step-n">4</div>
       <div>
-        <h3>Press the mic button and speak</h3>
-        <p>Press the microphone button on your Siri Remote. tvOS handles speech recognition — your spoken words appear directly in the search field. Say an artist name, song title, or genre.</p>
-      </div>
-    </div>
-    <div class="tut-step-row">
-      <div class="step-n">5</div>
-      <div>
-        <h3>Select a result to play</h3>
-        <p>MusicTV filters your library as your words appear. Navigate to the video you want and press the trackpad to jump straight to it.</p>
+        <h3>Remove a custom rule</h3>
+        <p>Click the red minus button next to any of your custom rules to delete it. Built-in rules are always preserved.</p>
       </div>
     </div>
   </div>
 
-  <p class="tut-note"><strong>Tip:</strong> Partial names work — saying "Led" will surface all Led Zeppelin videos. Search covers artist names, song titles, and genre folder names.</p>
+  <p class="tut-note"><strong>Tip:</strong> The best filenames follow the pattern <strong>Artist - Song Title.mp4</strong>. If MusicTV can't find a separator it displays the full cleaned filename as the title, so nothing is ever lost.</p>
 </div>
 
 <div class="full-bleed-divider"></div>
