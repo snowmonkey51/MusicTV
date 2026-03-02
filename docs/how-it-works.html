@@ -233,6 +233,69 @@
       color: var(--accent);
     }
 
+    /* ─── TUTORIAL DETAIL ─── */
+    .tut-detail {
+      padding: 80px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tut-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .tut-detail-img {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .tut-detail-img img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .tut-detail-text h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 750;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .tut-detail-text p {
+      font-size: 0.95rem;
+      color: var(--muted2);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .tut-detail-text p:last-child { margin-bottom: 0; }
+
+    .folder-tree {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-family: "SF Mono", "Fira Mono", "Menlo", monospace;
+      font-size: 0.82rem;
+      color: var(--muted2);
+      line-height: 2;
+    }
+
+    .folder-tree .folder { color: var(--text); font-weight: 600; }
+    .folder-tree .accent { color: var(--accent); }
+
+    @media (max-width: 860px) {
+      .tut-detail-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       border-top: 1px solid var(--border);
@@ -330,12 +393,12 @@
   <p class="section-body">Step-by-step guides for getting the most out of MusicTV.</p>
 
   <div class="tutorial-grid">
-    <div class="tutorial-card">
+    <a class="tutorial-card has-link" href="#library-guide">
       <span class="tut-glyph">📁</span>
       <h3>Organizing Your Library</h3>
       <p>How to use folders as genres, name your files for clean title cards, and add custom parser rules.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
+      <span class="tut-badge">Read guide →</span>
+    </a>
     <div class="tutorial-card">
       <span class="tut-glyph">📡</span>
       <h3>Network Streaming Setup</h3>
@@ -368,6 +431,46 @@
     </div>
   </div>
 </section>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── LIBRARY GUIDE ─── -->
+<div id="library-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 56px;">Organizing Your Library</h2>
+
+  <div class="tut-detail-grid">
+    <div class="tut-detail-img">
+      <img src="Website/Folder Navigation.png" alt="MusicTV folder navigation showing nested genre folders" />
+    </div>
+
+    <div class="tut-detail-text">
+      <h2>Folders are your genres</h2>
+      <p>MusicTV reads your folder structure and uses it as your genre system. Every folder you create inside your library becomes a genre you can browse and filter by — no tagging or metadata required.</p>
+
+      <p>Nesting works too. A subfolder inside a genre folder creates a sub-genre, and MusicTV tracks both levels so you can filter broadly or get specific.</p>
+
+      <div class="folder-tree">
+        <span class="folder">📁 Music Videos/</span><br>
+        &nbsp;&nbsp;<span class="folder">📁 Rock/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 Classic Rock/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="accent">🎬 Led Zeppelin - Kashmir.mp4</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 Alternative/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="accent">🎬 Radiohead - Karma Police.mp4</span><br>
+        &nbsp;&nbsp;<span class="folder">📁 Hip-Hop/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="accent">🎬 Kendrick Lamar - HUMBLE.mp4</span><br>
+        &nbsp;&nbsp;<span class="folder">📁 Pop/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="accent">🎬 Dua Lipa - Levitating.mp4</span>
+      </div>
+
+      <p>In the sidebar on your Mac, each top-level folder appears as a genre. Tap a genre on Apple TV to filter playback to just those videos. Sub-genre folders narrow it down further.</p>
+
+      <p>Files sitting directly in the root of your library — not inside any folder — are treated as uncategorized and always included in the full shuffle.</p>
+    </div>
+  </div>
+</div>
+
+<div class="full-bleed-divider"></div>
 
 <!-- ─── FOOTER ─── -->
 <footer>
