@@ -370,6 +370,75 @@
       .filter-tab { padding: 8px 14px 12px; font-size: 0.82rem; }
     }
 
+    /* ─── TUT STEP LIST ─── */
+    .tut-step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    .tut-step-row {
+      background: var(--bg2);
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .tut-step-row h3 { font-size: 0.95rem; font-weight: 650; margin-bottom: 6px; }
+    .tut-step-row p  { font-size: 0.875rem; color: var(--muted2); line-height: 1.65; }
+    .tut-step-row strong { color: var(--text); }
+
+    /* ─── TUT INFO GRID ─── */
+    .tut-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    .tut-info-block { background: var(--bg2); padding: 32px; }
+
+    .tut-info-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .tut-info-block h3 { font-size: 1rem; font-weight: 650; margin-bottom: 10px; }
+    .tut-info-block p  { font-size: 0.875rem; color: var(--muted2); line-height: 1.65; }
+    .tut-info-block strong { color: var(--text); }
+
+    .tut-note {
+      background: rgba(214,79,142,0.07);
+      border: 1px solid rgba(214,79,142,0.18);
+      border-radius: 12px;
+      padding: 18px 24px;
+      font-size: 0.875rem;
+      color: var(--muted2);
+      line-height: 1.65;
+      margin-top: 24px;
+    }
+
+    .tut-note strong { color: var(--text); }
+
+    @media (max-width: 700px) {
+      .tut-info-grid { grid-template-columns: 1fr; }
+      .tut-step-row { grid-template-columns: 36px 1fr; padding: 20px; gap: 14px; }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       border-top: 1px solid var(--border);
@@ -473,30 +542,30 @@
       <p>How to use folders as genres, name your files for clean title cards, and add custom parser rules.</p>
       <span class="tut-badge">Read guide →</span>
     </a>
-    <div class="tutorial-card">
+    <a class="tutorial-card has-link" href="#network-guide">
       <span class="tut-glyph">📡</span>
       <h3>Network Streaming Setup</h3>
       <p>Share your Mac library over Wi-Fi and connect your Apple TV — including tips for large libraries.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
-    <div class="tutorial-card">
+      <span class="tut-badge">Read guide →</span>
+    </a>
+    <a class="tutorial-card has-link" href="#voice-guide">
       <span class="tut-glyph">🎙️</span>
       <h3>Voice Search on Apple TV</h3>
       <p>Use your Siri Remote's mic button to search by artist or song name and jump to any video instantly.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
-    <div class="tutorial-card">
+      <span class="tut-badge">Read guide →</span>
+    </a>
+    <a class="tutorial-card has-link" href="#favorites-guide">
       <span class="tut-glyph">⭐</span>
       <h3>Favorites &amp; Filtering</h3>
       <p>Star your favorite videos, filter by genre, and build a focused playlist from your collection.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
-    <div class="tutorial-card">
+      <span class="tut-badge">Read guide →</span>
+    </a>
+    <a class="tutorial-card has-link" href="#bumpers-guide">
       <span class="tut-glyph">🎬</span>
       <h3>Bumper Videos</h3>
       <p>Add short bumper clips between videos to give your channel an authentic broadcast TV feel.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
+      <span class="tut-badge">Read guide →</span>
+    </a>
     <a class="tutorial-card has-link" href="#filter-guide">
       <span class="tut-glyph">🎨</span>
       <h3>Video Filters</h3>
@@ -617,6 +686,168 @@
     });
   }
 </script>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── NETWORK GUIDE ─── -->
+<div id="network-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Network Streaming Setup</h2>
+  <p class="section-body">Stream your Mac library to any Apple TV on your network — no cables, no subscriptions, no internet required. Everything travels over your local Wi-Fi.</p>
+
+  <div class="tut-step-list">
+    <div class="tut-step-row">
+      <div class="step-n">1</div>
+      <div>
+        <h3>Choose your library folder</h3>
+        <p>Open MusicTV on your Mac and click <strong>Choose Folder</strong> in the sidebar to select the folder where your music videos live. This only needs to be done once.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">2</div>
+      <div>
+        <h3>Turn on Share Library</h3>
+        <p>Click the gear icon in the Mac sidebar to open Settings. Toggle on <strong>Share Library</strong>. MusicTV immediately begins broadcasting your library over your local network.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">3</div>
+      <div>
+        <h3>Open MusicTV on your Apple TV</h3>
+        <p>Launch MusicTV on your Apple TV. The landing screen automatically scans your network for shared libraries — no setup or IP addresses required.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">4</div>
+      <div>
+        <h3>Tap your Mac in the list</h3>
+        <p>Your Mac appears by name. Tap it to connect. MusicTV downloads your library index — including all videos, favorites, bumpers, and settings — directly from your Mac.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">5</div>
+      <div>
+        <h3>Playback begins</h3>
+        <p>Your playlist builds and videos start playing. All video files stream on demand from your Mac over Wi-Fi — nothing is copied to your Apple TV.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="tut-note"><strong>Requirement:</strong> Your Mac and Apple TV must be on the same Wi-Fi network. No internet connection is used — everything stays local and private.</p>
+</div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── VOICE SEARCH GUIDE ─── -->
+<div id="voice-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Voice Search on Apple TV</h2>
+  <p class="section-body">The Siri Remote's microphone button doubles as a fast-search shortcut inside MusicTV. Jump to any artist or song without typing a single character.</p>
+
+  <div class="tut-step-list">
+    <div class="tut-step-row">
+      <div class="step-n">1</div>
+      <div>
+        <h3>Swipe down during playback</h3>
+        <p>While a video is playing, swipe down on the Siri Remote trackpad to open the player info panel.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">2</div>
+      <div>
+        <h3>Go to the Search tab</h3>
+        <p>Navigate to the <strong>Search</strong> tab at the top of the panel using the Siri Remote trackpad.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">3</div>
+      <div>
+        <h3>Focus the search field</h3>
+        <p>Move focus to the <strong>"Artist or song…"</strong> text field and press the trackpad center to select it.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">4</div>
+      <div>
+        <h3>Press the mic button and speak</h3>
+        <p>Press the microphone button on your Siri Remote. tvOS handles speech recognition — your spoken words appear directly in the search field. Say an artist name, song title, or genre.</p>
+      </div>
+    </div>
+    <div class="tut-step-row">
+      <div class="step-n">5</div>
+      <div>
+        <h3>Select a result to play</h3>
+        <p>MusicTV filters your library as your words appear. Navigate to the video you want and press the trackpad to jump straight to it.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="tut-note"><strong>Tip:</strong> Partial names work — saying "Led" will surface all Led Zeppelin videos. Search covers artist names, song titles, and genre folder names.</p>
+</div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── FAVORITES GUIDE ─── -->
+<div id="favorites-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Favorites &amp; Filtering</h2>
+  <p class="section-body">Star the videos you love and filter your playlist down to just those. Combine favorites with genre filtering to build exactly the channel you want.</p>
+
+  <div class="tut-info-grid">
+    <div class="tut-info-block">
+      <span class="tut-info-label">Marking Favorites</span>
+      <h3>Star videos on your Mac</h3>
+      <p>Click the star button while a video is playing to mark it as a favorite. You can also open the <strong>Favorites</strong> panel in the Mac sidebar to view, play, and remove starred videos — organized by artist.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Filtering by Favorites</span>
+      <h3>Play only your favorites</h3>
+      <p>In the Mac sidebar playlist picker, select <strong>Favorites</strong> to rebuild the playlist using only your starred videos. The filtered playlist streams to any connected Apple TV automatically.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Genre Filtering</span>
+      <h3>Focus on a genre</h3>
+      <p>Click any folder name in the playlist picker to limit playback to videos in that genre. Your folder structure is your filter system — no file tagging or metadata required.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Network Sync</span>
+      <h3>Stays in sync everywhere</h3>
+      <p>Favorites sync bidirectionally over your local network. Star a video on your Mac while Apple TV is connected and it updates instantly — and any changes on Apple TV push back to your Mac in real time.</p>
+    </div>
+  </div>
+</div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── BUMPERS GUIDE ─── -->
+<div id="bumpers-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Bumper Videos</h2>
+  <p class="section-body">Bumpers are short clips — logo animations, channel IDs, interstitials — that play between music videos. They make long shuffle sessions feel like a real broadcast channel.</p>
+
+  <div class="tut-info-grid">
+    <div class="tut-info-block">
+      <span class="tut-info-label">Setup</span>
+      <h3>Choose a bumper folder</h3>
+      <p>In the Mac sidebar, click <strong>Choose Bumper Folder</strong> and select a folder of short video clips. MusicTV treats every video in that folder as a bumper.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Settings → Playback</span>
+      <h3>Bumper every N videos</h3>
+      <p>Use the <strong>Bumper Interval</strong> stepper to control how often bumpers appear — from every video (1) to every 50. The default is every 5 music videos. Bumpers cycle through the folder and won't repeat back-to-back.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Settings → Playback</span>
+      <h3>Show &amp; Shuffle Bumpers</h3>
+      <p>Toggle <strong>Show Bumpers</strong> off to temporarily suppress all interstitials without losing your folder selection. Toggle <strong>Shuffle Bumpers</strong> on to randomize the order instead of playing them alphabetically.</p>
+    </div>
+    <div class="tut-info-block">
+      <span class="tut-info-label">Settings → Appearance</span>
+      <h3>Opening bumper</h3>
+      <p>Pick a single clip under <strong>Intro</strong> to play once at the very start of each session, before the first music video. Great for a channel logo or title card. Mac only — Apple TV receives bumpers streamed over the network.</p>
+    </div>
+  </div>
+</div>
 
 <div class="full-bleed-divider"></div>
 
