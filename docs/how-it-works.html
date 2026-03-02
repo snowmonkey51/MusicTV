@@ -296,6 +296,80 @@
       .tut-detail-grid { grid-template-columns: 1fr; gap: 36px; }
     }
 
+    /* ─── FILTER SWITCHER ─── */
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+    }
+
+    .filter-tab {
+      background: none;
+      border: none;
+      color: var(--muted2);
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: inherit;
+      padding: 10px 20px 14px;
+      cursor: pointer;
+      position: relative;
+      transition: color .18s;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .filter-tab:hover { color: var(--text); }
+
+    .filter-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .filter-panel { display: none; }
+    .filter-panel.active { display: block; }
+
+    .filter-img {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      margin-bottom: 24px;
+    }
+
+    .filter-img img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .filter-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .filter-meta-block h4 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .filter-meta-block p {
+      font-size: 0.9rem;
+      color: var(--muted2);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      .filter-meta { grid-template-columns: 1fr; gap: 16px; }
+      .filter-tab { padding: 8px 14px 12px; font-size: 0.82rem; }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       border-top: 1px solid var(--border);
@@ -423,12 +497,12 @@
       <p>Add short bumper clips between videos to give your channel an authentic broadcast TV feel.</p>
       <span class="tut-badge">Coming soon</span>
     </div>
-    <div class="tutorial-card">
+    <a class="tutorial-card has-link" href="#filter-guide">
       <span class="tut-glyph">🎨</span>
       <h3>Video Filters</h3>
       <p>Apply real-time GPU-accelerated effects — from subtle color grades to retro CRT looks.</p>
-      <span class="tut-badge">Coming soon</span>
-    </div>
+      <span class="tut-badge">Read guide →</span>
+    </a>
   </div>
 </section>
 
@@ -469,6 +543,80 @@
     </div>
   </div>
 </div>
+
+<div class="full-bleed-divider"></div>
+
+<!-- ─── FILTER GUIDE ─── -->
+<div id="filter-guide" class="tut-detail">
+  <p class="section-kicker">Tutorial</p>
+  <h2 class="section-headline" style="margin-bottom: 16px;">Video Filters</h2>
+  <p class="section-body">MusicTV applies real-time GPU-accelerated filters to every frame as your videos play. Switch filters any time from the sidebar on Mac or the settings panel on Apple TV — no restart needed.</p>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="crt" onclick="switchFilter('crt')">CRT</button>
+    <button class="filter-tab" data-filter="bw" onclick="switchFilter('bw')">Black &amp; White</button>
+    <button class="filter-tab" data-filter="vintage" onclick="switchFilter('vintage')">Vintage</button>
+  </div>
+
+  <div class="filter-panel active" id="fp-crt">
+    <div class="filter-img">
+      <img src="Website/Video Filters 1.png" alt="CRT filter — scanlines and phosphor glow over a music video" />
+    </div>
+    <div class="filter-meta">
+      <div class="filter-meta-block">
+        <h4>What it does</h4>
+        <p>Adds animated scanlines, phosphor glow, and subtle screen curvature to every frame — like watching on a vintage cathode-ray TV. The grain and scanline pattern shifts in real time so it never looks static.</p>
+      </div>
+      <div class="filter-meta-block">
+        <h4>Best for</h4>
+        <p>80s and 90s music videos, retro aesthetics, or any time you want your channel to feel like late-night MTV. The most visually distinctive filter in MusicTV.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-panel" id="fp-bw">
+    <div class="filter-img">
+      <img src="Website/Video Filters 2.png" alt="Black and White filter applied to a music video" />
+    </div>
+    <div class="filter-meta">
+      <div class="filter-meta-block">
+        <h4>What it does</h4>
+        <p>Converts every frame to true monochrome using Apple's Photo Effect Mono pipeline. Colors are stripped and luminance is preserved — the result is clean black and white, not just desaturated grey.</p>
+      </div>
+      <div class="filter-meta-block">
+        <h4>Best for</h4>
+        <p>Classic or art-house videos, late-night ambient viewing, or whenever you want a timeless, cinematic look that doesn't compete with the music.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-panel" id="fp-vintage">
+    <div class="filter-img">
+      <img src="Website/Video Filters 3.png" alt="Vintage filter — faded warm tones and vignette on a music video" />
+    </div>
+    <div class="filter-meta">
+      <div class="filter-meta-block">
+        <h4>What it does</h4>
+        <p>Fades the colors, adds a warm tint, and darkens the edges with a soft vignette. It's a three-layer effect — fade, color grade, and vignette — all applied per frame in real time.</p>
+      </div>
+      <div class="filter-meta-block">
+        <h4>Best for</h4>
+        <p>Giving modern videos an analog warmth, or leaning into the look of videos that were already shot on film. A subtler effect than CRT — great as an always-on choice.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchFilter(name) {
+    document.querySelectorAll('.filter-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.filter === name);
+    });
+    document.querySelectorAll('.filter-panel').forEach(function(p) {
+      p.classList.toggle('active', p.id === 'fp-' + name);
+    });
+  }
+</script>
 
 <div class="full-bleed-divider"></div>
 
