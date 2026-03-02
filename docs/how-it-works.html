@@ -339,8 +339,22 @@
       border-bottom-color: var(--accent);
     }
 
-    .filter-panel { display: none; }
-    .filter-panel.active { display: block; }
+    /* Stack all panels in the same grid cell so the container never resizes */
+    .filter-panels-stack { display: grid; }
+    .filter-panel {
+      grid-area: 1 / 1;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+    .filter-panel.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Lock image to fixed aspect ratio so it never jumps */
+    .filter-img { aspect-ratio: 942 / 526; }
+    .filter-img img { width: 100%; height: 100%; object-fit: cover; }
 
     .filter-img {
       border-radius: 14px;
@@ -641,6 +655,7 @@
     <button class="filter-tab" data-filter="vintage" onclick="switchFilter('vintage')">Vintage</button>
   </div>
 
+  <div class="filter-panels-stack">
   <div class="filter-panel active" id="fp-crt">
     <div class="filter-img">
       <img src="Website/Video Filter Scanlines.png" alt="CRT filter — scanlines and phosphor glow over a music video" />
@@ -688,6 +703,7 @@
       </div>
     </div>
   </div>
+  </div><!-- /.filter-panels-stack -->
 </div>
 
 <script>
