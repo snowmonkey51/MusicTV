@@ -19,6 +19,7 @@ struct NowPlayingView: View {
                         Image(nsImage: logo)
                             .resizable()
                             .scaledToFit()
+                            .interpolation(.high)
                             .frame(height: 120)
                     } else {
                         Image(systemName: "tv")
@@ -64,6 +65,7 @@ struct NowPlayingView: View {
                                     Image(nsImage: logo)
                                         .resizable()
                                         .scaledToFit()
+                                        .interpolation(.high)
                                         .frame(height: appState.isFullScreen ? 110 : 80)
                                         .opacity(0.7)
                                         .padding(.trailing, 24)

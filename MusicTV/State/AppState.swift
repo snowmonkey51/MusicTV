@@ -13,7 +13,6 @@ final class AppState {
     var musicFolderUnavailable: Bool = false
     var bumperFolderUnavailable: Bool = false
 
-    // MARK: - Opening Bumper
     var openingBumperURL: URL?
     private var activeOpeningBumperAccess: URL?
 
@@ -40,14 +39,27 @@ final class AppState {
     #endif
     let libraryBrowser = LibraryBrowser()
 
+    // MARK: - Play History (for history-aware shuffle)
+    /// URLs of music videos played in the current shuffle cycle, in order.
+    /// Used by buildPlaylist() to push already-heard songs toward the end when
+    /// the playlist is rebuilt mid-cycle (star press, settings toggle, etc.).
+    /// Not observable — changes should never trigger view updates.
+    @ObservationIgnored private var playHistory: [URL] = []
+
+    /// Called by PlaybackEngine each time a (non-bumper) music video starts.
+    func recordPlayed(_ url: URL) {
+        playHistory.append(url)
+    }
+
     // MARK: - Settings
     var settings: PlaybackSettings = PlaybackSettings() {
         didSet {
             let playlistChanged =
-                oldValue.shuffleMusic != settings.shuffleMusic ||
+                oldValue.shuffleMusic   != settings.shuffleMusic   ||
                 oldValue.shuffleBumpers != settings.shuffleBumpers ||
                 oldValue.bumperInterval != settings.bumperInterval ||
-                oldValue.repeatPlaylist != settings.repeatPlaylist
+                oldValue.repeatPlaylist != settings.repeatPlaylist ||
+                oldValue.showBumpers    != settings.showBumpers
             if playlistChanged {
                 playlistRebuildToken += 1
                 buildPlaylist()
@@ -84,46 +96,59 @@ final class AppState {
     }
 
     // MARK: - Favorites
-    /// Stores relative paths (from music root) of favorited videos for persistence.
+    /// Stores relative paths (from the library root) of favorited videos.
+    /// On macOS this is derived from the local file system.
+    /// On tvOS this is the server-provided relativePath — the same key the server uses —
+    /// so favorites are shared across all clients of the same library.
     var favoritePaths: Set<String> = []
 
     func isFavorite(_ item: VideoItem) -> Bool {
-        #if os(macOS)
-        guard let root = musicFolderURL else { return false }
-        return favoritePaths.contains(relativePath(for: item, root: root))
-        #else
-        // On tvOS, use the URL string as the key since there's no local root folder
-        return favoritePaths.contains(item.url.absoluteString)
-        #endif
+        favoritePaths.contains(item.relativePath)
     }
 
     func toggleFavorite(_ item: VideoItem) {
-        #if os(macOS)
-        guard let root = musicFolderURL else { return }
-        let path = relativePath(for: item, root: root)
-        #else
-        let path = item.url.absoluteString
-        #endif
-        if favoritePaths.contains(path) {
-            favoritePaths.remove(path)
-        } else {
+        let path = item.relativePath
+        let adding = !favoritePaths.contains(path)
+        if adding {
             favoritePaths.insert(path)
+        } else {
+            favoritePaths.remove(path)
         }
         saveFavorites()
-        // If currently viewing favorites, rebuild
+
+        // On tvOS and iOS (iPad), push the change to the server so all clients stay in sync
+        #if os(tvOS) || os(iOS)
+        if let library = connectedNetworkLibrary {
+            Task {
+                await libraryBrowser.pushFavorite(
+                    relativePath: path,
+                    add: adding,
+                    endpoint: library.endpoint
+                )
+            }
+        }
+        #endif
+
+        // If currently viewing favorites, rebuild playlist — preserve history so
+        // already-heard songs stay at the end of the new shuffle.
         if selectedGenre == "Favorites" {
             playlistRebuildToken += 1
-            buildPlaylist()
+            buildPlaylist(preserveHistory: true)
         }
     }
 
     var favoriteVideos: [VideoItem] {
-        #if os(macOS)
-        guard let root = musicFolderURL else { return [] }
-        return musicVideos.filter { favoritePaths.contains(relativePath(for: $0, root: root)) }
-        #else
-        return musicVideos.filter { favoritePaths.contains($0.url.absoluteString) }
-        #endif
+        musicVideos.filter { favoritePaths.contains($0.relativePath) }
+    }
+
+    /// Called by LibraryServer when a remote client pushes a favorite change.
+    /// Saves the updated set and rebuilds the playlist if needed.
+    func syncFavoritesAfterServerUpdate() {
+        saveFavorites()
+        if selectedGenre == "Favorites" {
+            playlistRebuildToken += 1
+            buildPlaylist(preserveHistory: true)
+        }
     }
 
     #if os(macOS)
@@ -149,8 +174,27 @@ final class AppState {
     /// Views compare against their own local copy to detect suppressed changes.
     var playlistRebuildToken: Int = 0
 
+    /// The URL of the item that is actually loaded into AVPlayer right now.
+    /// Set by PlaybackEngine.playItem() so that currentItem reflects what is
+    /// playing even if the playlist is rebuilt mid-song (e.g. genre switch).
+    var nowPlayingURL: URL? = nil
+
+    /// The VideoItem that is actually loaded into AVPlayer right now.
+    /// Set atomically by PlaybackEngine.playItem() alongside nowPlayingURL.
+    /// Views should observe this for "what is currently playing" display — it
+    /// never changes due to playlist rebuilds, only when a new item genuinely starts.
+    var nowPlayingItem: VideoItem? = nil
+
     var currentItem: VideoItem? {
-        guard hasStarted, playlist.indices.contains(currentIndex) else { return nil }
+        guard hasStarted else { return nil }
+        // Prefer a URL match so that genre/settings rebuilds don't cause the
+        // Track Info panel to flip to the first song of the new playlist while
+        // the player is still playing the previous song.
+        if let url = nowPlayingURL,
+           let match = playlist.first(where: { $0.url == url }) {
+            return match
+        }
+        guard playlist.indices.contains(currentIndex) else { return nil }
         return playlist[currentIndex]
     }
 
@@ -163,7 +207,9 @@ final class AppState {
         static let openingBumperBookmark = "openingBumperBookmark"
         static let shareLibrary = "shareLibrary"
         #endif
+        static let userFilterPatterns = "userFilterPatterns"
         static let bumperInterval = "bumperInterval"
+        static let showBumpers = "showBumpers"
         static let shuffleMusic = "shuffleMusic"
         static let shuffleBumpers = "shuffleBumpers"
         static let repeatPlaylist = "repeatPlaylist"
@@ -173,11 +219,37 @@ final class AppState {
         static let selectedGenre = "selectedGenre"
     }
 
+    // MARK: - Parser Rules
+
+    /// User-defined filename filter patterns (e.g. "(Directors Cut)").
+    /// Persisted to UserDefaults; TitleCleaner reads from UserDefaults directly
+    /// so no explicit sync is required.
+    var userFilterPatterns: [String] = [] {
+        didSet {
+            UserDefaults.standard.set(userFilterPatterns, forKey: Keys.userFilterPatterns)
+        }
+    }
+
+    func addFilterPattern(_ pattern: String) {
+        let trimmed = pattern.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty, !userFilterPatterns.contains(trimmed) else { return }
+        userFilterPatterns.append(trimmed)
+    }
+
+    func removeFilterPattern(_ pattern: String) {
+        userFilterPatterns.removeAll { $0 == pattern }
+    }
+
+    private func loadUserFilterPatterns() {
+        userFilterPatterns = UserDefaults.standard.stringArray(forKey: Keys.userFilterPatterns) ?? []
+    }
+
     // MARK: - Init
     init() {
         loadSettings()
         loadFilter()
         loadFavorites()
+        loadUserFilterPatterns()
         #if os(macOS)
         restoreFolders()
         restoreLogo()
@@ -269,7 +341,10 @@ final class AppState {
     #endif
 
     // MARK: - Playlist Building
-    func buildPlaylist() {
+    func buildPlaylist(preserveHistory: Bool = false) {
+        if !preserveHistory {
+            playHistory = []
+        }
         var result: [VideoItem] = []
 
         // Apply genre filter, then any additional search/artist filter on top
@@ -290,7 +365,7 @@ final class AppState {
 
         for (i, video) in musicList.enumerated() {
             result.append(video)
-            if !bumperList.isEmpty && (i + 1) % interval == 0 {
+            if settings.showBumpers && !bumperList.isEmpty && (i + 1) % interval == 0 {
                 var candidate = bumperList[bumperIndex % bumperList.count]
                 if bumperList.count > 1 && candidate.id == lastBumperID {
                     bumperIndex += 1
@@ -302,10 +377,37 @@ final class AppState {
             }
         }
         // Preserve the currently playing video across rebuilds.
-        let currentURL = currentItem?.url
-        if let url = currentURL,
-           let newIndex = result.firstIndex(where: { $0.url == url }) {
-            currentIndex = newIndex
+        // Prefer nowPlayingURL (the URL actually loaded into AVPlayer) over
+        // currentItem?.url, which could be wrong if a previous rebuild already
+        // moved currentIndex to 0 while a different song was still playing.
+        let currentURL = nowPlayingURL ?? (playlist.indices.contains(currentIndex) ? playlist[currentIndex].url : nil)
+        if settings.shuffleMusic, let url = currentURL,
+           let idx = result.firstIndex(where: { $0.url == url }) {
+            // Anchor the current song at position 0 and partition everything else:
+            //   • bumpers + songs NOT yet heard this cycle → play next (positions 1…N)
+            //   • songs already heard this cycle           → play last (positions N+1…end)
+            // This ensures that mid-session rebuilds (star press on Favorites, settings
+            // toggle, genre switch) never immediately replay songs the user just heard.
+            // playHistory is empty when the rebuild starts a genuinely new context
+            // (settings/genre change), so all songs land in "unheard" and the full
+            // library plays before the next cycle wrap.
+            let played = Set(playHistory)
+            let current = result.remove(at: idx)
+            let unheard = result.filter { $0.isBumper || !played.contains($0.url) }
+            let heard   = result.filter { !$0.isBumper && played.contains($0.url) }
+            result = [current] + unheard + heard
+            currentIndex = 0
+        } else if let url = currentURL {
+            // Find the occurrence of url closest to currentIndex rather than always
+            // taking the first occurrence. With duplicate bumper URLs (same bumper
+            // at positions 5, 47, 89…), firstIndex would return 5 even when we are
+            // actually at position 47, jumping the playhead back 42 positions.
+            let matchingIndices = result.indices.filter { result[$0].url == url }
+            if let closest = matchingIndices.min(by: { abs($0 - currentIndex) < abs($1 - currentIndex) }) {
+                currentIndex = closest
+            } else if currentIndex >= result.count {
+                currentIndex = 0
+            }
         } else if currentIndex >= result.count {
             currentIndex = 0
         }
@@ -402,7 +504,9 @@ final class AppState {
 
         let accessing = url.startAccessingSecurityScopedResource()
         logoURL = url
-        logoImage = NSImage(contentsOf: url)
+        if let raw = NSImage(contentsOf: url) {
+            logoImage = downsampledLogo(raw, maxHeight: 440)
+        }
         if accessing {
             activeLogoAccess = url
         }
@@ -452,6 +556,25 @@ final class AppState {
         let appDir = appSupport.appendingPathComponent(Bundle.main.bundleIdentifier ?? "MusicTV")
         try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
         return appDir.appendingPathComponent("cachedLogo.png")
+    }
+
+    /// Downsamples a logo image to a max pixel height so SwiftUI never has to
+    /// apply a heavy interpolation pass every render frame. 440px = 2× the
+    /// largest on-screen height (110pt fullscreen on a Retina display).
+    private func downsampledLogo(_ image: NSImage, maxHeight: CGFloat) -> NSImage {
+        let srcSize = image.size
+        guard srcSize.height > maxHeight else { return image }
+        let scale = maxHeight / srcSize.height
+        let newSize = NSSize(width: (srcSize.width * scale).rounded(),
+                            height: maxHeight)
+        let result = NSImage(size: newSize)
+        result.lockFocus()
+        NSGraphicsContext.current?.imageInterpolation = .high
+        image.draw(in: NSRect(origin: .zero, size: newSize),
+                   from: NSRect(origin: .zero, size: srcSize),
+                   operation: .copy, fraction: 1.0)
+        result.unlockFocus()
+        return result
     }
 
     private func cacheLogoImage(_ image: NSImage) {
@@ -547,9 +670,16 @@ final class AppState {
         Task {
             do {
                 let result = try await libraryBrowser.fetchLibrary(from: library)
-                print("[AppState] Received \(result.musicVideos.count) music, \(result.bumperVideos.count) bumpers")
+                print("[AppState] Received \(result.musicVideos.count) music, \(result.bumperVideos.count) bumpers, \(result.favoritePaths.count) favorites")
                 musicVideos = result.musicVideos
                 bumperVideos = result.bumperVideos
+                // Adopt server favorites as the source of truth
+                favoritePaths = Set(result.favoritePaths)
+                saveFavorites()
+                // Adopt server parser rules so title display is consistent
+                // across all connected devices. didSet persists them to
+                // UserDefaults so TitleCleaner picks them up immediately.
+                userFilterPatterns = result.userFilterPatterns
                 playlistRebuildToken += 1
                 buildPlaylist()
                 print("[AppState] Playlist rebuilt with \(playlist.count) items")
@@ -571,6 +701,8 @@ final class AppState {
         bumperVideos = []
         hasStarted = false
         isPlaying = false
+        nowPlayingURL = nil
+        nowPlayingItem = nil
         buildPlaylist()
         #endif
     }
@@ -584,6 +716,7 @@ final class AppState {
     private func saveSettings() {
         let defaults = UserDefaults.standard
         defaults.set(settings.bumperInterval, forKey: Keys.bumperInterval)
+        defaults.set(settings.showBumpers, forKey: Keys.showBumpers)
         defaults.set(settings.shuffleMusic, forKey: Keys.shuffleMusic)
         defaults.set(settings.shuffleBumpers, forKey: Keys.shuffleBumpers)
         defaults.set(settings.repeatPlaylist, forKey: Keys.repeatPlaylist)
@@ -596,6 +729,9 @@ final class AppState {
         var loaded = PlaybackSettings()
         if defaults.object(forKey: Keys.bumperInterval) != nil {
             loaded.bumperInterval = defaults.integer(forKey: Keys.bumperInterval)
+        }
+        if defaults.object(forKey: Keys.showBumpers) != nil {
+            loaded.showBumpers = defaults.bool(forKey: Keys.showBumpers)
         }
         loaded.shuffleMusic = defaults.bool(forKey: Keys.shuffleMusic)
         loaded.shuffleBumpers = defaults.bool(forKey: Keys.shuffleBumpers)
