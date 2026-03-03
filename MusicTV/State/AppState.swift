@@ -562,19 +562,41 @@ final class AppState {
     /// apply a heavy interpolation pass every render frame. 440px = 2× the
     /// largest on-screen height (110pt fullscreen on a Retina display).
     private func downsampledLogo(_ image: NSImage, maxHeight: CGFloat) -> NSImage {
-        let srcSize = image.size
-        guard srcSize.height > maxHeight else { return image }
-        let scale = maxHeight / srcSize.height
-        let newSize = NSSize(width: (srcSize.width * scale).rounded(),
-                            height: maxHeight)
-        let result = NSImage(size: newSize)
-        result.lockFocus()
-        NSGraphicsContext.current?.imageInterpolation = .high
-        image.draw(in: NSRect(origin: .zero, size: newSize),
-                   from: NSRect(origin: .zero, size: srcSize),
-                   operation: .copy, fraction: 1.0)
-        result.unlockFocus()
-        return result
+        // Get actual pixel dimensions from the source image
+        guard let cgSrc = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return image }
+        let srcPixelH = CGFloat(cgSrc.height)
+        let srcPixelW = CGFloat(cgSrc.width)
+        guard srcPixelH > 0 else { return image }
+
+        // Display scale factor — 2.0 on Retina, 1.0 on non-Retina
+        let displayScale = NSScreen.main?.backingScaleFactor ?? 2.0
+
+        // Target pixel dimensions: maxHeight pts × scale → pixels
+        let targetPixelH = (maxHeight * displayScale).rounded()
+        guard srcPixelH > targetPixelH else { return image }
+
+        let ratio = targetPixelH / srcPixelH
+        let targetPixelW = (srcPixelW * ratio).rounded()
+
+        // Draw into a CGContext at full pixel resolution with high-quality interpolation
+        let cs = CGColorSpaceCreateDeviceRGB()
+        guard let ctx = CGContext(
+            data: nil,
+            width: Int(targetPixelW), height: Int(targetPixelH),
+            bitsPerComponent: 8, bytesPerRow: 0,
+            space: cs,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return image }
+
+        ctx.interpolationQuality = .high
+        ctx.draw(cgSrc, in: CGRect(x: 0, y: 0, width: targetPixelW, height: targetPixelH))
+
+        guard let cgOut = ctx.makeImage() else { return image }
+
+        // Set logical (point) size = pixel size ÷ scale so SwiftUI treats it as @2x/@3x
+        let ptSize = NSSize(width: targetPixelW / displayScale,
+                            height: targetPixelH / displayScale)
+        return NSImage(cgImage: cgOut, size: ptSize)
     }
 
     private func cacheLogoImage(_ image: NSImage) {
