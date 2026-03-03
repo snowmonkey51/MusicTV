@@ -17,7 +17,6 @@ struct NowPlayingView: View {
                 VStack(spacing: 20) {
                     if let logo = appState.logoImage {
                         Image(nsImage: logo)
-                            .interpolation(.high)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 120)
@@ -63,7 +62,6 @@ struct NowPlayingView: View {
                                 // MTV-style logo bug in lower-right
                                 if !isBumper, let logo = appState.logoImage {
                                     Image(nsImage: logo)
-                                        .interpolation(.high)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(height: appState.isFullScreen ? 110 : 80)
