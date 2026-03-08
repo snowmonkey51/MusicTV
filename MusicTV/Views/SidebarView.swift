@@ -210,7 +210,7 @@ struct SidebarView: View {
                     }
                 }
                 .popover(isPresented: $showSettings, arrowEdge: .trailing) {
-                    SettingsPopover()
+                    SettingsPopover(appState: appState)
                 }
             }
         }
@@ -401,14 +401,12 @@ struct FavoritesPopover: View {
 // MARK: - Settings Popover
 
 struct SettingsPopover: View {
-    @Environment(AppState.self) private var appState
+    @Bindable var appState: AppState
     @Environment(PlaybackEngine.self) private var engine
 
     @State private var showingParserRules = false
 
     var body: some View {
-        @Bindable var state = appState
-
         VStack(spacing: 0) {
             HStack {
                 Text("Settings")
@@ -423,18 +421,18 @@ struct SettingsPopover: View {
                 Section("Playback") {
                     Stepper(
                         "Bumper every \(appState.settings.bumperInterval) videos",
-                        value: $state.settings.bumperInterval,
+                        value: $appState.settings.bumperInterval,
                         in: 1...50
                     )
-                    Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
-                    Toggle("Show Bumpers", isOn: $state.settings.showBumpers)
-                    Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
-                    Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
-                    Toggle("Normalize Audio", isOn: $state.settings.normalizeAudio)
+                    Toggle("Shuffle Music", isOn: $appState.settings.shuffleMusic)
+                    Toggle("Show Bumpers", isOn: $appState.settings.showBumpers)
+                    Toggle("Shuffle Bumpers", isOn: $appState.settings.shuffleBumpers)
+                    Toggle("Repeat", isOn: $appState.settings.repeatPlaylist)
+                    Toggle("Normalize Audio", isOn: $appState.settings.normalizeAudio)
                         .onChange(of: appState.settings.normalizeAudio) {
                             engine.changeAudioNormalization(appState.settings.normalizeAudio)
                         }
-                    Toggle("Title Cards", isOn: $state.settings.showTitleCards)
+                    Toggle("Title Cards", isOn: $appState.settings.showTitleCards)
                 }
 
                 Section("Appearance") {
