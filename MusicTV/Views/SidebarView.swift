@@ -404,6 +404,8 @@ struct SettingsPopover: View {
     @Environment(AppState.self) private var appState
     @Environment(PlaybackEngine.self) private var engine
 
+    @State private var showingParserRules = false
+
     var body: some View {
         @Bindable var state = appState
 
@@ -425,6 +427,7 @@ struct SettingsPopover: View {
                         in: 1...50
                     )
                     Toggle("Shuffle Music", isOn: $state.settings.shuffleMusic)
+                    Toggle("Show Bumpers", isOn: $state.settings.showBumpers)
                     Toggle("Shuffle Bumpers", isOn: $state.settings.shuffleBumpers)
                     Toggle("Repeat", isOn: $state.settings.repeatPlaylist)
                     Toggle("Normalize Audio", isOn: $state.settings.normalizeAudio)
@@ -468,6 +471,20 @@ struct SettingsPopover: View {
                     }
                 }
 
+                Section("Filename Parser") {
+                    HStack {
+                        Button("Manage Parser Rules…") {
+                            showingParserRules = true
+                        }
+                        Spacer()
+                        if !appState.userFilterPatterns.isEmpty {
+                            Text("\(appState.userFilterPatterns.count) custom")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+
                 Section("Network") {
                     Toggle("Share Library", isOn: Binding(
                         get: { appState.isShareEnabled },
@@ -482,7 +499,11 @@ struct SettingsPopover: View {
             }
             .formStyle(.grouped)
         }
-        .frame(width: 350, height: 500)
+        .frame(width: 350, height: 540)
+        .sheet(isPresented: $showingParserRules) {
+            ParserRulesView()
+                .environment(appState)
+        }
     }
 
     private func pickOpeningBumper() {
@@ -624,7 +645,8 @@ struct SearchResultsPopover: View {
             if results.isEmpty {
                 Text("No matching videos")
                     .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, minHeight: 100)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
             } else {
                 List {
                     ForEach(results, id: \.artist) { group in
@@ -667,7 +689,7 @@ struct SearchResultsPopover: View {
                 .listStyle(.plain)
             }
         }
-        .frame(width: 350, height: 400)
+        .frame(width: 350, height: 400, alignment: .top)
         .onAppear { performSearch() }
     }
 
