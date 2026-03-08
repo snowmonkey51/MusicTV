@@ -690,7 +690,7 @@ struct SearchResultsPopover: View {
             }
         }
         .frame(width: 350, height: 400, alignment: .top)
-        .onAppear { performSearch() }
+        .onChange(of: searchText, initial: true) { performSearch() }
     }
 
     private func performSearch() {
